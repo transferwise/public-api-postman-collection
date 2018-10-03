@@ -1,0 +1,2064 @@
+{
+	"info": {
+		"_postman_id": "78b81524-ae46-411d-8305-2e9f53a033cb",
+		"name": "TW-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "borderless",
+			"item": [
+				{
+					"name": "GET /borderless-accounts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/borderless-accounts?profileId=<profileId>",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"borderless-accounts"
+							],
+							"query": [
+								{
+									"key": "profileId",
+									"value": "<profileId>"
+								}
+							]
+						},
+						"description": "Get Accounts\n"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /borderless-accounts/{accountId}/statement",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/borderless-accounts/<accountId>/statement.json?currency=GBP&intervalStart=2018-03-20T00:00:00.000Z&intervalEnd=2018-03-31T23:59:59.999Z",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"borderless-accounts",
+								"<accountId>",
+								"statement.json"
+							],
+							"query": [
+								{
+									"key": "currency",
+									"value": "GBP"
+								},
+								{
+									"key": "intervalStart",
+									"value": "2018-03-20T00:00:00.000Z"
+								},
+								{
+									"key": "intervalEnd",
+									"value": "2018-03-31T23:59:59.999Z"
+								}
+							]
+						},
+						"description": "Get account statement\n"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /borderless-accounts/balance-currencies",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/borderless-accounts/balance-currencies",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"borderless-accounts",
+								"balance-currencies"
+							]
+						},
+						"description": "Get available currencies the user can open\n"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "account-requirements",
+			"item": [
+				{
+					"name": "POST /account-requirements",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"details\" : {\n        \"address\" : {\n            \"country\" : \"US\"\n        }\n    }\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/account-requirements?source=EUR&target=GBP&sourceAmount=12345",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"account-requirements"
+							],
+							"query": [
+								{
+									"key": "source",
+									"value": "EUR"
+								},
+								{
+									"key": "target",
+									"value": "GBP"
+								},
+								{
+									"key": "sourceAmount",
+									"value": "12345"
+								}
+							]
+						},
+						"description": "POST /account-requirements"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /account-requirements",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/account-requirements?source=EUR&target=USD&sourceAmount=1000",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"account-requirements"
+							],
+							"query": [
+								{
+									"key": "source",
+									"value": "EUR"
+								},
+								{
+									"key": "target",
+									"value": "USD"
+								},
+								{
+									"key": "sourceAmount",
+									"value": "1000"
+								}
+							]
+						},
+						"description": "GET /account-requirements"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /quotes/{id}/account-requirements",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "FR",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/quotes/<quoteId>/account-requirements",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"quotes",
+								"<quoteId>",
+								"account-requirements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /account-requirements copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"bangladesh\",\n    \"details\" : {\n        \"bankCode\": \"025\",\n        \"legalType\": \"PRIVATE\",\n        \"branchCode\":\"025060009\",\n        \"accountNumber\":\"0000000000\"\n    }\n}"
+
+						},
+						"url": {
+							"raw": "{{host}}/v1/quotes/<quoteId>/account-requirements",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"quotes",
+								"<quoteId>",
+								"account-requirements"
+							]
+						},
+						"description": "POST /account-requirements"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "accounts",
+			"item": [
+				{
+					"name": "GET /accounts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v2/accounts?currency=EUR",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v2",
+								"accounts"
+							],
+							"query": [
+								{
+									"key": "currency",
+									"value": "EUR"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /accounts/{id}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v2/accounts/<accountId>",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v2",
+								"accounts",
+								"<accountId>"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /accounts",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"bangladesh\",\n    \"accountHolderName\":\"Joe Bangladesh\",\n    \"currency\":\"BDT\",\n    \"country\":\"BD\",\n    \"details\" : {\n        \"bankCode\": \"025\",\n        \"legalType\": \"PRIVATE\",\n        \"branchCode\":\"025060009\",\n        \"accountNumber\":\"5000000005\",\n        \"address\":{\n        \t\"country\":\"BD\",\n        \t\"city\":\"Somewhere\",\n        \t\"firstLine\":\"1 A road\",\n        \t\"postCode\":\"11111\"\n        \t}\n        }\n    }\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/accounts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /accounts UKRAINE",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"accountHolderName\": \"Joe Bangladesh\",\n    \"currency\": \"UAH\",\n    \"country\": \"UA\",\n    \"type\": \"privatbank\",\n    \"details\": {\n        \"legalType\" : \"private\",\n        \"phoneNumber\" : \"+380000000000\",\n        \"accountNumber\" : \"1234\"\n    }\n  }"
+						},
+						"url": {
+							"raw": "{{host}}/v1/accounts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST  /accounts Canadian",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"accountHolderName\": \"Name Here\",\n    \"currency\": \"CAD\",\n    \"country\": \"CA\",\n    \"type\": \"CANADIAN\",\n    \"details\": {\n        \"accountNumber\": \"0000000\",\n        \"institutionNumber\": \"003\",\n        \"transitNumber\": \"12345\",\n        \"accountType\" : \"Checking\"\n    }\n  }"
+						},
+						"url": {
+							"raw": "{{host}}/v1/accounts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"accounts"
+							]
+						},
+						"description": "POST account of canadian type"
+					},
+					"response": []
+				},
+				{
+					"name": "POST  /accounts Hungarian",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"accountHolderName\": \"Name Here\",\n    \"currency\": \"HUF\",\n    \"country\": \"HU\",\n    \"type\": \"HUNGARIAN\",\n    \"details\": {\n        \"accountNumber\" : \"000000000000000000000000\"\n    }\n  }"
+						},
+						"url": {
+							"raw": "{{host}}/v1/accounts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"accounts"
+							]
+						},
+						"description": "POST account of hungarian type"
+					},
+					"response": []
+				},
+				{
+					"name": "POST  /accounts Polish",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"accountHolderName\": \"Name Here\",\n    \"currency\": \"PLN\",\n    \"country\": \"PL\",\n    \"type\": \"POLISH\",\n    \"details\": {\n        \"accountNumber\" : \"12345678912345678912345678\"\n    }\n  }"
+						},
+						"url": {
+							"raw": "{{host}}/v1/accounts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"accounts"
+							]
+						},
+						"description": "POST account of polish type"
+					},
+					"response": []
+				},
+				{
+					"name": "POST  /accounts IT IBAN",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"accountHolderName\": \"Name Here\",\n    \"currency\": \"EUR\",\n    \"type\": \"iban\",\n    \"country\": \"IT\",\n    \"details\": {\n        \"IBAN\" : \"IT 00 H 00000 00000 000000000000\"\n    }\n  }"
+						},
+						"url": {
+							"raw": "{{host}}/v1/accounts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"accounts"
+							]
+						},
+						"description": "POST account of swiss iban type"
+					},
+					"response": []
+				},
+				{
+					"name": "POST  /accounts DE IBAN",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountHolderName\": \"Name Here\",\n    \"currency\": \"EUR\",\n    \"type\": \"IBAN\",\n    \"country\": \"DE\",\n    \"details\": {\n    \t\"legalType\":\"PRIVATE\",\n        \"IBAN\" : \"DE00000000000000000000\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/accounts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"accounts"
+							]
+						},
+						"description": "POST account of swiss iban type"
+					},
+					"response": []
+				},
+				{
+					"name": "POST  /accounts GBP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "FR"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"accountHolderName\": \"Name Here\",\n    \"currency\": \"GBP\",\n    \"type\": \"sort_code\",\n    \"country\": \"GB\",\n    \"details\": {\n        \"legalType\" : \"PRIVATE\",\n        \"sortCode\":\"040004\",\n        \"accountNumber\":\"00000000\"\n    }\n  }"
+						},
+						"url": {
+							"raw": "{{host}}/v1/accounts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"accounts"
+							]
+						},
+						"description": "POST account of swiss iban type"
+					},
+					"response": []
+				},
+				{
+					"name": "POST  /accounts SEK",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"accountHolderName\": \"Name Here\",\n    \"currency\": \"SEK\",\n    \"type\": \"sweden_local\",\n    \"country\": \"SE\",\n    \"details\": {\n    \t\"legalType\" : \"PRIVATE\",\n        \"clearingNumber\" : 00000,\n        \"accountNumber\":\"0000000000\",\n         \"address\": {\n        \t\"firstLine\": \"1123 Fake St\",\n        \t\"city\": \"Stockholm\",\n        \t\"country\": \"SE\",\n        \t\"postCode\": \"1234\"\n        }\n    }\n  }"
+						},
+						"url": {
+							"raw": "{{host}}/v1/accounts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"accounts"
+							]
+						},
+						"description": "POST account of swiss iban type"
+					},
+					"response": []
+				},
+				{
+					"name": "POST  /accounts ABA (usd)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountHolderName\": \"Name Here\",\n    \"currency\": \"USD\",\n    \"country\": \"US\",\n    \"type\": \"ABA\",\n    \"details\": {\n      \"address\": {\n        \"city\": \"New York\",\n        \"countryCode\": \"US\",\n        \"postCode\": \"00000\",\n        \"state\": \"NY\",\n        \"firstLine\": \"1 Fake Street\"\n      },\n      \"abartn\": \"321161184\",\n      \"accountType\": \"CHECKING\",\n      \"accountNumber\": \"00000000000\",\n      \"email\": \"example@foobar.com\"\n    }\n  }"
+						},
+						"url": {
+							"raw": "{{host}}/v1/accounts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"accounts"
+							]
+						},
+						"description": "POST account of usd aba type"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "addresses",
+			"item": [
+				{
+					"name": "/v1/address-requirements",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"details\" : {\n        \"country\" : \"US\",\n        \"state\" : \"AZ\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/address-requirements",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"address-requirements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/address-requirements",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"details\" : {\n        \"country\" : \"IE\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/address-requirements",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"address-requirements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/addresses",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"profile\" : <profileId>,\n    \"details\": {\n        \"city\": \"London\",\n        \"country\": \"GB\",\n        \"postCode\": \"XX XXX\",\n        \"firstLine\": \"1 Example Road\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/addresses",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"addresses"
+							]
+						},
+						"description": "Saves address"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "businesses",
+			"item": [
+				{
+					"name": "POST /businesses",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"name\": \"Test Business\",\n\"number\" : \"12345\",\n\"category\" : \"other\",\n\"webpage\": \"<URL here>\",\n\"details\" : {\n    \"address\" : {\n        \"country\" : \"EE\",\n        \"firstLine\" : \"Address first line\",\n        \"city\" : \"Tallinn\",\n        \"postCode\" : \"12345\"\n    },\n    \"type\" : \"other\"\n}\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/businesses",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"businesses"
+							]
+						},
+						"description": "POST business endpoint"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /roles/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": <roleId>,\n    \"user\": <userId>,\n    \"business\" : <businessId>,\n    \"role\" : \"director\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/roles/<roleId>",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"roles",
+								"<roleId>"
+							]
+						},
+						"description": "PUT /roles/{id} endpoint"
+					},
+					"response": []
+				},
+				{
+					"name": "POST /roles",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user\": <userId>,\n    \"business\" : <businessId>,\n    \"role\" : \"owner\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/roles",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"roles"
+							]
+						},
+						"description": "POST roles endpoint"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /roles/{id}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/roles/<roleId>",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"roles",
+								"<roleId>"
+							]
+						},
+						"description": "GET /roles/{id} endpoint"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "delivery estimation",
+			"item": [
+				{
+					"name": "GET Delivery Estimate",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/delivery-estimates/<transferId>",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"delivery-estimates",
+								"<transferId>"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "oauth",
+			"item": [
+				{
+					"name": "POST /auth/token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.access_token) postman.setEnvironmentVariable(\"TOKEN\", jsonData.access_token);",
+									"if (jsonData.refresh_token) postman.setEnvironmentVariable(\"REFRESH\", jsonData.refresh_token);"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{clientId}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic <basic auth here>",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{clientId}}",
+									"type": "text"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{clientRedirectUri}}",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "<get code from oauth flow>",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						},
+						"description": "Request access token | authorization code grant type"
+					},
+					"response": []
+				},
+				{
+					"name": "POST /auth/token reg code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.access_token) postman.setEnvironmentVariable(\"TOKEN\", jsonData.access_token);",
+									"if (jsonData.refresh_token) postman.setEnvironmentVariable(\"REFRESH\", jsonData.refresh_token);"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{clientId}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic <basic auth here>",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "registration_code",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{clientId}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "<email address>",
+									"type": "text"
+								},
+								{
+									"key": "registration_code",
+									"value": "<random guid>",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						},
+						"description": "Request access token | authorization code grant type"
+					},
+					"response": []
+				},
+				{
+					"name": "POST /auth/token (client_credentials)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "28005757-b360-4336-85e2-27a04985eada",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.access_token) postman.setEnvironmentVariable(\"client_credentials_token\", jsonData.access_token);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{clientId}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{secret}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic <basic auth here>",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						},
+						"description": "Request access token | authorization code grant type"
+					},
+					"response": []
+				},
+				{
+					"name": "Access Toekn from Refresh Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.access_token) postman.setEnvironmentVariable(\"TOKEN\", jsonData.access_token);"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{clientId}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "{{REFRESH}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "profiles",
+			"item": [
+				{
+					"name": "GET /profiles",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/profiles",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"profiles"
+							]
+						},
+						"description": "Create a personal profile"
+					},
+					"response": []
+				},
+				{
+					"name": "POST /profiles",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"personal\",\n    \"details\" : {\n        \"firstName\": \"Joe\",\n        \"lastName\": \"Bloggs\",\n        \"dateOfBirth\": \"1990-01-01\",\n        \"phoneNumber\": \"+447700000000\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/profiles",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"profiles"
+							]
+						},
+						"description": "Create a personal profile"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "quotes",
+			"item": [
+				{
+					"name": "GET /quotes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/quotes?source=EUR&target=SEK&targetAmount=15500&rateType=FIXED",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"quotes"
+							],
+							"query": [
+								{
+									"key": "source",
+									"value": "EUR"
+								},
+								{
+									"key": "target",
+									"value": "SEK"
+								},
+								{
+									"key": "targetAmount",
+									"value": "15500"
+								},
+								{
+									"key": "rateType",
+									"value": "FIXED"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /quotes/{id}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/quotes/<quoteId>",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"quotes",
+								"<quoteId>"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /quotes",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n    \"source\": \"GBP\",\n    \"target\": \"EUR\",\n    \"sourceAmount\": \"100\",\n    \"rateType\": \"FIXED\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/quotes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"quotes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /quotes/{id}/pay-in-methods",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/quotes/<quoteId>/pay-in-methods",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"quotes",
+								"<quoteId>",
+								"pay-in-methods"
+							]
+						},
+						"description": "Pay-in-methods available for a given quote"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "transfers",
+			"item": [
+				{
+					"name": "POST /transfers",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \n    \"targetAccount\": <accountId>,   \n    \"quote\": <quoteIdId>,\n        \"details\" : {\n        \"reference\" : \"your reference\"\n    },\n    \"customerTransactionId\" : <random UUID>\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/transfers",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"transfers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /transfers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/transfers?limit=10",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"transfers"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /transfers/{id}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/transfers/{transferId}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"transfers",
+								"{transferId}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /transfer-requirements",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"targetAccount\": {quoteId}},   \n    \"quote\": <quoteId>,\n        \"details\" : {\n        \"reference\" : \"transferReference\",\n        \"sourceOfFunds\" : \"verification.source.of.funds.other\",        \n        \"sourceOfFundsOther\": \"Lottery win\"\n\n    }\n\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/transfer-requirements",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"transfer-requirements"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "GET /me",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/me",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /v1/user/signup/registration_code",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_credentials_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"email\": <emailAddress>,\n\"registrationCode\": <32 character random code>\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/user/signup/registration_code",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"signup",
+								"registration_code"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /v2/user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_credentials_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": <emailAddress>\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v2/users",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v2",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /me",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": <userId>,\n  \"name\": \"Test User\",\n  \"email\": \"test@test.com\",\n  \"active\": true,\n  \"details\": {\n    \"phoneNumber\": \"+111111111111\",\n    \"dateOfBirth\": \"1996-01-11\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/me",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"me"
+							]
+						},
+						"description": "Updates a user model"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "terms",
+			"item": [
+				{
+					"name": "GET /terms",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/terms/default",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"terms",
+								"default"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "validators",
+			"item": [
+				{
+					"name": "GET /validators/hungarian-account-number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/validators/hungarian-account-number&accountNumber=121212121212121212121212",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"validators",
+								"hungarian-account-number&accountNumber=121212121212121212121212"
+							]
+						},
+						"description": "GET /validators/hungarian-account-number endpoint\n"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /validators/canadian-account-number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/validators/canadian-account-number&accountNumber= 0000000&institutionNumber= 003&transitNumber= 00000",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"validators",
+								"canadian-account-number&accountNumber= 0000000&institutionNumber= 003&transitNumber= 00000"
+							]
+						},
+						"description": "GET /validators/canadian-account-number endpoint\n"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /validators/canadian-institution-number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/validators/canadian-institution-number?institutionNumber=006",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"validators",
+								"canadian-institution-number"
+							],
+							"query": [
+								{
+									"key": "institutionNumber",
+									"value": "006"
+								}
+							]
+						},
+						"description": "GET /validators/canadian-institution-number endpoint\n"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /validators/polish-account-number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/validators/polish-account-number?accountNumber=12345678912345678912345678",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"validators",
+								"polish-account-number"
+							],
+							"query": [
+								{
+									"key": "accountNumber",
+									"value": "12345678912345678912345678"
+								}
+							]
+						},
+						"description": "GET /validators/polish-account-number endpoint\n"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /validators/abartn",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/validators/abartn?abartn=011103093",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"validators",
+								"abartn"
+							],
+							"query": [
+								{
+									"key": "abartn",
+									"value": "011103093"
+								}
+							]
+						},
+						"description": "GET /validators/abartn endpoint\n"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /validators/bankgiro-number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/validators/bankgiro-number?bankgiroNumber=51108942",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"validators",
+								"bankgiro-number"
+							],
+							"query": [
+								{
+									"key": "bankgiroNumber",
+									"value": "51108942"
+								}
+							]
+						},
+						"description": "GET /validators/bankgiro-number endpoint\n"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /validators/sort-code-account-number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/validators/sort-code-account-number?accountNumber=00000000",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"validators",
+								"sort-code-account-number"
+							],
+							"query": [
+								{
+									"key": "accountNumber",
+									"value": "00000000"
+								}
+							]
+						},
+						"description": "GET /validators/sort-code-account-number endpoint\n"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /validators/sort-code",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/validators/sort-code?sortCode=309157",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"validators",
+								"sort-code"
+							],
+							"query": [
+								{
+									"key": "sortCode",
+									"value": "309157"
+								}
+							]
+						},
+						"description": "GET /validators/sort-code endpoint\n"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /validators/bic",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/validators/bic?iban=EE0000000000000000000&bic=EEUHEE2X",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"validators",
+								"bic"
+							],
+							"query": [
+								{
+									"key": "iban",
+									"value": "EE000000000000000000"
+								},
+								{
+									"key": "bic",
+									"value": "EEUHEE2X"
+								}
+							]
+						},
+						"description": "GET /validators/bic endpoint"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /validators/iban",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/validators/iban?iban=EE00000000000000000000",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"validators",
+								"iban"
+							],
+							"query": [
+								{
+									"key": "iban",
+									"value": "EE00000000000000000000"
+								}
+							]
+						},
+						"description": "GET /validators/iban endpoint"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://api.transferwise.com/health",
+					"protocol": "https",
+					"host": [
+						"api",
+						"transferwise",
+						"com"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
