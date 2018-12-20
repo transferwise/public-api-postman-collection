@@ -1587,33 +1587,6 @@
 			"name": "user",
 			"item": [
 				{
-					"name": "GET /me",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/v1/me",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v1",
-								"me"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "POST /v1/user/signup/registration_code",
 					"request": {
 						"method": "POST",
