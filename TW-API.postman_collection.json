@@ -1186,7 +1186,7 @@
 					"response": []
 				},
 				{
-					"name": "Access Toekn from Refresh Token",
+					"name": "Access Token from Refresh Token",
 					"event": [
 						{
 							"listen": "test",
