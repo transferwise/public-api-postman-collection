@@ -2037,6 +2037,49 @@
 			]
 		},
 		{
+			"name": "rates",
+			"item": [
+				{
+					"name": "GET /rates",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/rates?source=GBP",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"rates"
+							],
+							"query": [
+								{
+									"key": "source",
+									"value": "GBP"
+								},
+								{
+									"key": "target",
+									"value": "EUR",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "health",
 			"request": {
 				"method": "GET",
