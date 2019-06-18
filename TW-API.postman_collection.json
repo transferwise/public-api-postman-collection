@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "78b81524-ae46-411d-8305-2e9f53a033cb",
+		"_postman_id": "fccc03f9-a7be-44ad-8750-87b42c72da9e",
 		"name": "TW-API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -18,10 +18,6 @@
 								"value": "Bearer {{TOKEN}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/borderless-accounts?profileId=<profileId>",
 							"host": [
@@ -55,10 +51,6 @@
 								"value": "Bearer {{TOKEN}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/borderless-accounts/<accountId>/statement.json?currency=GBP&intervalStart=2018-03-20T00:00:00.000Z&intervalEnd=2018-03-31T23:59:59.999Z",
 							"host": [
@@ -99,10 +91,6 @@
 								"value": "Bearer {{TOKEN}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/borderless-accounts/balance-currencies",
 							"host": [
@@ -170,10 +158,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/account-requirements?source=EUR&target=USD&sourceAmount=1000",
 							"host": [
@@ -217,10 +201,6 @@
 								"disabled": true
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/quotes/<quoteId>/account-requirements",
 							"host": [
@@ -253,7 +233,6 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"type\": \"bangladesh\",\n    \"details\" : {\n        \"bankCode\": \"025\",\n        \"legalType\": \"PRIVATE\",\n        \"branchCode\":\"025060009\",\n        \"accountNumber\":\"0000000000\"\n    }\n}"
-
 						},
 						"url": {
 							"raw": "{{host}}/v1/quotes/<quoteId>/account-requirements",
@@ -286,10 +265,6 @@
 								"value": "Bearer {{TOKEN}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v2/accounts?currency=EUR",
 							"host": [
@@ -319,10 +294,6 @@
 								"value": "Bearer {{TOKEN}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v2/accounts/<accountId>",
 							"host": [
@@ -674,10 +645,6 @@
 								"value": "application/json"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"details\" : {\n        \"country\" : \"US\",\n        \"state\" : \"AZ\"\n    }\n}"
-						},
 						"url": {
 							"raw": "{{host}}/v1/address-requirements",
 							"host": [
@@ -866,10 +833,6 @@
 								"value": "application/json"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/roles/<roleId>",
 							"host": [
@@ -900,10 +863,6 @@
 								"value": "Bearer {{TOKEN}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/delivery-estimates/<transferId>",
 							"host": [
@@ -1269,10 +1228,6 @@
 								"value": "application/json"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/profiles",
 							"host": [
@@ -1283,7 +1238,7 @@
 								"profiles"
 							]
 						},
-						"description": "Create a personal profile"
+						"description": "List profiles"
 					},
 					"response": []
 				},
@@ -1318,6 +1273,239 @@
 						"description": "Create a personal profile"
 					},
 					"response": []
+				},
+				{
+					"name": "GET /profiles/{id}/directors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/profiles/{id}/directors",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"profiles",
+								"{id}",
+								"directors"
+							]
+						},
+						"description": "List business profile directors"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /profiles/{id}/directors",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/profiles/{id}/directors",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"profiles",
+								"{id}",
+								"directors"
+							]
+						},
+						"description": "Delete all directors from a business profile"
+					},
+					"response": []
+				},
+				{
+					"name": "POST /profiles/{id}/directors",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n     {\n         \"firstName\": \"John\",\n         \"lastName\": \"Doe\",\n         \"dateOfBirth\": \"1982-01-01\",\n         \"countryOfResidenceIso3Code\": \"usa\"\n     },\n     {\n         \"firstName\": \"Jane\",\n         \"lastName\": \"Doe\",\n         \"dateOfBirth\": \"1981-01-01\",\n         \"countryOfResidenceIso3Code\": \"usa\"\n     }\n]"
+						},
+						"url": {
+							"raw": "{{host}}/v1/profiles/{id}/directors",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"profiles",
+								"{id}",
+								"directors"
+							]
+						},
+						"description": "Create business profile directors"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /profiles/{id}/directors",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n     {\n         \"firstName\": \"John\",\n         \"lastName\": \"Doe\",\n         \"dateOfBirth\": \"1982-01-01\",\n         \"countryOfResidenceIso3Code\": \"usa\"\n     },\n     {\n         \"firstName\": \"Jane\",\n         \"lastName\": \"Doe\",\n         \"dateOfBirth\": \"1981-01-01\",\n         \"countryOfResidenceIso3Code\": \"usa\"\n     }\n]"
+						},
+						"url": {
+							"raw": "{{host}}/v1/profiles/{id}/directors",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"profiles",
+								"{id}",
+								"directors"
+							]
+						},
+						"description": "Replace business profile directors"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /profiles/{id}/ubos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/profiles/{id}/ubos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"profiles",
+								"{id}",
+								"ubos"
+							]
+						},
+						"description": "List business profile ultimate beneficial owners"
+					},
+					"response": []
+				},
+				{
+					"name": "POST /profiles/{id}/ubos",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n     {\n         \"name\": \"John Doe\",\n         \"dateOfBirth\": \"1982-05-20\",\n         \"countryOfResidenceIso3Code\": \"usa\",\n         \"addressFirstLine\": \"123 Fake St\",\n         \"postCode\": \"FK 12345\",\n         \"ownershipPercentage\": 30\n     },\n     {\n         \"name\": \"Jane Doe\",\n         \"dateOfBirth\": \"1981-12-07\",\n         \"countryOfResidenceIso3Code\": \"usa\",\n         \"addressFirstLine\": \"125 Fake St\",\n         \"postCode\": \"FK 12545\",\n         \"ownershipPercentage\": 40\n     }\n]"
+						},
+						"url": {
+							"raw": "{{host}}/v1/profiles/{id}/ubos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"profiles",
+								"{id}",
+								"ubos"
+							]
+						},
+						"description": "Create business profile ultimate beneficial owners"
+					},
+					"response": []
+				},
+				{
+					"name": "POST /profiles/{id}/ubos Copy",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n     {\n         \"name\": \"John Doe\",\n         \"dateOfBirth\": \"1982-05-20\",\n         \"countryOfResidenceIso3Code\": \"usa\",\n         \"addressFirstLine\": \"123 Fake St\",\n         \"postCode\": \"FK 12345\",\n         \"ownershipPercentage\": 30\n     },\n     {\n         \"name\": \"Jane Doe\",\n         \"dateOfBirth\": \"1981-12-07\",\n         \"countryOfResidenceIso3Code\": \"usa\",\n         \"addressFirstLine\": \"125 Fake St\",\n         \"postCode\": \"FK 12545\",\n         \"ownershipPercentage\": 40\n     }\n]"
+						},
+						"url": {
+							"raw": "{{host}}/v1/profiles/{id}/ubos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"profiles",
+								"{id}",
+								"ubos"
+							]
+						},
+						"description": "Replace business profile ultimate beneficial owners"
+					},
+					"response": []
+				},
+				{
+					"name": "POST /profiles/{id}/update-window",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/profiles/{id}/update-window",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"profiles",
+								"{id}",
+								"update-window"
+							]
+						},
+						"description": "Open profile update window"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /profiles/{id}/update-window",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/profiles/{id}/update-window",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"profiles",
+								"{id}",
+								"update-window"
+							]
+						},
+						"description": "Close profile update window"
+					},
+					"response": []
 				}
 			]
 		},
@@ -1329,10 +1517,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/quotes?source=EUR&target=SEK&targetAmount=15500&rateType=FIXED",
 							"host": [
@@ -1374,10 +1558,6 @@
 								"value": "Bearer {{TOKEN}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/quotes/<quoteId>",
 							"host": [
@@ -1433,10 +1613,6 @@
 								"value": "Bearer {{TOKEN}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/quotes/<quoteId>/pay-in-methods",
 							"host": [
@@ -1499,10 +1675,6 @@
 								"value": "Bearer {{TOKEN}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/transfers?limit=10",
 							"host": [
@@ -1532,10 +1704,6 @@
 								"value": "Bearer {{TOKEN}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/transfers/{transferId}",
 							"host": [
@@ -1692,10 +1860,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/terms/default",
 							"host": [
@@ -1720,10 +1884,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/validators/hungarian-account-number&accountNumber=121212121212121212121212",
 							"host": [
@@ -1744,10 +1904,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/validators/canadian-account-number&accountNumber= 0000000&institutionNumber= 003&transitNumber= 00000",
 							"host": [
@@ -1768,10 +1924,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/validators/canadian-institution-number?institutionNumber=006",
 							"host": [
@@ -1798,10 +1950,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/validators/polish-account-number?accountNumber=12345678912345678912345678",
 							"host": [
@@ -1828,10 +1976,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/validators/abartn?abartn=011103093",
 							"host": [
@@ -1858,10 +2002,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/validators/bankgiro-number?bankgiroNumber=51108942",
 							"host": [
@@ -1888,10 +2028,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/validators/sort-code-account-number?accountNumber=00000000",
 							"host": [
@@ -1918,10 +2054,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/validators/sort-code?sortCode=309157",
 							"host": [
@@ -1948,12 +2080,8 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "{{host}}/v1/validators/bic?iban=EE0000000000000000000&bic=EEUHEE2X",
+							"raw": "{{host}}/v1/validators/bic?iban=EE000000000000000000&bic=EEUHEE2X",
 							"host": [
 								"{{host}}"
 							],
@@ -1982,10 +2110,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/validators/iban?iban=EE00000000000000000000",
 							"host": [
@@ -2057,10 +2181,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "https://api.transferwise.com/health",
 					"protocol": "https",
