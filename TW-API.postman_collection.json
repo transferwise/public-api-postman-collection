@@ -1145,7 +1145,7 @@
 					"response": []
 				},
 				{
-					"name": "Access Toekn from Refresh Token",
+					"name": "Access Token from Refresh Token",
 					"event": [
 						{
 							"listen": "test",
@@ -1755,29 +1755,6 @@
 			"name": "user",
 			"item": [
 				{
-					"name": "GET /me",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{TOKEN}}"
-							}
-						],
-						"url": {
-							"raw": "{{host}}/v1/me",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v1",
-								"me"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "POST /v1/user/signup/registration_code",
 					"request": {
 						"method": "POST",
@@ -2151,6 +2128,49 @@
 							]
 						},
 						"description": "GET /validators/iban endpoint"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "rates",
+			"item": [
+				{
+					"name": "GET /rates",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v1/rates?source=GBP",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"rates"
+							],
+							"query": [
+								{
+									"key": "source",
+									"value": "GBP"
+								},
+								{
+									"key": "target",
+									"value": "EUR",
+									"disabled": true
+								}
+							]
+						}
 					},
 					"response": []
 				}
