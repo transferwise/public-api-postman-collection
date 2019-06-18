@@ -1434,7 +1434,7 @@
 					"response": []
 				},
 				{
-					"name": "POST /profiles/{id}/ubos Copy",
+					"name": "POST /profiles/{id}/ubos",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -2146,10 +2146,6 @@
 								"value": "Bearer {{TOKEN}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/rates?source=GBP",
 							"host": [
