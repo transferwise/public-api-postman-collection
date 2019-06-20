@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "fccc03f9-a7be-44ad-8750-87b42c72da9e",
+		"_postman_id": "002d2439-f74f-4942-91f0-64ff2f99ce35",
 		"name": "TW-API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -112,7 +112,7 @@
 			"name": "account-requirements",
 			"item": [
 				{
-					"name": "POST /account-requirements",
+					"name": "POST /account-requirements for Source Amount",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -147,6 +147,40 @@
 									"key": "sourceAmount",
 									"value": "12345"
 								}
+							]
+						},
+						"description": "POST /account-requirements"
+					},
+					"response": []
+				},
+				{
+					"name": "POST /account-requirements for Quote",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"bangladesh\",\n    \"details\" : {\n        \"bankCode\": \"025\",\n        \"legalType\": \"PRIVATE\",\n        \"branchCode\":\"025060009\",\n        \"accountNumber\":\"0000000000\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/quotes/<quoteId>/account-requirements",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"quotes",
+								"<quoteId>",
+								"account-requirements"
 							]
 						},
 						"description": "POST /account-requirements"
@@ -213,40 +247,6 @@
 								"account-requirements"
 							]
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST /account-requirements copy",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "bearer {{TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"type\": \"bangladesh\",\n    \"details\" : {\n        \"bankCode\": \"025\",\n        \"legalType\": \"PRIVATE\",\n        \"branchCode\":\"025060009\",\n        \"accountNumber\":\"0000000000\"\n    }\n}"
-						},
-						"url": {
-							"raw": "{{host}}/v1/quotes/<quoteId>/account-requirements",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v1",
-								"quotes",
-								"<quoteId>",
-								"account-requirements"
-							]
-						},
-						"description": "POST /account-requirements"
 					},
 					"response": []
 				}
@@ -636,7 +636,7 @@
 			"name": "addresses",
 			"item": [
 				{
-					"name": "/v1/address-requirements",
+					"name": "GET /v1/address-requirements",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -659,7 +659,7 @@
 					"response": []
 				},
 				{
-					"name": "/v1/address-requirements",
+					"name": "POST /v1/address-requirements",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -686,7 +686,7 @@
 					"response": []
 				},
 				{
-					"name": "/addresses",
+					"name": "POST /addresses",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -854,7 +854,7 @@
 			"name": "delivery estimation",
 			"item": [
 				{
-					"name": "GET Delivery Estimate",
+					"name": "GET /delivery-estimates",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -1150,11 +1150,12 @@
 						{
 							"listen": "test",
 							"script": {
-								"type": "text/javascript",
+								"id": "4f85eff2-ef45-477d-98eb-43ce00d95b9e",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"if (jsonData.access_token) postman.setEnvironmentVariable(\"TOKEN\", jsonData.access_token);"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -1434,7 +1435,7 @@
 					"response": []
 				},
 				{
-					"name": "POST /profiles/{id}/ubos Copy",
+					"name": "PUT /profiles/{id}/ubos",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -2146,10 +2147,6 @@
 								"value": "Bearer {{TOKEN}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/v1/rates?source=GBP",
 							"host": [
@@ -2177,7 +2174,7 @@
 			]
 		},
 		{
-			"name": "health",
+			"name": "GET /health",
 			"request": {
 				"method": "GET",
 				"header": [],
