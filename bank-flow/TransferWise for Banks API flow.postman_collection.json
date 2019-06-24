@@ -1,0 +1,1982 @@
+{
+	"info": {
+		"_postman_id": "d631f799-af7b-4705-90e8-85a9b5342b69",
+		"name": "TransferWise for Banks API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Creating or accessing existing users",
+			"item": [
+				{
+					"name": "1a. Create User & Auth",
+					"item": [
+						{
+							"name": "1. Client Credentials Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "28005757-b360-4336-85e2-27a04985eada",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.access_token) postman.setEnvironmentVariable(\"client-credentials-token\", jsonData.access_token);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{client-secret}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{client-id}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "grant_type",
+											"value": "client_credentials",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host}}/oauth/token",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"oauth",
+										"token"
+									]
+								},
+								"description": "Get a client credentials token to use to create a user"
+							},
+							"response": []
+						},
+						{
+							"name": "2. Create User",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client-credentials-token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"new-user@email.com\",\n\t\"registrationCode\": <UUID for user>,\n\t\"language\":\"EN\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/user/signup/registration_code",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"user",
+										"signup",
+										"registration_code"
+									]
+								},
+								"description": "Create a new user"
+							},
+							"response": []
+						},
+						{
+							"name": "3. Get User Tokens (successful creation)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5197a6aa-d210-4a59-ad98-f77aee360f4f",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.access_token) postman.setEnvironmentVariable(\"token\", jsonData.access_token);",
+											"if (jsonData.refresh_token) postman.setEnvironmentVariable(\"refresh\", jsonData.refresh_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{client-secret}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{client-id}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/x-www-form-urlencoded"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "grant_type",
+											"value": "registration_code",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "{{client-id}}",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "new-user@email.com",
+											"type": "text"
+										},
+										{
+											"key": "registration_code",
+											"value": "<UUID for user>",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host}}/oauth/token",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"oauth",
+										"token"
+									]
+								},
+								"description": "Request access token for created user"
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "9c3db8c4-040b-49b0-b190-134734fea3a2",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "505623e0-a843-444e-9e31-35dbd9e3d0eb",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "1b. Access Existing User",
+					"item": [
+						{
+							"name": "1. Generate token from authorization code",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "05441564-ba8f-4c2e-abc8-76521c004196",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.access_token) postman.setEnvironmentVariable(\"token\", jsonData.access_token);",
+											"if (jsonData.refresh_token) postman.setEnvironmentVariable(\"refresh\", jsonData.refresh_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{client-secret}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{client-id}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "grant_type",
+											"value": "authorization_code",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "{{client-id}}",
+											"type": "text"
+										},
+										{
+											"key": "redirect_uri",
+											"value": "{{client-redirect-uri}}",
+											"type": "text"
+										},
+										{
+											"key": "code",
+											"value": "<code from redirect url>",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host}}/oauth/token",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"oauth",
+										"token"
+									]
+								},
+								"description": "Request access token | authorization code grant type"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "1c. Generate new token for returning user",
+					"item": [
+						{
+							"name": "1. Generate access token from refresh token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d3979e81-52d8-4e3c-b232-260d891b1f7e",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.access_token) postman.setEnvironmentVariable(\"token\", jsonData.access_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{client-secret}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{client-id}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "grant_type",
+											"value": "refresh_token",
+											"type": "text"
+										},
+										{
+											"key": "refresh_token",
+											"value": "{{refresh}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host}}/oauth/token",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"oauth",
+										"token"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "After previosuly completing 1a or 1b you will have a refresh token stored, use this to generate new access tokens",
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "2. Create user profile",
+			"item": [
+				{
+					"name": "1. Check profile exists",
+					"item": [
+						{
+							"name": "1. Get profile list",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "2. Personal Profile",
+					"item": [
+						{
+							"name": "1. Create personal profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "af37d058-6534-4025-b17d-58b55af0f533",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.id) postman.setEnvironmentVariable(\"personal-profile-id\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"type\": \"personal\",\n    \"details\" : {\n        \"firstName\": \"Joe\",\n        \"lastName\": \"Bloggs\",\n        \"dateOfBirth\": \"1990-01-10\",\n        \"phoneNumber\": \"+447711111111\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles"
+									]
+								},
+								"description": "Create a personal profile"
+							},
+							"response": []
+						},
+						{
+							"name": "2. Upload verification document data (if required)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \n            \"firstName\": \"Joe\",\n            \"lastName\": \"Bloggs\",\n            \"type\": \"PASSPORT\",\n            \"uniqueIdentifier\": \"000111222\",\n            \"issueDate\": \"2017-01-01\",\n            \"issuerCountry\": \"GB\",\n            \"issuerState\": \"\",\n            \"expiryDate\": \"2027-12-31\"\n        }"
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/4753/verification-documents",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"4753",
+										"verification-documents"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Open update window",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/update-window",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{personal-profile-id}}",
+										"update-window"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4. Create address",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"profile\": <<personal profile id>>,\n    \"details\": {\n        \"country\": \"GB\",\n        \"firstLine\": \"1 A Road\",\n        \"postCode\": \"A11D33\",\n        \"city\": \"London\",\n        \"state\": null,\n        \"occupation\": null\n    }\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/addresses",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"addresses"
+									]
+								},
+								"description": "Saves address"
+							},
+							"response": []
+						},
+						{
+							"name": "5. Close update window",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/update-window",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{personal-profile-id}}",
+										"update-window"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "50e89bcb-1860-42ad-8346-aee0667557d2",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "1337c742-a1b9-4226-bc95-56ec81b35a06",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "3. Business Profile (Optional)",
+					"item": [
+						{
+							"name": "1. Create business profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "bc15ed0d-6426-41b0-8f7a-fd3fb4d0cf7b",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.id) postman.setEnvironmentVariable(\"business-profile-id\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"type\": \"business\",\n    \"details\" : {\n\t\t\"name\": \"The Business\",\n\t\t\"registrationNumber\" : \"12345\",\n\t\t\"companyType\" : \"LIMITED\",\n\t\t\"webpage\": \"http://business.com\",\n\t\t\"companyRole\": \"DIRECTOR\",\n\t\t\"descriptionOfBusiness\": \"Business Description\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles"
+									]
+								},
+								"description": "Create a personal profile"
+							},
+							"response": []
+						},
+						{
+							"name": "2. Open update window",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{business-profile-id}}/update-window",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{business-profile-id}}",
+										"update-window"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Create address",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"profile\": <buisness profile id>,\n    \"details\": {\n        \"country\": \"GB\",\n        \"firstLine\": \"1 A Road\",\n        \"postCode\": \"A11D33\",\n        \"city\": \"London\",\n        \"state\": null,\n        \"occupation\": null\n    }\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/addresses",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"addresses"
+									]
+								},
+								"description": "Saves address"
+							},
+							"response": []
+						},
+						{
+							"name": "4. Create business directors",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n             {\n                 \"firstName\": \"John\",\n                 \"lastName\": \"Doe\",\n                 \"dateOfBirth\": \"1982-01-01\",\n                 \"countryOfResidenceIso3Code\": \"usa\"\n             },\n             {\n                 \"firstName\": \"Jane\",\n                 \"lastName\": \"Doe\",\n                 \"dateOfBirth\": \"1981-01-01\",\n                 \"countryOfResidenceIso3Code\": \"usa\"\n             }\n        ]"
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{business-profile-id}}/directors",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{business-profile-id}}",
+										"directors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "5. Create business UBOs",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n             {\n                 \"name\": \"John Doe\",\n                 \"dateOfBirth\": \"1982-05-20\",\n                 \"countryOfResidenceIso3Code\": \"usa\",\n                 \"addressFirstLine\": \"123 Fake St\",\n                 \"postCode\": \"FK 12345\",\n                 \"ownershipPercentage\": 30\n             },\n             {\n                 \"name\": \"Jane Doe\",\n                 \"dateOfBirth\": \"1981-12-07\",\n                 \"countryOfResidenceIso3Code\": \"usa\",\n                 \"addressFirstLine\": \"125 Fake St\",\n                 \"postCode\": \"FK 12545\",\n                 \"ownershipPercentage\": 40\n             }\n        ]"
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{business-profile-id}}/ubos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{business-profile-id}}",
+										"ubos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "6. Close update window",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{business-profile-id}}/update-window",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{business-profile-id}}",
+										"update-window"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "3b852af2-2e40-4e52-9514-51b9395ebb01",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "3ba542fc-06ed-4f58-b1dd-27c2c49ef495",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "3. Transfer Flow",
+			"item": [
+				{
+					"name": "1. Create quote",
+					"item": [
+						{
+							"name": "1. Create Quote",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c7b7499e-fd8d-49d5-8feb-209a8065ba82",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.id) postman.setEnvironmentVariable(\"new-quote-id\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"sourceCurrency\": \"GBP\",\n\t\"targetCurrency\": \"USD\",\n\t\"sourceAmount\": 100,\n\t\"targetAmount\": null,\n\t\"profile\": <owning profile id>\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/quotes",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"quotes"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "e7ab2b8b-4cb7-4501-a1f8-fa6b56101df1",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "62b25a0f-d2be-4e2f-8a31-96d792283e19",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "2. Choose/create recipient",
+					"item": [
+						{
+							"name": "1a. Select Existing",
+							"item": [
+								{
+									"name": "1. Load accounts",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{host}}/v2/accounts/?currency=USD",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v2",
+												"accounts",
+												""
+											],
+											"query": [
+												{
+													"key": "currency",
+													"value": "USD"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "eb73010d-8fb2-48b6-99a9-b0eb7cfdbec7",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "c495867f-07b3-4c16-88f0-e1c8a547beef",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "1b. Create new recipient account",
+							"item": [
+								{
+									"name": "1. Get recipient creation dynamic form",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Accept-Language",
+												"value": "FR",
+												"disabled": true
+											}
+										],
+										"url": {
+											"raw": "{{host}}/v1/quotes/{{new-quote-id}}/account-requirements",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"quotes",
+												"{{new-quote-id}}",
+												"account-requirements"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "2. Update form if any field require refresh",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"type\": \"aba\",\n    \"details\": {\n        \"legalType\": \"PRIVATE\",\n        \"address\": {\n            \"country\": \"US\"\n        }\n    }\n}"
+										},
+										"url": {
+											"raw": "{{host}}/v1/quotes/{{new-quote-id}}/account-requirements",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"quotes",
+												"{{new-quote-id}}",
+												"account-requirements"
+											]
+										},
+										"description": "POST /account-requirements"
+									},
+									"response": []
+								},
+								{
+									"name": "3. Create account",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "70252a92-847d-4533-be52-22018a9e1dae",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"if (jsonData.id) postman.setEnvironmentVariable(\"new-recipient-id\", jsonData.id);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"accountHolderName\": \"Person USD\",\n    \"currency\": \"USD\",\n    \"country\": \"US\",\n    \"type\": \"ABA\",\n    \"details\": {\n      \"address\": {\n        \"city\": \"New York\",\n        \"countryCode\": \"US\",\n        \"postCode\": \"10025\",\n        \"state\": \"NY\",\n        \"firstLine\": \"158 Wall Street\"\n      },\n      \"abartn\": \"064000020\",\n      \"accountType\": \"CHECKING\",\n      \"accountNumber\": \"40000000000\",\n      \"email\": \"example@foobar.com\"\n    }\n  }"
+										},
+										"url": {
+											"raw": "{{host}}/v1/accounts",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"accounts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "4. Get account in v2 format",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{host}}/v2/accounts/{{new-recipient-id}}",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v2",
+												"accounts",
+												"{{new-recipient-id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "f7f271d1-8e30-4ffa-8f6a-096e8d1b5d6f",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "8881f88c-6fc2-4fc6-b4de-48129de0c059",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "e256b83c-bccb-41a7-a7d3-7fd5b0a1f0e5",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4bc48a97-7a20-42da-95de-482a49f637e7",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "3. Create transfer",
+					"item": [
+						{
+							"name": "1. Update quote with selected recipient",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/merge-patch+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"targetAccount\": <selected recipient id>\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/quotes/{{new-quote-id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"quotes",
+										"{{new-quote-id}}"
+									]
+								},
+								"description": "Set the recipient the user wishes to send to on the quote to get an updated price and delivery estimte.\n\nENSURE `Content-Type` IS `application/merge-patch+json` ELSE THIS WILL FAIL"
+							},
+							"response": []
+						},
+						{
+							"name": "2. Get transfer extra info dynamic form",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"targetAccount\": <selected recipiet id>,\n    \"quoteUuid\": <quote uuid>\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/transfer-requirements",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"transfer-requirements"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Update transfer extra info dynamic form (if any fields require refresh)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \n\t\"targetAccount\": <selected recipient id>,\n    \"quoteUuid\": <quote uuid>,\n    \"details\": {\n        \"reference\": \"my ref\",\n    \t\"sourceOfFunds\": \"verification.source.of.funds.other\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/transfer-requirements",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"transfer-requirements"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4. Generate GUID for idempotency",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "33595208-e842-4ab1-8ab7-229c968afebc",
+										"exec": [
+											"if (responseBody) postman.setEnvironmentVariable(\"idempotency-guid\", responseBody);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://www.uuidgenerator.net/api/guid",
+									"protocol": "https",
+									"host": [
+										"www",
+										"uuidgenerator",
+										"net"
+									],
+									"path": [
+										"api",
+										"guid"
+									]
+								},
+								"description": "You don't have to use an API for this - you can almost certainly do it in code. This is just for testing convenience."
+							},
+							"response": []
+						},
+						{
+							"name": "5. Create transfer",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a81a5758-fca6-4b89-8441-123ad6dd5cb8",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.id) postman.setEnvironmentVariable(\"new-transfer-id\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"targetAccount\": <selected recipient ID>,\n    \"quoteUuid\": <quote uuid>,\n    \"customerTransactionId\": <idempotency guid>,\n    \"details\": {\n        \"reference\": \"my ref\",\n        \"transferPurpose\": \"verification.transfers.purpose.pay.bills\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/transfers",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"transfers"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "c096a28d-d6b0-46e7-8b05-80a5670b9680",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "7a9d3646-4f72-4189-adeb-a1d571eb8619",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "4. Fund transfer",
+			"item": [
+				{
+					"name": "1. Get payment reference for domestic transfer",
+					"item": [
+						{
+							"name": "1. Get payment reference",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{host}}/v1/quotes/{{new-quote-id}}/pay-in-methods",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"quotes",
+										"{{new-quote-id}}",
+										"pay-in-methods"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "5. Get updated transfer status",
+			"item": [
+				{
+					"name": "1. Get transfer status",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/v1/transfers/{{new-transfer-id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"transfers",
+								"{{new-transfer-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Get updated delivery esitmation",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/v1/delivery-estimates/{{new-transfer-id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"delivery-estimates",
+								"{{new-transfer-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "6. Transfer state simulation",
+			"item": [
+				{
+					"name": "1. Set as processing",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v1/simulation/transfers/{{new-transfer-id}}/processing",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"transfers",
+								"{{new-transfer-id}}",
+								"processing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Set as funds_converted",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v1/simulation/transfers/{{new-transfer-id}}/funds_converted",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"transfers",
+								"{{new-transfer-id}}",
+								"funds_converted"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Set as outgoing_payment_sent",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v1/simulation/transfers/{{new-transfer-id}}/outgoing_payment_sent",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"transfers",
+								"{{new-transfer-id}}",
+								"outgoing_payment_sent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Set as bounced_back",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v1/simulation/transfers/{{new-transfer-id}}/bounced_back",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"transfers",
+								"{{new-transfer-id}}",
+								"bounced_back"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Set as funds_refunded",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v1/simulation/transfers/{{new-transfer-id}}/funds_refunded",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"transfers",
+								"{{new-transfer-id}}",
+								"funds_refunded"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "7. Get transfer receipt",
+			"item": [
+				{
+					"name": "Get reciept PDF",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v1/transfers/{{new-transfer-id}}/receipt.pdf",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"transfers",
+								"{{new-transfer-id}}",
+								"receipt.pdf"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "8. Update profile data",
+			"item": [
+				{
+					"name": "1. Personal profile",
+					"item": [
+						{
+							"name": "1. Open update window",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/update-window",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{personal-profile-id}}",
+										"update-window"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Update profile (optional)",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\": {{personal-profile-id}},\n    \"type\": \"personal\",\n    \"details\": {\n\t\t\"firstName\": \"Joe\",\n        \"lastName\": \"Blaggs\",\n        \"dateOfBirth\": \"1990-01-01\",\n        \"phoneNumber\": \"+3725011991\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Update address (optional)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"profile\": {{personal-profile-id}},\n    \"details\": {\n        \"country\": \"GB\",\n        \"firstLine\": \"1 A Road\",\n        \"postCode\": \"A11D33\",\n        \"city\": \"London\",\n        \"state\": null,\n        \"occupation\": null\n    }\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/addresses",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"addresses"
+									]
+								},
+								"description": "Saves address"
+							},
+							"response": []
+						},
+						{
+							"name": "4. Close update window Copy",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/update-window",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{personal-profile-id}}",
+										"update-window"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "2. Business profile",
+					"item": [
+						{
+							"name": "2. Open update window",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{business-profile-id}}/update-window",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{business-profile-id}}",
+										"update-window"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Update address (optional)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"profile\": <business profile id>,\n    \"details\": {\n        \"country\": \"GB\",\n        \"firstLine\": \"1 A Road\",\n        \"postCode\": \"A11D33\",\n        \"city\": \"London\",\n        \"state\": null,\n        \"occupation\": null\n    }\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/addresses",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"addresses"
+									]
+								},
+								"description": "Saves address"
+							},
+							"response": []
+						},
+						{
+							"name": "4. Update business directors (optional)",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n             {\n                 \"firstName\": \"John\",\n                 \"lastName\": \"Doe\",\n                 \"dateOfBirth\": \"1982-01-01\",\n                 \"countryOfResidenceIso3Code\": \"usa\"\n             },\n             {\n                 \"firstName\": \"Jane\",\n                 \"lastName\": \"Doe\",\n                 \"dateOfBirth\": \"1981-01-01\",\n                 \"countryOfResidenceIso3Code\": \"usa\"\n             }\n        ]"
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{business-profile-id}}/directors",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{business-profile-id}}",
+										"directors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "5. Update business UBOs (optional)",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n             {\n                 \"name\": \"John Doe\",\n                 \"dateOfBirth\": \"1982-05-20\",\n                 \"countryOfResidenceIso3Code\": \"usa\",\n                 \"addressFirstLine\": \"123 Fake St\",\n                 \"postCode\": \"FK 12345\",\n                 \"ownershipPercentage\": 30\n             },\n             {\n                 \"name\": \"Jane Doe\",\n                 \"dateOfBirth\": \"1981-12-07\",\n                 \"countryOfResidenceIso3Code\": \"usa\",\n                 \"addressFirstLine\": \"125 Fake St\",\n                 \"postCode\": \"FK 12545\",\n                 \"ownershipPercentage\": 40\n             }\n        ]"
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{business-profile-id}}/ubos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{business-profile-id}}",
+										"ubos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "6. Close update window",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{business-profile-id}}/update-window",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{business-profile-id}}",
+										"update-window"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		}
+	]
+}
