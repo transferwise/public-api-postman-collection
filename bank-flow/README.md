@@ -14,7 +14,7 @@ Import the `TransferWise For Banks (Sandbox).postman_environment` file to Postma
 
 ### Set up your Environment variables
 
-To begin with set the `client-id`, `client-secret` and `client-redirect-uri` variables based ont those issued to you by TransferWise.
+To begin with set the `client-id`, `client-secret` and `client-redirect-uri` variables based on those issued to you by TransferWise.
 
 ### Get user access
 
