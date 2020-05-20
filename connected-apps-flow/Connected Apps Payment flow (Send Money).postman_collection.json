@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "b3166e7b-20cb-4408-aa9c-b7f8baec9a8f",
-		"name": "Connected Apps Payment Flow (Template)",
+		"name": "Connected Apps Payment Flow (Send Money)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -92,7 +92,13 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"sourceCurrency\": \"{{sourceCurrency}}\",\n\t\"name\": \"Postman test batch {{$timestamp}}\"\n}",
@@ -161,7 +167,13 @@
 							],
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN}}",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n\t\"profile\": {{profile}},\n\t\"accountHolderName\": \"GBP test recipient\",\n\t\"currency\": \"GBP\",\n\t\"type\": \"sort_code\",\n\t\"details\": {\n\t\t\"legalType\" : \"PRIVATE\",\n\t\t\"sortCode\":\"{{sortCode}}\",\n\t\t\"accountNumber\":\"{{accountNumber}}\"\n\t}\n}",
@@ -209,7 +221,13 @@
 							],
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN}}",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n\t\"profile\": {{profile}},\n\t\"accountHolderName\": \"CAD test recipient\",\n\t\"currency\": \"CAD\",\n\t\"type\": \"canadian\",\n\t\"details\": {\n\t\t\"legalType\": \"PRIVATE\",\n\t\t\"institutionNumber\": \"{{institutionNumber}}\",\n\t\t\"transitNumber\": \"{{transitNumber}}\",\n\t\t\"accountNumber\": \"{{accountNumber}}\",\n\t\t\"accountType\": \"{{accountType}}\"\n\t}\n}",
@@ -257,7 +275,13 @@
 							],
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN}}",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n\t\"profile\": {{profile}},\n\t\"accountHolderName\": \"EUR test recipient\",\n\t\"currency\": \"EUR\",\n\t\"type\": \"iban\",\n\t\"details\": {\n\t\t\"legalType\": \"PRIVATE\",\n\t\t\"IBAN\" : \"{{iban}}\"\n\t}\n}",
@@ -305,7 +329,13 @@
 							],
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN}}",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n\t\"profile\": {{profile}},\n\t\"accountHolderName\": \"USD test recipient\",\n\t\"currency\": \"USD\",\n\t\"type\": \"aba\",\n\t\"details\": {\n\t\t\"legalType\" : \"PRIVATE\",\n\t\t\"abartn\" : \"{{abartn}}\",\n\t\t\"accountNumber\":\"{{accountNumber}}\",\n\t\t\"accountType\" : \"{{accountType}}\",\n\t\t\"address\": {\n\t\t\t\"firstLine\": \"{{addressFirstLine}}\",\n\t\t\t\"city\": \"{{addressCity}}\",\n\t\t\t\"country\": \"{{addressCountryCode}}\",\n\t\t\t\"postCode\": \"{{addressPostCode}}\"\n\t\t}\n\t}\n}",
@@ -379,7 +409,13 @@
 							],
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN}}",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n    \"sourceCurrency\": \"{{sourceCurrency}}\",\n    \"targetCurrency\": \"{{targetCurrency}}\",\n    \"targetAmount\": \"{{amount}}\",\n    \"profile\": {{profile}},\n    \"rateType\": \"FIXED\",\n    \"targetRecipient\": {{recipient_id}}\n}",
@@ -438,7 +474,13 @@
 							],
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN}}",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n    \"targetAccount\": {{recipient_id}},\n    \"quoteUuid\": \"{{quote_id}}\",\n    \"customerTransactionId\": \"{{$guid}}\",\n    \"details\": {\n        \"reference\": \"R{{recipient_id}}\",\n        \"transferPurpose\": \"Other\",\n        \"sourceOfFunds\": \"Salary\"\n    }\n}",
@@ -551,7 +593,13 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{host}}/v3/profiles/{{profile}}/batch-groups/{{batch_group_id}}",
 							"host": [
@@ -642,7 +690,13 @@
 					],
 					"request": {
 						"method": "PATCH",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"status\": \"COMPLETED\",\n\t\"version\": {{batch_group_version}}\n}",
@@ -684,7 +738,13 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{host}}/v3/profiles/{{profile}}/batch-groups/{{batch_group_id}}",
 							"host": [
@@ -705,16 +765,6 @@
 			"protocolProfileBehavior": {}
 		}
 	],
-	"auth": {
-		"type": "bearer",
-		"bearer": [
-			{
-				"key": "token",
-				"value": "b7f11ef3-b729-424d-95d9-3ea48b0cc5f2",
-				"type": "string"
-			}
-		]
-	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -741,51 +791,15 @@
 	],
 	"variable": [
 		{
-			"id": "c6e29785-3381-4378-a09a-bd89cd6a25b7",
-			"key": "host",
-			"value": "https://sandbox.transferwise.tech/gateway",
-			"type": "string"
-		},
-		{
-			"id": "ee72e2a2-fb10-4c34-a370-b32b39aea2f0",
+			"id": "1966d2c7-1b07-4e8c-9e86-e0c6e4020f25",
 			"key": "auth_code",
 			"value": "12345",
 			"type": "string"
 		},
 		{
-			"id": "dc16ef0f-515a-41ac-8158-7b1254242131",
+			"id": "a98b5bd1-3add-4c47-a7e8-ef201fbc824c",
 			"key": "profile",
 			"value": "1",
-			"type": "string"
-		},
-		{
-			"id": "cb3e53aa-33ef-49e1-92b6-74c9086c7ae7",
-			"key": "batch_group_id",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"id": "1ce02966-6e12-4607-94d8-681bfe8093d9",
-			"key": "batch_group_version",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"id": "89f70718-75c8-45c0-8ebe-87ca396a61b6",
-			"key": "recipient_id",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"id": "89888c4a-be6b-425b-96b9-64e26242a059",
-			"key": "quote_id",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"id": "4df979ff-61d7-46a6-9584-cdf0d85ccf8b",
-			"key": "transfer_id",
-			"value": "",
 			"type": "string"
 		}
 	],
