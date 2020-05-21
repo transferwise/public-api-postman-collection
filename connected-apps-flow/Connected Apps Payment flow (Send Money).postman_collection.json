@@ -6,10 +6,10 @@
 	},
 	"item": [
 		{
-			"name": "Set up batch group",
+			"name": "Pre-checks (ignore this, used by postman)",
 			"item": [
 				{
-					"name": "Pre-check",
+					"name": "Any payments to process",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -43,7 +43,35 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "37b0500a-0f28-486f-92f1-c26ca44eb4d6",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "89b514d2-e1a4-4b97-8938-dc708d4cd9b5",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "1. Set up batch group",
+			"item": [
 				{
 					"name": "Create batch group",
 					"event": [
@@ -124,13 +152,35 @@
 					"response": []
 				}
 			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "79a63342-8e1f-45a2-b0d0-336d5d07c13e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "b9960084-672b-4fe3-8552-020b9ff37dcf",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Add payments",
+			"name": "2. Add payments",
 			"item": [
 				{
-					"name": "Add recipient (one per payment)",
+					"name": "2.1. Add recipient (one per payment)",
 					"item": [
 						{
 							"name": "Create GBP account",
@@ -385,7 +435,7 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "Add transfer",
+					"name": "2.2. Add transfer",
 					"item": [
 						{
 							"name": "Create quote",
@@ -559,7 +609,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Complete and fund",
+			"name": "3. Complete and fund",
 			"item": [
 				{
 					"name": "Get batch group version",
@@ -721,45 +771,28 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ecae7c3e-5469-4f78-91e6-a5b73151a927",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				},
 				{
-					"name": "Get batch group details",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "85919a65-0953-4ddd-8e6e-c67c1318f99d",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{TOKEN}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{host}}/v3/profiles/{{profile}}/batch-groups/{{batch_group_id}}",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"profiles",
-								"{{profile}}",
-								"batch-groups",
-								"{{batch_group_id}}"
-							]
-						}
-					},
-					"response": []
+					"listen": "test",
+					"script": {
+						"id": "e321b6ab-dc88-4520-92c9-e1abf89e4edc",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -782,25 +815,11 @@
 				"id": "e3ee9a46-09a0-46d5-be68-4106314eb79d",
 				"type": "text/javascript",
 				"exec": [
-					"pm.test(\"response must be valid and have a body\", function () {",
+					"pm.test(\"response must be successful\", function () {",
 					"     pm.response.to.be.success;",
 					"});"
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"id": "1966d2c7-1b07-4e8c-9e86-e0c6e4020f25",
-			"key": "auth_code",
-			"value": "12345",
-			"type": "string"
-		},
-		{
-			"id": "a98b5bd1-3add-4c47-a7e8-ef201fbc824c",
-			"key": "profile",
-			"value": "1",
-			"type": "string"
 		}
 	],
 	"protocolProfileBehavior": {}
