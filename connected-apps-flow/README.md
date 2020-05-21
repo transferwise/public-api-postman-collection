@@ -14,9 +14,9 @@ Also import the `TW-API-ENVIRONMENT.postman_environment.json` file, found in the
 
 ### Set up your Postman environment variables
 
-Set the `client-id`, `client-secret` credentials issued to you by TransferWise.
+Set environment variables for `client-id`, `client-secret` and `client-redirect-uri` credentials issued to you by TransferWise.
 
-Use our [oauth flow](https://transferwise.github.io/api-docs-partners/#connected-apps-integration-guide-user-authorization) to generate an authorization code and set this in `client-auth-code`.
+Use our [oauth flow](https://transferwise.github.io/api-docs-partners/#connected-apps-integration-guide-user-authorization) to generate an authorization code and set this to an environment variable called `client-auth-code`.
 
 ### Getting started
 

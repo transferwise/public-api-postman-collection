@@ -9,7 +9,7 @@
 			"name": "Pre-checks (ignore this, used by postman)",
 			"item": [
 				{
-					"name": "Any payments to process",
+					"name": "Start iteration",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -25,6 +25,50 @@
 									"else if (groupExists) {",
 									"    // Skip the batch creation if we've done this already",
 									"    postman.setNextRequest(\"Decide which recipient to create\");",
+									"}",
+									"else if (pm.environment.has(\"token\")) {",
+									"    // Refresh an existing access token",
+									"    postman.setNextRequest(\"Refresh existing access token\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "9b5c219e-3dfc-4ac9-a64e-db2abb301cfc",
+								"exec": [
+									"var stop = false;",
+									"",
+									"pm.test(\"Has client-id environment variable been set\", function () {",
+									"    pm.expect(pm.variables.has(\"client-id\")).to.be.true;",
+									"    if (!pm.variables.has(\"client-id\")) stop = true;",
+									"});",
+									"",
+									"pm.test(\"Has client-secret environment variable been set\", function () {",
+									"    pm.expect(pm.variables.has(\"client-secret\")).to.be.true;",
+									"    if (!pm.variables.has(\"client-id\")) stop = true;",
+									"});",
+									"",
+									"pm.test(\"Has client-redirect-uri environment variable been set\", function () {",
+									"    pm.expect(pm.variables.has(\"client-redirect-uri\")).to.be.true;",
+									"    if (!pm.variables.has(\"client-redirect-uri\")) stop = true;",
+									"});",
+									"",
+									"pm.test(\"Has client-auth-code environment variable been set\", function () {",
+									"    pm.expect(pm.variables.has(\"client-auth-code\")).to.be.true;",
+									"    if (!pm.variables.has(\"client-id\")) stop = true;",
+									"});",
+									"",
+									"pm.test(\"Has profile environment variable been set\", function () {",
+									"    pm.expect(pm.variables.has(\"profile\")).to.be.true;",
+									"    if (!pm.variables.has(\"client-id\")) stop = true;",
+									"});",
+									"",
+									"if (stop) {",
+									"    // We're missing required environment variables, stop",
+									"    postman.setNextRequest(null);",
 									"}"
 								],
 								"type": "text/javascript"
@@ -75,7 +119,208 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "1. Set up batch group",
+			"name": "1. Authenticate as application",
+			"item": [
+				{
+					"name": "Generate tokens from authorization code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "05441564-ba8f-4c2e-abc8-76521c004196",
+								"exec": [
+									"const json = pm.response.json();",
+									"",
+									"pm.test(\"Are tokens provided\", function () {",
+									"    pm.expect(json).to.have.property(\"access_token\");",
+									"    pm.expect(json).to.have.property(\"refresh_token\");",
+									"    if (!json.access_token || !json.refresh_token) {",
+									"        postman.setNextRequest(null);",
+									"    }",
+									"});",
+									"",
+									"pm.environment.set(\"token\", json.access_token);",
+									"pm.environment.set(\"refresh\", json.refresh_token);",
+									"postman.setNextRequest(\"Create batch group\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{client-secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{client-id}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client-id}}",
+									"type": "text"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{client-redirect-uri}}",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "{{client-auth-code}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						},
+						"description": "Request access token | authorization code grant type"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh existing access token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d3979e81-52d8-4e3c-b232-260d891b1f7e",
+								"exec": [
+									"const json = pm.response.json();",
+									"",
+									"pm.test(\"Are tokens provided\", function () {",
+									"    pm.expect(json).to.have.property(\"access_token\");",
+									"    if (!json.access_token) {",
+									"        postman.setNextRequest(null);",
+									"    }",
+									"});",
+									"",
+									"pm.environment.set(\"token\", json.access_token);",
+									"postman.setNextRequest(\"Create batch group\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{client-secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{client-id}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "{{refresh}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1fa0db3f-c275-46b8-be54-ec99a6f3a69c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "495baa12-213b-40dc-9bfb-38b3d0b3b9e9",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "2. Set up batch group",
 			"item": [
 				{
 					"name": "Create batch group",
@@ -85,7 +330,7 @@
 							"script": {
 								"id": "135e821f-f9ca-4d27-a83a-404cbbf929e6",
 								"exec": [
-									"var json = JSON.parse(responseBody);",
+									"const json = pm.response.json();",
 									"",
 									"pm.test(\"Has required response fields\", function () {",
 									"    pm.expect(json).to.have.property(\"id\");",
@@ -114,7 +359,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{TOKEN}}",
+								"value": "Bearer {{token}}",
 								"type": "text"
 							}
 						],
@@ -168,7 +413,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "2. Add payments",
+			"name": "3. Add payments",
 			"item": [
 				{
 					"name": "Pre-checks (ignore this, used by postman)",
@@ -224,7 +469,7 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "2.1. Add recipient (one per payment)",
+					"name": "3.1. Add recipient (one per payment)",
 					"item": [
 						{
 							"name": "Create GBP account",
@@ -234,7 +479,7 @@
 									"script": {
 										"id": "6a9ba681-b74c-4b49-8449-2eaea3414838",
 										"exec": [
-											"var json = JSON.parse(responseBody);",
+											"const json = pm.response.json();",
 											"",
 											"pm.test(\"Has required response fields\", function () {",
 											"    pm.expect(json).to.have.property(\"id\");",
@@ -264,7 +509,7 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer {{TOKEN}}",
+										"value": "Bearer {{token}}",
 										"type": "text"
 									}
 								],
@@ -298,7 +543,7 @@
 									"script": {
 										"id": "1d633d1b-5f81-4b19-a007-b10a8853f25c",
 										"exec": [
-											"var json = JSON.parse(responseBody);",
+											"const json = pm.response.json();",
 											"",
 											"pm.test(\"Has required response fields\", function () {",
 											"    pm.expect(json).to.have.property(\"id\");",
@@ -318,7 +563,7 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer {{TOKEN}}",
+										"value": "Bearer {{token}}",
 										"type": "text"
 									}
 								],
@@ -352,7 +597,7 @@
 									"script": {
 										"id": "3567d3d1-c066-4cff-adf6-85eef53f701e",
 										"exec": [
-											"var json = JSON.parse(responseBody);",
+											"const json = pm.response.json();",
 											"",
 											"pm.test(\"Has required response fields\", function () {",
 											"    pm.expect(json).to.have.property(\"id\");",
@@ -372,7 +617,7 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer {{TOKEN}}",
+										"value": "Bearer {{token}}",
 										"type": "text"
 									}
 								],
@@ -406,7 +651,7 @@
 									"script": {
 										"id": "c1d7490e-e966-4087-985c-ec5258230002",
 										"exec": [
-											"var json = JSON.parse(responseBody);",
+											"const json = pm.response.json();",
 											"",
 											"pm.test(\"Has required response fields\", function () {",
 											"    pm.expect(json).to.have.property(\"id\");",
@@ -426,7 +671,7 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer {{TOKEN}}",
+										"value": "Bearer {{token}}",
 										"type": "text"
 									}
 								],
@@ -479,7 +724,7 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "2.2. Add transfer",
+					"name": "3.2. Add transfer",
 					"item": [
 						{
 							"name": "Create quote",
@@ -489,7 +734,7 @@
 									"script": {
 										"id": "fa93109c-373c-42af-b5e4-e2cb7841a8cb",
 										"exec": [
-											"var json = JSON.parse(responseBody);",
+											"const json = pm.response.json();",
 											"",
 											"pm.test(\"Has required response fields\", function () {",
 											"    pm.expect(json).to.have.property(\"id\");",
@@ -506,7 +751,7 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer {{TOKEN}}",
+										"value": "Bearer {{token}}",
 										"type": "text"
 									}
 								],
@@ -540,7 +785,7 @@
 									"script": {
 										"id": "a2c6b2a3-0adf-4ba1-a549-237a8260b14a",
 										"exec": [
-											"var json = JSON.parse(responseBody);",
+											"const json = pm.response.json();",
 											"",
 											"pm.test(\"Has required response fields\", function () {",
 											"    pm.expect(json).to.have.property(\"id\");",
@@ -556,7 +801,7 @@
 									"script": {
 										"id": "57c43244-2a4e-4dfe-b582-bd2bb70661ef",
 										"exec": [
-											"if (pm.info.iteration < pm.info.iterationCount - 1) {",
+											"if (pm.info && pm.info.iteration < pm.info.iterationCount - 1) {",
 											"    // Don't complete group until all payments are added",
 											"    postman.setNextRequest(null);",
 											"}"
@@ -570,7 +815,7 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer {{TOKEN}}",
+										"value": "Bearer {{token}}",
 										"type": "text"
 									}
 								],
@@ -652,7 +897,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "3. Complete and fund",
+			"name": "4. Complete and fund",
 			"item": [
 				{
 					"name": "Get batch group version",
@@ -662,7 +907,7 @@
 							"script": {
 								"id": "85919a65-0953-4ddd-8e6e-c67c1318f99d",
 								"exec": [
-									"var json = pm.response.json();",
+									"const json = pm.response.json();",
 									"",
 									"pm.test(\"Has required response fields\", function () {",
 									"    pm.expect(json).to.have.property(\"version\");",
@@ -689,7 +934,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{TOKEN}}",
+								"value": "Bearer {{token}}",
 								"type": "text"
 							}
 						],
@@ -717,7 +962,7 @@
 							"script": {
 								"id": "85919a65-0953-4ddd-8e6e-c67c1318f99d",
 								"exec": [
-									"var json = pm.response.json();",
+									"const json = pm.response.json();",
 									"",
 									"pm.test(\"Batch response is valid\", function () {",
 									"    pm.expect(json.id)",
@@ -726,14 +971,14 @@
 									"        .to.have.lengthOf(1);",
 									"});",
 									"",
-									"var payIn = json.payInDetails[0];",
+									"const payIn = json.payInDetails[0];",
 									"",
 									"pm.test(\"Batch response has correct pay in details\", function () {",
 									"    pm.test(JSON.stringify(payIn), true);",
 									"    ",
-									"    var Ajv = require('ajv');",
-									"    var ajv = new Ajv({logger: console});",
-									"    var schema = {",
+									"    const Ajv = require('ajv');",
+									"    const ajv = new Ajv({logger: console});",
+									"    const schema = {",
 									"        \"properties\": {",
 									"            \"type\": {",
 									"                type: \"string\"",
@@ -786,7 +1031,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{TOKEN}}",
+								"value": "Bearer {{token}}",
 								"type": "text"
 							}
 						],
