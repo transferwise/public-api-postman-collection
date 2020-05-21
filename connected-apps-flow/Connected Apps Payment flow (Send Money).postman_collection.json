@@ -16,10 +16,15 @@
 							"script": {
 								"id": "216bc812-c8c1-46e6-8d31-9c4e9eb100a9",
 								"exec": [
-									"// Complete the batch group if we've run out of data",
-									"var typeColumn = pm.iterationData.get(\"type\");",
+									"var typeColumn = pm.variables.get(\"type\");",
+									"var groupExists = pm.variables.has(\"batch_group_id\");",
 									"if (typeColumn == \"eof\") {",
+									"    // \"eof\" row not needed anymore, but if we encounter it skip this iteration",
 									"    postman.setNextRequest(\"Get batch group version\");",
+									"}",
+									"else if (groupExists) {",
+									"    // Skip the batch creation if we've done this already",
+									"    postman.setNextRequest(\"Decide which recipient to create\");",
 									"}"
 								],
 								"type": "text/javascript"
@@ -87,8 +92,8 @@
 									"    pm.expect(json).to.have.property(\"version\");",
 									"});",
 									"",
-									"pm.collectionVariables.set(\"batch_group_id\", json.id);",
-									"pm.collectionVariables.set(\"batch_group_version\", json.version);"
+									"pm.variables.set(\"batch_group_id\", json.id);",
+									"pm.variables.set(\"batch_group_version\", json.version);"
 								],
 								"type": "text/javascript"
 							}
@@ -98,21 +103,7 @@
 							"script": {
 								"id": "07fd3833-0736-4137-be6f-547b87b53195",
 								"exec": [
-									"// Create/fetch the recipient based on the data",
-									"switch (pm.iterationData.get(\"targetCurrency\")) {",
-									"    case \"GBP\":",
-									"        postman.setNextRequest(\"Create GBP account\");",
-									"        break;",
-									"    case \"EUR\":",
-									"        postman.setNextRequest(\"Create EUR account\");",
-									"        break;",
-									"    case \"USD\":",
-									"        postman.setNextRequest(\"Create USD account\");",
-									"        break;",
-									"    case \"CAD\":",
-									"        postman.setNextRequest(\"Create CAD account\");",
-									"        break;",
-									"}"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -180,6 +171,59 @@
 			"name": "2. Add payments",
 			"item": [
 				{
+					"name": "Pre-checks (ignore this, used by postman)",
+					"item": [
+						{
+							"name": "Decide which recipient to create",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "216bc812-c8c1-46e6-8d31-9c4e9eb100a9",
+										"exec": [
+											"// Create/fetch the recipient based on the data",
+											"switch (pm.variables.get(\"targetCurrency\")) {",
+											"    case \"GBP\":",
+											"        postman.setNextRequest(\"Create GBP account\");",
+											"        break;",
+											"    case \"EUR\":",
+											"        postman.setNextRequest(\"Create EUR account\");",
+											"        break;",
+											"    case \"USD\":",
+											"        postman.setNextRequest(\"Create USD account\");",
+											"        break;",
+											"    case \"CAD\":",
+											"        postman.setNextRequest(\"Create CAD account\");",
+											"        break;",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/health",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"health"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
 					"name": "2.1. Add recipient (one per payment)",
 					"item": [
 						{
@@ -196,7 +240,7 @@
 											"    pm.expect(json).to.have.property(\"id\");",
 											"});",
 											"",
-											"pm.collectionVariables.set(\"recipient_id\", json.id);",
+											"pm.variables.set(\"recipient_id\", json.id);",
 											"",
 											"// Now jump to quote creation",
 											"postman.setNextRequest(\"Create quote\");"
@@ -260,7 +304,7 @@
 											"    pm.expect(json).to.have.property(\"id\");",
 											"});",
 											"",
-											"pm.collectionVariables.set(\"recipient_id\", json.id);",
+											"pm.variables.set(\"recipient_id\", json.id);",
 											"",
 											"// Now jump to quote creation",
 											"postman.setNextRequest(\"Create quote\");"
@@ -314,7 +358,7 @@
 											"    pm.expect(json).to.have.property(\"id\");",
 											"});",
 											"",
-											"pm.collectionVariables.set(\"recipient_id\", json.id);",
+											"pm.variables.set(\"recipient_id\", json.id);",
 											"",
 											"// Now jump to quote creation",
 											"postman.setNextRequest(\"Create quote\");"
@@ -368,7 +412,7 @@
 											"    pm.expect(json).to.have.property(\"id\");",
 											"});",
 											"",
-											"pm.collectionVariables.set(\"recipient_id\", json.id);",
+											"pm.variables.set(\"recipient_id\", json.id);",
 											"",
 											"// Now jump to quote creation",
 											"postman.setNextRequest(\"Create quote\");"
@@ -451,7 +495,7 @@
 											"    pm.expect(json).to.have.property(\"id\");",
 											"});",
 											"",
-											"pm.collectionVariables.set(\"quote_id\", json.id);"
+											"pm.variables.set(\"quote_id\", json.id);"
 										],
 										"type": "text/javascript"
 									}
@@ -502,7 +546,7 @@
 											"    pm.expect(json).to.have.property(\"id\");",
 											"});",
 											"",
-											"pm.collectionVariables.set(\"transfer_id\", json.id);"
+											"pm.variables.set(\"transfer_id\", json.id);"
 										],
 										"type": "text/javascript"
 									}
@@ -512,9 +556,8 @@
 									"script": {
 										"id": "57c43244-2a4e-4dfe-b582-bd2bb70661ef",
 										"exec": [
-											"// Don't complete group until all payments are added",
-											"var typeColumn = pm.iterationData.get(\"type\")",
-											"if (typeColumn != \"eof\") {",
+											"if (pm.info.iteration < pm.info.iterationCount - 1) {",
+											"    // Don't complete group until all payments are added",
 											"    postman.setNextRequest(null);",
 											"}"
 										],
@@ -625,7 +668,7 @@
 									"    pm.expect(json).to.have.property(\"version\");",
 									"});",
 									"",
-									"pm.collectionVariables.set(\"batch_group_version\", json.version);"
+									"pm.variables.set(\"batch_group_version\", json.version);"
 								],
 								"type": "text/javascript"
 							}
@@ -678,7 +721,7 @@
 									"",
 									"pm.test(\"Batch response is valid\", function () {",
 									"    pm.expect(json.id)",
-									"        .to.eq(pm.collectionVariables.get(\"batch_group_id\"));",
+									"        .to.eq(pm.variables.get(\"batch_group_id\"));",
 									"    pm.expect(json.payInDetails)",
 									"        .to.have.lengthOf(1);",
 									"});",

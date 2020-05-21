@@ -22,7 +22,7 @@ Use our [oauth flow](https://transferwise.github.io/api-docs-partners/#connected
 
 The collection is set up to use the Collection Runner. Open with "Runner" and select the collection you imported. It should look something like this:
 
-[Collection Runner](.collection_runner_screenshot.png)
+![Collection Runner](.collection_runner_screenshot.png)
 
 Make sure the correct Environment is set, and upload the `Connected Apps Payment flow (Send Money).csv` file. Enable "Save responses" to 
 
@@ -36,15 +36,13 @@ To monitor the status of the payments you create, listen to the [transfer state 
 
 ## Making your own payment data
 
-Our template instructions tool makes this very easy:
+Our online template instructions tool makes this very easy:
 
-Navigate to the [Bank Template instructions](https://transferwise.com/template-instructions/templates/bank-template)
+1. Navigate to the [Bank Template instructions](https://transferwise.com/template-instructions/templates/bank-template) page (you will need a TransferWise account)
 
-Select your desired source/target currencies and download the template. If you want to set multiple target currencies see [this section](https://transferwise.com/template-instructions/templates/bank-template#multiple-currencies).
+2. Select your desired source/target currencies and download the template. If you want to set multiple target currencies see [this section](https://transferwise.com/template-instructions/templates/bank-template#multiple-currencies) 
 
-Open the template, add an additional "type" column and fill in the columns provided (the template instructions page provides any allowed values and field requirements). The collection will run one payment per row.
-
-Finally, add a row at the end with the word "eof" in the type column you created. This simply instructs Postman that there are no more payments and to complete the batch group.
+3. Fill in the columns provided, both our API docs and the template instructions page provide information about these fields
 
 ## Help
 
