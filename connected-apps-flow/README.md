@@ -24,7 +24,7 @@ The collection is set up to use the Collection Runner. Open with "Runner" and se
 
 ![Collection Runner](.collection_runner_screenshot.png)
 
-Make sure the correct Environment is set, and upload the `Connected Apps Payment flow (Send Money).csv` file. Enable "Save responses" to 
+Make sure the correct Environment is set, and upload the `Connected Apps Payment flow (Send Money).csv` file.
 
 Run the collection, a summary will be provided along with a JSON message with the pay-in instructions.
 
