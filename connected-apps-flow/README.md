@@ -32,7 +32,7 @@ Run the collection, a summary will be provided along with a JSON message with th
 
 You cannot fund sandbox payments with real money, you must use our [transfer simulation API](https://transferwise.github.io/api-docs-partners/#simulation-simulate-transfer-processing). 
  
-To monitor the status of the payments you create, listen to the [transfer state change](https://transferwise.github.io/api-docs-partners/#webhook-events-transfer-status-change-event) webhook using a tool like [webhook.site](https://webhook.site/) to listen for the events. Details on subscribing to webhook events can be found [here](https://transferwise.github.io/api-docs-partners/#application-webhooks).
+To monitor the status of the payments you create, listen to the [transfer state change](https://transferwise.github.io/api-docs-partners/#webhook-events-transfer-status-change-event) webhook to listen for events. Details on subscribing to webhook events can be found [here](https://transferwise.github.io/api-docs-partners/#application-webhooks).
 
 ## Making your own payment data
 
