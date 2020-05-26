@@ -1,0 +1,4 @@
+name,paymentReference,receiverType,amountCurrency,amount,sourceCurrency,targetCurrency,iban,sortCode,abartn,accountType,institutionNumber,transitNumber,accountNumber,addressCountryCode,addressCity,addressFirstLine,addressPostCode
+GBP Test recipient,TEST100,BUSINESS,GBP,2.00,GBP,GBP,,601010,,,,,31926819,,,,
+EUR Test recipient,TEST101,BUSINESS,EUR,2.00,GBP,EUR,HU42117730161111101800000000,,,,,,,,,,
+USD Test recipient,TEST102,BUSINESS,USD,2.00,GBP,USD,,,111000025,CHECKING,,,12345678,GB,London,50 Branson Ave,10025

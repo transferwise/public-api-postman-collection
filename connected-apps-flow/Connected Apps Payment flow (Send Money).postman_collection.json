@@ -1,0 +1,1114 @@
+{
+	"info": {
+		"_postman_id": "b3166e7b-20cb-4408-aa9c-b7f8baec9a8f",
+		"name": "Connected Apps Payment Flow (Send Money)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Pre-checks (ignore this, used by postman)",
+			"item": [
+				{
+					"name": "Start iteration",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "216bc812-c8c1-46e6-8d31-9c4e9eb100a9",
+								"exec": [
+									"var typeColumn = pm.variables.get(\"type\");",
+									"var groupExists = pm.variables.has(\"batch_group_id\");",
+									"if (typeColumn == \"eof\") {",
+									"    // \"eof\" row not needed anymore, but if we encounter it skip this iteration",
+									"    postman.setNextRequest(\"Get batch group version\");",
+									"}",
+									"else if (groupExists) {",
+									"    // Skip the batch creation if we've done this already",
+									"    postman.setNextRequest(\"Decide which recipient to create\");",
+									"}",
+									"else if (pm.environment.has(\"token\")) {",
+									"    // Refresh an existing access token",
+									"    postman.setNextRequest(\"Refresh existing access token\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "9b5c219e-3dfc-4ac9-a64e-db2abb301cfc",
+								"exec": [
+									"var stop = false;",
+									"",
+									"pm.test(\"Has client-id environment variable been set\", function () {",
+									"    pm.expect(pm.variables.has(\"client-id\")).to.be.true;",
+									"    if (!pm.variables.has(\"client-id\")) stop = true;",
+									"});",
+									"",
+									"pm.test(\"Has client-secret environment variable been set\", function () {",
+									"    pm.expect(pm.variables.has(\"client-secret\")).to.be.true;",
+									"    if (!pm.variables.has(\"client-id\")) stop = true;",
+									"});",
+									"",
+									"pm.test(\"Has client-redirect-uri environment variable been set\", function () {",
+									"    pm.expect(pm.variables.has(\"client-redirect-uri\")).to.be.true;",
+									"    if (!pm.variables.has(\"client-redirect-uri\")) stop = true;",
+									"});",
+									"",
+									"pm.test(\"Has client-auth-code environment variable been set\", function () {",
+									"    pm.expect(pm.variables.has(\"client-auth-code\")).to.be.true;",
+									"    if (!pm.variables.has(\"client-id\")) stop = true;",
+									"});",
+									"",
+									"pm.test(\"Has profile environment variable been set\", function () {",
+									"    pm.expect(pm.variables.has(\"profile\")).to.be.true;",
+									"    if (!pm.variables.has(\"client-id\")) stop = true;",
+									"});",
+									"",
+									"if (stop) {",
+									"    // We're missing required environment variables, stop",
+									"    postman.setNextRequest(null);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/health",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "37b0500a-0f28-486f-92f1-c26ca44eb4d6",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "89b514d2-e1a4-4b97-8938-dc708d4cd9b5",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "1. Authenticate as application",
+			"item": [
+				{
+					"name": "Generate tokens from authorization code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "05441564-ba8f-4c2e-abc8-76521c004196",
+								"exec": [
+									"const json = pm.response.json();",
+									"",
+									"pm.test(\"Are tokens provided\", function () {",
+									"    pm.expect(json).to.have.property(\"access_token\");",
+									"    pm.expect(json).to.have.property(\"refresh_token\");",
+									"    if (!json.access_token || !json.refresh_token) {",
+									"        postman.setNextRequest(null);",
+									"    }",
+									"});",
+									"",
+									"pm.environment.set(\"token\", json.access_token);",
+									"pm.environment.set(\"refresh\", json.refresh_token);",
+									"postman.setNextRequest(\"Create batch group\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{client-secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{client-id}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client-id}}",
+									"type": "text"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{client-redirect-uri}}",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "{{client-auth-code}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						},
+						"description": "Request access token | authorization code grant type"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh existing access token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d3979e81-52d8-4e3c-b232-260d891b1f7e",
+								"exec": [
+									"const json = pm.response.json();",
+									"",
+									"pm.test(\"Are tokens provided\", function () {",
+									"    pm.expect(json).to.have.property(\"access_token\");",
+									"    if (!json.access_token) {",
+									"        postman.setNextRequest(null);",
+									"    }",
+									"});",
+									"",
+									"pm.environment.set(\"token\", json.access_token);",
+									"postman.setNextRequest(\"Create batch group\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{client-secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{client-id}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "{{refresh}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1fa0db3f-c275-46b8-be54-ec99a6f3a69c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "495baa12-213b-40dc-9bfb-38b3d0b3b9e9",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "2. Set up batch group",
+			"item": [
+				{
+					"name": "Create batch group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "135e821f-f9ca-4d27-a83a-404cbbf929e6",
+								"exec": [
+									"const json = pm.response.json();",
+									"",
+									"pm.test(\"Has required response fields\", function () {",
+									"    pm.expect(json).to.have.property(\"id\");",
+									"    pm.expect(json).to.have.property(\"version\");",
+									"});",
+									"",
+									"pm.variables.set(\"batch_group_id\", json.id);",
+									"pm.variables.set(\"batch_group_version\", json.version);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "07fd3833-0736-4137-be6f-547b87b53195",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sourceCurrency\": \"{{sourceCurrency}}\",\n\t\"name\": \"Postman test batch {{$timestamp}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v3/profiles/{{profile}}/batch-groups",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"profiles",
+								"{{profile}}",
+								"batch-groups"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "79a63342-8e1f-45a2-b0d0-336d5d07c13e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "b9960084-672b-4fe3-8552-020b9ff37dcf",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "3. Add payments",
+			"item": [
+				{
+					"name": "Pre-checks (ignore this, used by postman)",
+					"item": [
+						{
+							"name": "Decide which recipient to create",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "216bc812-c8c1-46e6-8d31-9c4e9eb100a9",
+										"exec": [
+											"// Create/fetch the recipient based on the data",
+											"switch (pm.variables.get(\"targetCurrency\")) {",
+											"    case \"GBP\":",
+											"        postman.setNextRequest(\"Create GBP account\");",
+											"        break;",
+											"    case \"EUR\":",
+											"        postman.setNextRequest(\"Create EUR account\");",
+											"        break;",
+											"    case \"USD\":",
+											"        postman.setNextRequest(\"Create USD account\");",
+											"        break;",
+											"    case \"CAD\":",
+											"        postman.setNextRequest(\"Create CAD account\");",
+											"        break;",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/health",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"health"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "3.1. Add recipient (one per payment)",
+					"item": [
+						{
+							"name": "Create GBP account",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6a9ba681-b74c-4b49-8449-2eaea3414838",
+										"exec": [
+											"const json = pm.response.json();",
+											"",
+											"pm.test(\"Has required response fields\", function () {",
+											"    pm.expect(json).to.have.property(\"id\");",
+											"});",
+											"",
+											"pm.variables.set(\"recipient_id\", json.id);",
+											"",
+											"// Now jump to quote creation",
+											"postman.setNextRequest(\"Create quote\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "562e179d-43ac-4dc1-9a41-21cea45552ca",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"profile\": {{profile}},\n\t\"accountHolderName\": \"{{name}}\",\n\t\"currency\": \"GBP\",\n\t\"type\": \"sort_code\",\n\t\"details\": {\n\t\t\"legalType\" : \"PRIVATE\",\n\t\t\"sortCode\":\"{{sortCode}}\",\n\t\t\"accountNumber\":\"{{accountNumber}}\",\n\t\t\"address\": {\n\t\t\t\"firstLine\": \"{{addressFirstLine}}\",\n\t\t\t\"city\": \"{{addressCity}}\",\n\t\t\t\"country\": \"{{addressCountryCode}}\",\n\t\t\t\"postCode\": \"{{addressPostCode}}\"\n\t\t}\n\t}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/v1/accounts",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"accounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create CAD account",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1d633d1b-5f81-4b19-a007-b10a8853f25c",
+										"exec": [
+											"const json = pm.response.json();",
+											"",
+											"pm.test(\"Has required response fields\", function () {",
+											"    pm.expect(json).to.have.property(\"id\");",
+											"});",
+											"",
+											"pm.variables.set(\"recipient_id\", json.id);",
+											"",
+											"// Now jump to quote creation",
+											"postman.setNextRequest(\"Create quote\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"profile\": {{profile}},\n\t\"accountHolderName\": \"{{name}}\",\n\t\"currency\": \"CAD\",\n\t\"type\": \"canadian\",\n\t\"details\": {\n\t\t\"legalType\": \"PRIVATE\",\n\t\t\"institutionNumber\": \"{{institutionNumber}}\",\n\t\t\"transitNumber\": \"{{transitNumber}}\",\n\t\t\"accountNumber\": \"{{accountNumber}}\",\n\t\t\"accountType\": \"{{accountType}}\",\n\t\t\"address\": {\n\t\t\t\"firstLine\": \"{{addressFirstLine}}\",\n\t\t\t\"city\": \"{{addressCity}}\",\n\t\t\t\"country\": \"{{addressCountryCode}}\",\n\t\t\t\"postCode\": \"{{addressPostCode}}\"\n\t\t}\n\t}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/v1/accounts",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"accounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create EUR account",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3567d3d1-c066-4cff-adf6-85eef53f701e",
+										"exec": [
+											"const json = pm.response.json();",
+											"",
+											"pm.test(\"Has required response fields\", function () {",
+											"    pm.expect(json).to.have.property(\"id\");",
+											"});",
+											"",
+											"pm.variables.set(\"recipient_id\", json.id);",
+											"",
+											"// Now jump to quote creation",
+											"postman.setNextRequest(\"Create quote\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"profile\": {{profile}},\n\t\"accountHolderName\": \"{{name}}\",\n\t\"currency\": \"EUR\",\n\t\"type\": \"iban\",\n\t\"details\": {\n\t\t\"legalType\": \"PRIVATE\",\n\t\t\"IBAN\" : \"{{iban}}\",\n\t\t\"address\": {\n\t\t\t\"firstLine\": \"{{addressFirstLine}}\",\n\t\t\t\"city\": \"{{addressCity}}\",\n\t\t\t\"country\": \"{{addressCountryCode}}\",\n\t\t\t\"postCode\": \"{{addressPostCode}}\"\n\t\t}\n\t}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/v1/accounts",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"accounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create USD account",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c1d7490e-e966-4087-985c-ec5258230002",
+										"exec": [
+											"const json = pm.response.json();",
+											"",
+											"pm.test(\"Has required response fields\", function () {",
+											"    pm.expect(json).to.have.property(\"id\");",
+											"});",
+											"",
+											"pm.variables.set(\"recipient_id\", json.id);",
+											"",
+											"// Now jump to quote creation",
+											"postman.setNextRequest(\"Create quote\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"profile\": {{profile}},\n\t\"accountHolderName\": \"{{name}}\",\n\t\"currency\": \"USD\",\n\t\"type\": \"aba\",\n\t\"details\": {\n\t\t\"legalType\" : \"PRIVATE\",\n\t\t\"abartn\" : \"{{abartn}}\",\n\t\t\"accountNumber\":\"{{accountNumber}}\",\n\t\t\"accountType\" : \"{{accountType}}\",\n\t\t\"address\": {\n\t\t\t\"firstLine\": \"{{addressFirstLine}}\",\n\t\t\t\"city\": \"{{addressCity}}\",\n\t\t\t\"country\": \"{{addressCountryCode}}\",\n\t\t\t\"postCode\": \"{{addressPostCode}}\"\n\t\t}\n\t}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/v1/accounts",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"accounts"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "d3eee4e7-b49a-49ec-ad55-4566b3d1ef6e",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "e075491e-c958-4e64-b5a1-92624686446b",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "3.2. Add transfer",
+					"item": [
+						{
+							"name": "Create quote",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "fa93109c-373c-42af-b5e4-e2cb7841a8cb",
+										"exec": [
+											"const json = pm.response.json();",
+											"",
+											"pm.test(\"Has required response fields\", function () {",
+											"    pm.expect(json).to.have.property(\"id\");",
+											"});",
+											"",
+											"pm.variables.set(\"quote_id\", json.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"sourceCurrency\": \"{{sourceCurrency}}\",\n    \"targetCurrency\": \"{{targetCurrency}}\",\n    \"targetAmount\": \"{{amount}}\",\n    \"profile\": {{profile}},\n    \"rateType\": \"FIXED\",\n    \"targetRecipient\": {{recipient_id}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/v2/quotes",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"quotes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create batch group transfer",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a2c6b2a3-0adf-4ba1-a549-237a8260b14a",
+										"exec": [
+											"const json = pm.response.json();",
+											"",
+											"pm.test(\"Has required response fields\", function () {",
+											"    pm.expect(json).to.have.property(\"id\");",
+											"});",
+											"",
+											"pm.variables.set(\"transfer_id\", json.id);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "57c43244-2a4e-4dfe-b582-bd2bb70661ef",
+										"exec": [
+											"if (pm.info && pm.info.iteration < pm.info.iterationCount - 1) {",
+											"    // Don't complete group until all payments are added",
+											"    postman.setNextRequest(null);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"targetAccount\": {{recipient_id}},\n    \"quoteUuid\": \"{{quote_id}}\",\n    \"customerTransactionId\": \"{{$guid}}\",\n    \"details\": {\n        \"reference\": \"R{{recipient_id}}\",\n        \"transferPurpose\": \"Other\",\n        \"sourceOfFunds\": \"Salary\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/v3/profiles/{{profile}}/batch-groups/{{batch_group_id}}/transfers",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v3",
+										"profiles",
+										"{{profile}}",
+										"batch-groups",
+										"{{batch_group_id}}",
+										"transfers"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2e2369ce-fded-4649-9d62-6caa6d5c8336",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c82ceb8-9a57-4410-97b0-bc667de0b1e4",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2c160c67-be42-4139-b2d2-7251141d4935",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "23b9d4f8-5087-4aca-b010-a420ceb171e1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "4. Complete and fund",
+			"item": [
+				{
+					"name": "Get batch group version",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "85919a65-0953-4ddd-8e6e-c67c1318f99d",
+								"exec": [
+									"const json = pm.response.json();",
+									"",
+									"pm.test(\"Has required response fields\", function () {",
+									"    pm.expect(json).to.have.property(\"version\");",
+									"});",
+									"",
+									"pm.variables.set(\"batch_group_version\", json.version);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ff392181-2426-4961-9fa2-a1b70007a529",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v3/profiles/{{profile}}/batch-groups/{{batch_group_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"profiles",
+								"{{profile}}",
+								"batch-groups",
+								"{{batch_group_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Complete batch group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "85919a65-0953-4ddd-8e6e-c67c1318f99d",
+								"exec": [
+									"const json = pm.response.json();",
+									"",
+									"pm.test(\"Batch response is valid\", function () {",
+									"    pm.expect(json.id)",
+									"        .to.eq(pm.variables.get(\"batch_group_id\"));",
+									"    pm.expect(json.payInDetails)",
+									"        .to.have.lengthOf(1);",
+									"});",
+									"",
+									"const payIn = json.payInDetails[0];",
+									"",
+									"pm.test(\"Batch response has correct pay in details\", function () {",
+									"    pm.test(JSON.stringify(payIn), true);",
+									"    ",
+									"    const Ajv = require('ajv');",
+									"    const ajv = new Ajv({logger: console});",
+									"    const schema = {",
+									"        \"properties\": {",
+									"            \"type\": {",
+									"                type: \"string\"",
+									"            },",
+									"            \"reference\": {",
+									"                type: \"string\"",
+									"            },",
+									"            \"amount\": {",
+									"                type: \"number\"",
+									"            },",
+									"            \"currency\": {",
+									"                type: \"string\"",
+									"            },",
+									"            \"name\": {",
+									"                type: \"string\"",
+									"            },",
+									"            \"bankCode\": {",
+									"                type: \"string\"",
+									"            },",
+									"            \"accountNumber\": {",
+									"                type: \"string\"",
+									"            },",
+									"            \"iban\": {",
+									"                type: \"null\"",
+									"            }",
+									"        }",
+									"    };",
+									"    pm.expect(ajv.validate(schema, payIn)).to.be.true;",
+									"    ",
+									"    pm.expect(payIn.type).to.eq(\"bank_transfer\");",
+									"    pm.expect(payIn.amount).to.be.above(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "0012342f-f641-4c2e-834d-f44e69c5d5c5",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"status\": \"COMPLETED\",\n\t\"version\": {{batch_group_version}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v3/profiles/{{profile}}/batch-groups/{{batch_group_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"profiles",
+								"{{profile}}",
+								"batch-groups",
+								"{{batch_group_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ecae7c3e-5469-4f78-91e6-a5b73151a927",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e321b6ab-dc88-4520-92c9-e1abf89e4edc",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "9faac3e1-dff3-4c06-9f99-1e681768021b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "e3ee9a46-09a0-46d5-be68-4106314eb79d",
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"response must be successful\", function () {",
+					"     pm.response.to.be.success;",
+					"});"
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
