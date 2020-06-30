@@ -677,7 +677,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"profile\": {{profile}},\n\t\"accountHolderName\": \"{{name}}\",\n\t\"currency\": \"USD\",\n\t\"type\": \"aba\",\n\t\"details\": {\n\t\t\"legalType\" : \"PRIVATE\",\n\t\t\"abartn\" : \"{{abartn}}\",\n\t\t\"accountNumber\":\"{{accountNumber}}\",\n\t\t\"accountType\" : \"{{accountType}}\",\n\t\t\"address\": {\n\t\t\t\"firstLine\": \"{{addressFirstLine}}\",\n\t\t\t\"city\": \"{{addressCity}}\",\n\t\t\t\"country\": \"{{addressCountryCode}}\",\n\t\t\t\"postCode\": \"{{addressPostCode}}\"\n\t\t}\n\t}\n}",
+									"raw": "{\n\t\"profile\": {{profile}},\n\t\"accountHolderName\": \"{{name}}\",\n\t\"currency\": \"USD\",\n\t\"type\": \"aba\",\n\t\"details\": {\n\t\t\"legalType\" : \"PRIVATE\",\n\t\t\"abartn\" : \"{{abartn}}\",\n\t\t\"accountNumber\":\"{{accountNumber}}\",\n\t\t\"accountType\" : \"{{accountType}}\",\n\t\t\"address\": {\n\t\t\t\"firstLine\": \"{{addressFirstLine}}\",\n\t\t\t\"city\": \"{{addressCity}}\",\n\t\t\t\"country\": \"{{addressCountryCode}}\",\n\t\t\t\"postCode\": \"{{addressPostCode}}\",\n\t\t\t\"state\": \"{{addressState}}\"\n\t\t}\n\t}\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -757,7 +757,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"sourceCurrency\": \"{{sourceCurrency}}\",\n    \"targetCurrency\": \"{{targetCurrency}}\",\n    \"targetAmount\": \"{{amount}}\",\n    \"profile\": {{profile}},\n    \"rateType\": \"FIXED\",\n    \"targetRecipient\": {{recipient_id}}\n}",
+									"raw": "{\n    \"sourceCurrency\": \"{{sourceCurrency}}\",\n    \"targetCurrency\": \"{{targetCurrency}}\",\n    \"targetAmount\": \"{{amount}}\",\n    \"profile\": {{profile}},\n    \"rateType\": \"FIXED\",\n    \"targetAccount\": {{recipient_id}}\n}",
 									"options": {
 										"raw": {
 											"language": "json"
