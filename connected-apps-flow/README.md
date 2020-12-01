@@ -8,7 +8,9 @@ For use with the Postman client, please use the latest version: [download it her
 
 ### Import the Postman collections
 
-Import the `Connected Apps Payment flow (Send Money).postman_collection.json` collection file to Postman
+Import the appropriate collection file into Postman
+- For sending money by bank transfer: `Connected Apps Payment flow (Send Money).postman_collection.json`
+- For sending money funded by a multi-currency account (balance): `Connected Apps Payment flow (Balance).postman_collection.json`
 
 Also import the `TW-API-ENVIRONMENT.postman_environment.json` file, found in the top level of this project, to add the environment variables used to manage your sandbox/production credentials. 
 
@@ -24,13 +26,15 @@ The collection is set up to use the Collection Runner. Open with "Runner" and se
 
 ![Collection Runner](.collection_runner_screenshot.png)
 
-Make sure the correct Environment is set, and upload the `Connected Apps Payment flow (Send Money).csv` file.
+Make sure the correct Environment is set, and upload the `Connected Apps Payment flow.csv` file.
 
 Run the collection, a summary will be provided along with a JSON message with the pay-in instructions.
 
 ### Funding and waiting for completion
 
-You cannot fund sandbox payments with real money, you must use our [transfer simulation API](https://transferwise.github.io/api-docs-partners/#simulation-simulate-transfer-processing). 
+You cannot fund sandbox bankj transfer payments with real money, you must use our [transfer simulation API](https://transferwise.github.io/api-docs-partners/#simulation-simulate-transfer-processing). 
+
+When funding from balance sandbox we do provide a virtual balance that you can use for this purpose.
  
 To monitor the status of the payments you create, listen to the [transfer state change](https://transferwise.github.io/api-docs-partners/#webhook-events-transfer-status-change-event) webhook to listen for events. Details on subscribing to webhook events can be found [here](https://transferwise.github.io/api-docs-partners/#application-webhooks).
 
