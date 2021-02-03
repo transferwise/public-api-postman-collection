@@ -1,0 +1,2396 @@
+openapi: 3.0.0
+info:
+  title: TW-API
+  description: 'TODO: Add Description'
+  contact: {}
+  version: '1.0'
+servers:
+- url: http://example.com
+  variables: {}
+- url: https://api.transferwise.com
+  variables: {}
+paths:
+  /v1/borderless-accounts:
+    get:
+      tags:
+      - borderless
+      summary: GET /borderless-accounts
+      description: >
+        Get Accounts
+      operationId: Get /borderlessAccounts
+      parameters:
+      - name: profileId
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: <profileId>
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/borderless-accounts/<accountId>/statement.json:
+    get:
+      tags:
+      - borderless
+      summary: GET /borderless-accounts/{accountId}/statement
+      description: >
+        Get account statement
+      operationId: Get /borderlessAccounts/{accountid}/statement
+      parameters:
+      - name: currency
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: GBP
+      - name: intervalStart
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: 2018-03-20T00:00:00.000Z
+      - name: intervalEnd
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: 2018-03-31T23:59:59.999Z
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/borderless-accounts/balance-currencies:
+    get:
+      tags:
+      - borderless
+      summary: GET /borderless-accounts/balance-currencies
+      description: >
+        Get available currencies the user can open
+      operationId: Get /borderlessAccounts/balanceCurrencies
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/account-requirements:
+    post:
+      tags:
+      - account-requirements
+      summary: POST /account-requirements
+      description: POST /account-requirements
+      operationId: Post /accountRequirements
+      parameters:
+      - name: source
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: EUR
+      - name: target
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: GBP
+      - name: sourceAmount
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 12345
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/POST~1account-requirementsRequest'
+            example:
+              details:
+                address:
+                  country: US
+        required: true
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+    get:
+      tags:
+      - account-requirements
+      summary: GET /account-requirements
+      description: GET /account-requirements
+      operationId: Get /accountRequirements
+      parameters:
+      - name: source
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: EUR
+      - name: target
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: USD
+      - name: sourceAmount
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 1000
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/quotes/<quoteId>/account-requirements:
+    get:
+      tags:
+      - account-requirements
+      summary: GET /quotes/{id}/account-requirements
+      description: 'TODO: Add Description'
+      operationId: Get /quotes/{id}/accountRequirements
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+    post:
+      tags:
+      - account-requirements
+      summary: POST /account-requirements copy
+      description: POST /account-requirements
+      operationId: Post /accountRequirements copy
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: bearer {{TOKEN}}
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/POST~1account-requirementscopyRequest'
+            example:
+              type: bangladesh
+              details:
+                bankCode: 025
+                legalType: PRIVATE
+                branchCode: 025060009
+                accountNumber: 0000000000
+        required: true
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v2/accounts:
+    get:
+      tags:
+      - accounts
+      summary: GET /accounts
+      description: 'TODO: Add Description'
+      operationId: Get/accounts
+      parameters:
+      - name: currency
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: EUR
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v2/accounts/<accountId>:
+    get:
+      tags:
+      - accounts
+      summary: GET /accounts/{id}
+      description: 'TODO: Add Description'
+      operationId: Get/accounts/{id}
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/accounts:
+    post:
+      tags:
+      - accounts
+      summary: POST /accounts
+      description: 'TODO: Add Description'
+      operationId: Post/accounts
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      - name: Content-type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+      requestBody:
+        description: ''
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: >-
+                {
+                    "type": "bangladesh",
+                    "accountHolderName":"Joe Bangladesh",
+                    "currency":"BDT",
+                    "country":"BD",
+                    "details" : {
+                        "bankCode": "025",
+                        "legalType": "PRIVATE",
+                        "branchCode":"025060009",
+                        "accountNumber":"5000000005",
+                        "address":{
+                        	"country":"BD",
+                        	"city":"Somewhere",
+                        	"firstLine":"1 A road",
+                        	"postCode":"11111"
+                        	}
+                        }
+                    }
+                }
+            example: >-
+              {
+                  "type": "bangladesh",
+                  "accountHolderName":"Joe Bangladesh",
+                  "currency":"BDT",
+                  "country":"BD",
+                  "details" : {
+                      "bankCode": "025",
+                      "legalType": "PRIVATE",
+                      "branchCode":"025060009",
+                      "accountNumber":"5000000005",
+                      "address":{
+                      	"country":"BD",
+                      	"city":"Somewhere",
+                      	"firstLine":"1 A road",
+                      	"postCode":"11111"
+                      	}
+                      }
+                  }
+              }
+        required: true
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/address-requirements:
+    get:
+      tags:
+      - addresses
+      summary: /v1/address-requirements
+      description: 'TODO: Add Description'
+      operationId: /v1/addressRequirements
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+    post:
+      tags:
+      - addresses
+      summary: /v1/address-requirements
+      description: 'TODO: Add Description'
+      operationId: /v1/addressRequirements1
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/~1v1~1address-requirementsRequest'
+            example:
+              details:
+                country: IE
+        required: true
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/addresses:
+    post:
+      tags:
+      - addresses
+      summary: /addresses
+      description: Saves address
+      operationId: /addresses
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+      requestBody:
+        description: ''
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: >-
+                {
+                    "profile" : <profileId>,
+                    "details": {
+                        "city": "London",
+                        "country": "GB",
+                        "postCode": "XX XXX",
+                        "firstLine": "1 Example Road"
+                    }
+                }
+            example: >-
+              {
+                  "profile" : <profileId>,
+                  "details": {
+                      "city": "London",
+                      "country": "GB",
+                      "postCode": "XX XXX",
+                      "firstLine": "1 Example Road"
+                  }
+              }
+        required: true
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/businesses:
+    post:
+      tags:
+      - businesses
+      summary: POST /businesses
+      description: POST business endpoint
+      operationId: Post/businesses
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/POST~1businessesRequest'
+            example:
+              name: Test Business
+              number: 12345
+              category: other
+              webpage: <URL here>
+              details:
+                address:
+                  country: EE
+                  firstLine: Address first line
+                  city: Tallinn
+                  postCode: 12345
+                type: other
+        required: true
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/roles/<roleId>:
+    put:
+      tags:
+      - businesses
+      summary: PUT /roles/{id}
+      description: PUT /roles/{id} endpoint
+      operationId: Put/roles/{id}
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+      requestBody:
+        description: ''
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: >-
+                {
+                    "id": <roleId>,
+                    "user": <userId>,
+                    "business" : <businessId>,
+                    "role" : "director"
+                }
+            example: >-
+              {
+                  "id": <roleId>,
+                  "user": <userId>,
+                  "business" : <businessId>,
+                  "role" : "director"
+              }
+        required: true
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+    get:
+      tags:
+      - businesses
+      summary: GET /roles/{id}
+      description: GET /roles/{id} endpoint
+      operationId: Get/roles/{id}
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/roles:
+    post:
+      tags:
+      - businesses
+      summary: POST /roles
+      description: POST roles endpoint
+      operationId: Post/roles
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+      requestBody:
+        description: ''
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: >-
+                {
+                    "user": <userId>,
+                    "business" : <businessId>,
+                    "role" : "owner"
+                }
+            example: >-
+              {
+                  "user": <userId>,
+                  "business" : <businessId>,
+                  "role" : "owner"
+              }
+        required: true
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/delivery-estimates/<transferId>:
+    get:
+      tags:
+      - delivery estimation
+      summary: GET Delivery Estimate
+      description: 'TODO: Add Description'
+      operationId: GetDeliveryEstimate
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /oauth/token:
+    post:
+      tags:
+      - oauth
+      summary: POST /auth/token
+      description: Request access token | authorization code grant type
+      operationId: Post/auth/token
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/x-www-form-urlencoded
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              required:
+              - grant_type
+              - client_id
+              - redirect_uri
+              - code
+              type: object
+              properties:
+                grant_type:
+                  type: string
+                  example: authorization_code
+                client_id:
+                  type: string
+                  example: '{{clientId}}'
+                redirect_uri:
+                  type: string
+                  example: '{{clientRedirectUri}}'
+                code:
+                  type: string
+                  example: <get code from oauth flow>
+        required: false
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/profiles:
+    get:
+      tags:
+      - profiles
+      summary: GET /profiles
+      description: Create a personal profile
+      operationId: Get/profiles
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+    post:
+      tags:
+      - profiles
+      summary: POST /profiles
+      description: Create a personal profile
+      operationId: Post/profiles
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/POST~1profilesRequest'
+            example:
+              type: personal
+              details:
+                firstName: Joe
+                lastName: Bloggs
+                dateOfBirth: 1990-01-01
+                phoneNumber: +447700000000
+        required: true
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/quotes:
+    get:
+      tags:
+      - quotes
+      summary: GET /quotes
+      description: 'TODO: Add Description'
+      operationId: Get/quotes
+      parameters:
+      - name: source
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: EUR
+      - name: target
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: SEK
+      - name: targetAmount
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 15500
+      - name: rateType
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: FIXED
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+    post:
+      tags:
+      - quotes
+      summary: POST /quotes
+      description: 'TODO: Add Description'
+      operationId: Post/quotes
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      - name: Content-type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/POST~1quotesRequest'
+            example:
+              source: GBP
+              target: EUR
+              sourceAmount: 100
+              rateType: FIXED
+        required: true
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/quotes/<quoteId>:
+    get:
+      tags:
+      - quotes
+      summary: GET /quotes/{id}
+      description: 'TODO: Add Description'
+      operationId: Get/quotes/{id}
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/quotes/<quoteId>/pay-in-methods:
+    get:
+      tags:
+      - quotes
+      summary: GET /quotes/{id}/pay-in-methods
+      description: Pay-in-methods available for a given quote
+      operationId: Get /quotes/{id}/payInMethods
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/transfers:
+    post:
+      tags:
+      - transfers
+      summary: POST /transfers
+      description: 'TODO: Add Description'
+      operationId: Post/transfers
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+      requestBody:
+        description: ''
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: "{   \n    \"targetAccount\": <accountId>,   \n    \"quote\": <quoteIdId>,\n        \"details\" : {\n        \"reference\" : \"your reference\"\n    },\n    \"customerTransactionId\" : <random UUID>\n}"
+            example: "{   \n    \"targetAccount\": <accountId>,   \n    \"quote\": <quoteIdId>,\n        \"details\" : {\n        \"reference\" : \"your reference\"\n    },\n    \"customerTransactionId\" : <random UUID>\n}"
+        required: true
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+    get:
+      tags:
+      - transfers
+      summary: GET /transfers
+      description: 'TODO: Add Description'
+      operationId: Get/transfers
+      parameters:
+      - name: limit
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 10
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/transfers/{transferId}:
+    get:
+      tags:
+      - transfers
+      summary: GET /transfers/{id}
+      description: 'TODO: Add Description'
+      operationId: Get/transfers/{id}
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      - name: transferId
+        in: path
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/transfer-requirements:
+    post:
+      tags:
+      - transfers
+      summary: POST /transfer-requirements
+      description: 'TODO: Add Description'
+      operationId: Post /transferRequirements
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      - name: Content-type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+      requestBody:
+        description: ''
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: "{\n    \"targetAccount\": {quoteId}},   \n    \"quote\": <quoteId>,\n        \"details\" : {\n        \"reference\" : \"transferReference\",\n        \"sourceOfFunds\" : \"verification.source.of.funds.other\",        \n        \"sourceOfFundsOther\": \"Lottery win\"\n\n    }\n\n}"
+            example: "{\n    \"targetAccount\": {quoteId}},   \n    \"quote\": <quoteId>,\n        \"details\" : {\n        \"reference\" : \"transferReference\",\n        \"sourceOfFunds\" : \"verification.source.of.funds.other\",        \n        \"sourceOfFundsOther\": \"Lottery win\"\n\n    }\n\n}"
+        required: true
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/me:
+    get:
+      tags:
+      - user
+      summary: GET /me
+      description: 'TODO: Add Description'
+      operationId: Get/me
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+    put:
+      tags:
+      - user
+      summary: PUT /me
+      description: Updates a user model
+      operationId: Put/me
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{TOKEN}}
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+      requestBody:
+        description: ''
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: >-
+                {
+                  "id": <userId>,
+                  "name": "Test User",
+                  "email": "test@test.com",
+                  "active": true,
+                  "details": {
+                    "phoneNumber": "+111111111111",
+                    "dateOfBirth": "1996-01-11"
+                  }
+                }
+            example: >-
+              {
+                "id": <userId>,
+                "name": "Test User",
+                "email": "test@test.com",
+                "active": true,
+                "details": {
+                  "phoneNumber": "+111111111111",
+                  "dateOfBirth": "1996-01-11"
+                }
+              }
+        required: true
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/user/signup/registration_code:
+    post:
+      tags:
+      - user
+      summary: POST /v1/user/signup/registration_code
+      description: 'TODO: Add Description'
+      operationId: Post /v1/user/signup/registrationCode
+      parameters:
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{client_credentials_token}}
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+      requestBody:
+        description: ''
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: >-
+                {
+
+                "email": <emailAddress>,
+
+                "registrationCode": <32 character random code>
+
+                }
+            example: >-
+              {
+
+              "email": <emailAddress>,
+
+              "registrationCode": <32 character random code>
+
+              }
+        required: true
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v2/users:
+    post:
+      tags:
+      - user
+      summary: POST /v2/user
+      description: 'TODO: Add Description'
+      operationId: Post/v2/user
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bearer {{client_credentials_token}}
+      requestBody:
+        description: ''
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: >-
+                {
+                  "email": <emailAddress>
+                }
+            example: >-
+              {
+                "email": <emailAddress>
+              }
+        required: true
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/terms/default:
+    get:
+      tags:
+      - terms
+      summary: GET /terms
+      description: 'TODO: Add Description'
+      operationId: Get/terms
+      parameters: []
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/validators/hungarian-account-number&accountNumber=121212121212121212121212:
+    get:
+      tags:
+      - validators
+      summary: GET /validators/hungarian-account-number
+      description: >
+        GET /validators/hungarian-account-number endpoint
+      operationId: Get /validators/hungarianAccountNumber
+      parameters: []
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/validators/canadian-account-number&accountNumber= 0000000&institutionNumber= 003&transitNumber= 00000:
+    get:
+      tags:
+      - validators
+      summary: GET /validators/canadian-account-number
+      description: >
+        GET /validators/canadian-account-number endpoint
+      operationId: Get /validators/canadianAccountNumber
+      parameters: []
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/validators/canadian-institution-number:
+    get:
+      tags:
+      - validators
+      summary: GET /validators/canadian-institution-number
+      description: >
+        GET /validators/canadian-institution-number endpoint
+      operationId: Get /validators/canadianInstitutionNumber
+      parameters:
+      - name: institutionNumber
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 6
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/validators/polish-account-number:
+    get:
+      tags:
+      - validators
+      summary: GET /validators/polish-account-number
+      description: >
+        GET /validators/polish-account-number endpoint
+      operationId: Get /validators/polishAccountNumber
+      parameters:
+      - name: accountNumber
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: number
+          format: double
+          example:
+            IsEven: true
+            Sign: 1
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/validators/abartn:
+    get:
+      tags:
+      - validators
+      summary: GET /validators/abartn
+      description: >
+        GET /validators/abartn endpoint
+      operationId: Get/validators/abartn
+      parameters:
+      - name: abartn
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: 011103093
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/validators/bankgiro-number:
+    get:
+      tags:
+      - validators
+      summary: GET /validators/bankgiro-number
+      description: >
+        GET /validators/bankgiro-number endpoint
+      operationId: Get /validators/bankgiroNumber
+      parameters:
+      - name: bankgiroNumber
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 51108942
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/validators/sort-code-account-number:
+    get:
+      tags:
+      - validators
+      summary: GET /validators/sort-code-account-number
+      description: >
+        GET /validators/sort-code-account-number endpoint
+      operationId: Get /validators/sortCodeAccountNumber
+      parameters:
+      - name: accountNumber
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 0
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/validators/sort-code:
+    get:
+      tags:
+      - validators
+      summary: GET /validators/sort-code
+      description: >
+        GET /validators/sort-code endpoint
+      operationId: Get /validators/sortCode
+      parameters:
+      - name: sortCode
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 309157
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/validators/bic:
+    get:
+      tags:
+      - validators
+      summary: GET /validators/bic
+      description: GET /validators/bic endpoint
+      operationId: Get/validators/bic
+      parameters:
+      - name: iban
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: EE000000000000000000
+      - name: bic
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: EEUHEE2X
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /v1/validators/iban:
+    get:
+      tags:
+      - validators
+      summary: GET /validators/iban
+      description: GET /validators/iban endpoint
+      operationId: Get/validators/iban
+      parameters:
+      - name: iban
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: EE00000000000000000000
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: http://example.com
+        variables: {}
+  /health:
+    get:
+      tags:
+      - Misc
+      summary: health
+      description: 'TODO: Add Description'
+      operationId: Health
+      parameters: []
+      responses:
+        200:
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - httpBearer: []
+      servers:
+      - url: https://api.transferwise.com
+        variables: {}
+components:
+  schemas:
+    POST/account-requirementsRequest:
+      title: POST/account-requirementsRequest
+      required:
+      - details
+      type: object
+      properties:
+        details:
+          $ref: '#/components/schemas/Details'
+      example:
+        details:
+          address:
+            country: US
+    Details:
+      title: Details
+      required:
+      - address
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Address'
+    Address:
+      title: Address
+      required:
+      - country
+      type: object
+      properties:
+        country:
+          type: string
+    POST/account-requirementscopyRequest:
+      title: POST/account-requirementscopyRequest
+      required:
+      - type
+      - details
+      type: object
+      properties:
+        type:
+          type: string
+        details:
+          $ref: '#/components/schemas/Details1'
+      example:
+        type: bangladesh
+        details:
+          bankCode: 025
+          legalType: PRIVATE
+          branchCode: 025060009
+          accountNumber: 0000000000
+    Details1:
+      title: Details1
+      required:
+      - bankCode
+      - legalType
+      - branchCode
+      - accountNumber
+      type: object
+      properties:
+        bankCode:
+          type: string
+        legalType:
+          type: string
+        branchCode:
+          type: string
+        accountNumber:
+          type: string
+    POST/accountsUKRAINERequest:
+      title: POST/accountsUKRAINERequest
+      required:
+      - accountHolderName
+      - currency
+      - country
+      - type
+      - details
+      type: object
+      properties:
+        accountHolderName:
+          type: string
+        currency:
+          type: string
+        country:
+          type: string
+        type:
+          type: string
+        details:
+          $ref: '#/components/schemas/Details2'
+      example:
+        accountHolderName: Joe Bangladesh
+        currency: UAH
+        country: UA
+        type: privatbank
+        details:
+          legalType: private
+          phoneNumber: +380000000000
+          accountNumber: 1234
+    Details2:
+      title: Details2
+      required:
+      - legalType
+      - phoneNumber
+      - accountNumber
+      type: object
+      properties:
+        legalType:
+          type: string
+        phoneNumber:
+          type: string
+        accountNumber:
+          type: string
+    POST/accountsCanadianRequest:
+      title: POST/accountsCanadianRequest
+      required:
+      - accountHolderName
+      - currency
+      - country
+      - type
+      - details
+      type: object
+      properties:
+        accountHolderName:
+          type: string
+        currency:
+          type: string
+        country:
+          type: string
+        type:
+          type: string
+        details:
+          $ref: '#/components/schemas/Details3'
+      example:
+        accountHolderName: Name Here
+        currency: CAD
+        country: CA
+        type: CANADIAN
+        details:
+          accountNumber: 0000000
+          institutionNumber: 003
+          transitNumber: 12345
+          accountType: Checking
+    Details3:
+      title: Details3
+      required:
+      - accountNumber
+      - institutionNumber
+      - transitNumber
+      - accountType
+      type: object
+      properties:
+        accountNumber:
+          type: string
+        institutionNumber:
+          type: string
+        transitNumber:
+          type: string
+        accountType:
+          type: string
+    POST/accountsHungarianRequest:
+      title: POST/accountsHungarianRequest
+      required:
+      - accountHolderName
+      - currency
+      - country
+      - type
+      - details
+      type: object
+      properties:
+        accountHolderName:
+          type: string
+        currency:
+          type: string
+        country:
+          type: string
+        type:
+          type: string
+        details:
+          $ref: '#/components/schemas/Details4'
+      example:
+        accountHolderName: Name Here
+        currency: HUF
+        country: HU
+        type: HUNGARIAN
+        details:
+          accountNumber: 000000000000000000000000
+    Details4:
+      title: Details4
+      required:
+      - accountNumber
+      type: object
+      properties:
+        accountNumber:
+          type: string
+    POST/accountsPolishRequest:
+      title: POST/accountsPolishRequest
+      required:
+      - accountHolderName
+      - currency
+      - country
+      - type
+      - details
+      type: object
+      properties:
+        accountHolderName:
+          type: string
+        currency:
+          type: string
+        country:
+          type: string
+        type:
+          type: string
+        details:
+          $ref: '#/components/schemas/Details4'
+      example:
+        accountHolderName: Name Here
+        currency: PLN
+        country: PL
+        type: POLISH
+        details:
+          accountNumber: 12345678912345678912345678
+    POST/accountsITIBANRequest:
+      title: POST/accountsITIBANRequest
+      required:
+      - accountHolderName
+      - currency
+      - type
+      - country
+      - details
+      type: object
+      properties:
+        accountHolderName:
+          type: string
+        currency:
+          type: string
+        type:
+          type: string
+        country:
+          type: string
+        details:
+          $ref: '#/components/schemas/Details6'
+      example:
+        accountHolderName: Name Here
+        currency: EUR
+        type: iban
+        country: IT
+        details:
+          IBAN: IT 00 H 00000 00000 000000000000
+    Details6:
+      title: Details6
+      required:
+      - IBAN
+      type: object
+      properties:
+        IBAN:
+          type: string
+    POST/accountsDEIBANRequest:
+      title: POST/accountsDEIBANRequest
+      required:
+      - accountHolderName
+      - currency
+      - type
+      - country
+      - details
+      type: object
+      properties:
+        accountHolderName:
+          type: string
+        currency:
+          type: string
+        type:
+          type: string
+        country:
+          type: string
+        details:
+          $ref: '#/components/schemas/Details7'
+      example:
+        accountHolderName: Name Here
+        currency: EUR
+        type: IBAN
+        country: DE
+        details:
+          legalType: PRIVATE
+          IBAN: DE00000000000000000000
+    Details7:
+      title: Details7
+      required:
+      - legalType
+      - IBAN
+      type: object
+      properties:
+        legalType:
+          type: string
+        IBAN:
+          type: string
+    POST/accountsGBPRequest:
+      title: POST/accountsGBPRequest
+      required:
+      - accountHolderName
+      - currency
+      - type
+      - country
+      - details
+      type: object
+      properties:
+        accountHolderName:
+          type: string
+        currency:
+          type: string
+        type:
+          type: string
+        country:
+          type: string
+        details:
+          $ref: '#/components/schemas/Details8'
+      example:
+        accountHolderName: Name Here
+        currency: GBP
+        type: sort_code
+        country: GB
+        details:
+          legalType: PRIVATE
+          sortCode: 040004
+          accountNumber: 00000000
+    Details8:
+      title: Details8
+      required:
+      - legalType
+      - sortCode
+      - accountNumber
+      type: object
+      properties:
+        legalType:
+          type: string
+        sortCode:
+          type: string
+        accountNumber:
+          type: string
+    POST/accountsSEKRequest:
+      title: POST/accountsSEKRequest
+      required:
+      - accountHolderName
+      - currency
+      - type
+      - country
+      - details
+      type: object
+      properties:
+        accountHolderName:
+          type: string
+        currency:
+          type: string
+        type:
+          type: string
+        country:
+          type: string
+        details:
+          $ref: '#/components/schemas/Details9'
+      example:
+        accountHolderName: Name Here
+        currency: SEK
+        type: sweden_local
+        country: SE
+        details:
+          legalType: PRIVATE
+          clearingNumber: 0
+          accountNumber: 0000000000
+          address:
+            firstLine: 1123 Fake St
+            city: Stockholm
+            country: SE
+            postCode: 1234
+    Details9:
+      title: Details9
+      required:
+      - legalType
+      - clearingNumber
+      - accountNumber
+      - address
+      type: object
+      properties:
+        legalType:
+          type: string
+        clearingNumber:
+          type: integer
+          format: int32
+        accountNumber:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address1'
+    Address1:
+      title: Address1
+      required:
+      - firstLine
+      - city
+      - country
+      - postCode
+      type: object
+      properties:
+        firstLine:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        postCode:
+          type: string
+    POST/accountsABA(usd)Request:
+      title: POST/accountsABA(usd)Request
+      required:
+      - accountHolderName
+      - currency
+      - country
+      - type
+      - details
+      type: object
+      properties:
+        accountHolderName:
+          type: string
+        currency:
+          type: string
+        country:
+          type: string
+        type:
+          type: string
+        details:
+          $ref: '#/components/schemas/Details10'
+      example:
+        accountHolderName: Name Here
+        currency: USD
+        country: US
+        type: ABA
+        details:
+          address:
+            city: New York
+            countryCode: US
+            postCode: 00000
+            state: NY
+            firstLine: 1 Fake Street
+          abartn: 321161184
+          accountType: CHECKING
+          accountNumber: 00000000000
+          email: example@foobar.com
+    Details10:
+      title: Details10
+      required:
+      - address
+      - abartn
+      - accountType
+      - accountNumber
+      - email
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Address2'
+        abartn:
+          type: string
+        accountType:
+          type: string
+        accountNumber:
+          type: string
+        email:
+          type: string
+    Address2:
+      title: Address2
+      required:
+      - city
+      - countryCode
+      - postCode
+      - state
+      - firstLine
+      type: object
+      properties:
+        city:
+          type: string
+        countryCode:
+          type: string
+        postCode:
+          type: string
+        state:
+          type: string
+        firstLine:
+          type: string
+    /v1/address-requirementsRequest:
+      title: /v1/address-requirementsRequest
+      required:
+      - details
+      type: object
+      properties:
+        details:
+          $ref: '#/components/schemas/Details11'
+      example:
+        details:
+          country: IE
+    Details11:
+      title: Details11
+      required:
+      - country
+      type: object
+      properties:
+        country:
+          type: string
+    POST/businessesRequest:
+      title: POST/businessesRequest
+      required:
+      - name
+      - number
+      - category
+      - webpage
+      - details
+      type: object
+      properties:
+        name:
+          type: string
+        number:
+          type: string
+        category:
+          type: string
+        webpage:
+          type: string
+        details:
+          $ref: '#/components/schemas/Details12'
+      example:
+        name: Test Business
+        number: 12345
+        category: other
+        webpage: <URL here>
+        details:
+          address:
+            country: EE
+            firstLine: Address first line
+            city: Tallinn
+            postCode: 12345
+          type: other
+    Details12:
+      title: Details12
+      required:
+      - address
+      - type
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Address1'
+        type:
+          type: string
+    POST/profilesRequest:
+      title: POST/profilesRequest
+      required:
+      - type
+      - details
+      type: object
+      properties:
+        type:
+          type: string
+        details:
+          $ref: '#/components/schemas/Details13'
+      example:
+        type: personal
+        details:
+          firstName: Joe
+          lastName: Bloggs
+          dateOfBirth: 1990-01-01
+          phoneNumber: +447700000000
+    Details13:
+      title: Details13
+      required:
+      - firstName
+      - lastName
+      - dateOfBirth
+      - phoneNumber
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        dateOfBirth:
+          type: string
+        phoneNumber:
+          type: string
+    POST/quotesRequest:
+      title: POST/quotesRequest
+      required:
+      - source
+      - target
+      - sourceAmount
+      - rateType
+      type: object
+      properties:
+        source:
+          type: string
+        target:
+          type: string
+        sourceAmount:
+          type: string
+        rateType:
+          type: string
+      example:
+        source: GBP
+        target: EUR
+        sourceAmount: 100
+        rateType: FIXED
+  securitySchemes:
+    httpBearer:
+      type: http
+      scheme: bearer
+security:
+- httpBearer: []
+tags:
+- name: borderless
+- name: account-requirements
+- name: accounts
+- name: addresses
+- name: businesses
+- name: delivery estimation
+- name: oauth
+- name: profiles
+- name: quotes
+- name: transfers
+- name: user
+- name: terms
+- name: validators
+- name: Misc
+  description: ''
