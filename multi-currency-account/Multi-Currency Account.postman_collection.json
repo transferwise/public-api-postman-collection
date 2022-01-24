@@ -1,0 +1,1687 @@
+{
+	"info": {
+		"_postman_id": "eb403ed8-3719-4ab6-86df-8ec7d5f3f13e",
+		"name": "Multi-Currency Account",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Common (User & Profile)",
+			"item": [
+				{
+					"name": "Client Credentials Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.access_token) postman.setEnvironmentVariable(\"client-credentials-token\", jsonData.access_token);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{client-id}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{client-secret}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client-credentials-token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"{{account-email}}\",\n\t\"registrationCode\": \"{{registrationCode}}\",\n\t\"language\":\"EN\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/user/signup/registration_code",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"signup",
+								"registration_code"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Token from Registration Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.access_token) postman.setEnvironmentVariable(\"token\", jsonData.access_token);",
+									"if (jsonData.refresh_token) postman.setEnvironmentVariable(\"refresh\", jsonData.refresh_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{client-secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{client-id}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "grant_type",
+									"value": "registration_code",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client-id}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{account-email}}",
+									"type": "text"
+								},
+								{
+									"key": "registration_code",
+									"value": "{{registrationCode}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Token from Authorization Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.access_token) postman.setEnvironmentVariable(\"token\", jsonData.access_token);",
+									"if (jsonData.refresh_token) postman.setEnvironmentVariable(\"refresh\", jsonData.refresh_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{client-secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{client-id}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client-id}}",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{client-redirect-uri}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create personal profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"personal-profile-id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"personal\",\n    \"details\" : {\n        \"firstName\": \"Test\",\n        \"lastName\": \"Profile\",\n        \"dateOfBirth\": \"1990-01-01\",\n        \"phoneNumber\": \"+6581234567\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1/profiles",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"profiles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get personal profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.filter(item => item.type === 'personal');",
+									"",
+									"if (jsonData.length > 0) {",
+									"    jsonData = jsonData[0];",
+									"}",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"personal-profile-id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/profiles",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"profiles"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "First Time Setup",
+			"item": [
+				{
+					"name": "Simulate Profile Verification (SBX Only)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/simulation/verify-profile",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"verify-profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verification Check",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v3/profiles/{{personal-profile-id}}/verification-status/multi-currency-account?currencies=SGD",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"profiles",
+								"{{personal-profile-id}}",
+								"verification-status",
+								"multi-currency-account"
+							],
+							"query": [
+								{
+									"key": "currencies",
+									"value": "SGD"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get MCA Eligibitily",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v2/borderless-accounts/eligibility?profileId={{personal-profile-id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v2",
+								"borderless-accounts",
+								"eligibility"
+							],
+							"query": [
+								{
+									"key": "profileId",
+									"value": "{{personal-profile-id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Balance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"balance-id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-idempotence-uuid",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"STANDARD\",\n    \"currency\": \"SGD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v4/profiles/{{personal-profile-id}}/balances",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v4",
+								"profiles",
+								"{{personal-profile-id}}",
+								"balances"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Account and Balance",
+			"item": [
+				{
+					"name": "List MCA Accounts (with account ID)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.length > 0 && jsonData[0];",
+									"",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"borderless-account-id\", jsonData.id);",
+									"",
+									"if (jsonData.recipientId) postman.setEnvironmentVariable(\"borderless-recipient-id\", jsonData.recipientId);",
+									"",
+									"if (jsonData.balances && jsonData.balances.length > 0) {",
+									"    postman.setEnvironmentVariable(",
+									"        \"balance-id\", jsonData.balances[0].id",
+									"    );",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/borderless-accounts?profileId={{personal-profile-id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"borderless-accounts"
+							],
+							"query": [
+								{
+									"key": "profileId",
+									"value": "{{personal-profile-id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Available Currencies",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/borderless-accounts/balance-currencies",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"borderless-accounts",
+								"balance-currencies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Balances",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.length > 0 && jsonData[0];",
+									"",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"balance-id\", jsonData.id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v3/profiles/{{personal-profile-id}}/balances?types=STANDARD",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"profiles",
+								"{{personal-profile-id}}",
+								"balances"
+							],
+							"query": [
+								{
+									"key": "types",
+									"value": "STANDARD"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Balance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"balance-id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-idempotence-uuid",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"STANDARD\",\n    \"currency\": \"SGD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v3/profiles/{{personal-profile-id}}/balances",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"profiles",
+								"{{personal-profile-id}}",
+								"balances"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Balance",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"balance-id\", jsonData.id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v3/profiles/{{personal-profile-id}}/balances/{{balance-id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"profiles",
+								"{{personal-profile-id}}",
+								"balances",
+								"{{balance-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Balance",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v3/profiles/{{personal-profile-id}}/balances/{{balance-id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"profiles",
+								"{{personal-profile-id}}",
+								"balances",
+								"{{balance-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Statement",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/balance-statements/{{balance-id}}/statement?intervalStart=2018-03-01T00:00:00.000Z&intervalEnd=2018-04-01T00:00:00.000Z&type=COMPACT",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"profiles",
+								"{{personal-profile-id}}",
+								"balance-statements",
+								"{{balance-id}}",
+								"statement"
+							],
+							"query": [
+								{
+									"key": "intervalStart",
+									"value": "2018-03-01T00:00:00.000Z"
+								},
+								{
+									"key": "intervalEnd",
+									"value": "2018-04-01T00:00:00.000Z"
+								},
+								{
+									"key": "type",
+									"value": "COMPACT"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Account Details",
+			"item": [
+				{
+					"name": "Get order requirements",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v2/profiles/{{personal-profile-id}}/account-details-order-requirements",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v2",
+								"profiles",
+								"{{personal-profile-id}}",
+								"account-details-order-requirements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List account details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/account-details",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"profiles",
+								"{{personal-profile-id}}",
+								"account-details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order account details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"currency\": \"SGD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/account-details-orders",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"profiles",
+								"{{personal-profile-id}}",
+								"account-details-orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List account details orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/account-details-orders",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"profiles",
+								"{{personal-profile-id}}",
+								"account-details-orders"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Top Up",
+			"item": [
+				{
+					"name": "Create quote",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"new-quote-id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sourceCurrency\": \"SGD\",\n\t\"targetCurrency\": \"SGD\",\n\t\"sourceAmount\": 100,\n\t\"targetAmount\": null,\n\t\"profile\": {{personal-profile-id}},\n    \"payOut\": \"BALANCE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v2/quotes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v2",
+								"quotes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get transfer requirements",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "zh",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"targetAccount\": \"{{borderless-recipient-id}}\",\n    \"quoteUuid\": \"{{new-quote-id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/transfer-requirements",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"transfer-requirements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create transfer (to balance)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"new-transfer-id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"targetAccount\": {{borderless-recipient-id}},\n    \"quoteUuid\": \"{{new-quote-id}}\",\n    \"customerTransactionId\": \"{{$guid}}\",\n    \"details\": {\n        \"reference\": \"my ref\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/transfers",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"transfers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Payin Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.transferwise.com/v1/profiles/{{personal-profile-id}}/transfers/{{new-transfer-id}}/deposit-details/bank-transfer",
+							"protocol": "https",
+							"host": [
+								"api",
+								"transferwise",
+								"com"
+							],
+							"path": [
+								"v1",
+								"profiles",
+								"{{personal-profile-id}}",
+								"transfers",
+								"{{new-transfer-id}}",
+								"deposit-details",
+								"bank-transfer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Simulate Transfer Process (SBX Only)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/simulation/transfers/{{new-transfer-id}}/processing",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"transfers",
+								"{{new-transfer-id}}",
+								"processing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Simulate Top Up",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"profileId\": {{personal-profile-id}},\n    \"balanceId\": {{balance-id}},\n    \"currency\": \"SGD\",\n    \"amount\": 50\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1/simulation/balance/topup",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"balance",
+								"topup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get transfer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"new-transfer-id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"targetAccount\": {{borderless-recipient-id}},\n    \"quoteUuid\": \"{{new-quote-id}}\",\n    \"customerTransactionId\": \"{{$guid}}\",\n    \"details\": {\n        \"reference\": \"my ref\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/transfers/{{new-transfer-id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"transfers",
+								"{{new-transfer-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Send Money",
+			"item": [
+				{
+					"name": "Create account (USD)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"new-recipient-id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountHolderName\": \"Person USD\",\n    \"currency\": \"USD\",\n    \"type\": \"ABA\",\n    \"details\": {\n      \"address\": {\n        \"city\": \"New York\",\n        \"countryCode\": \"US\",\n        \"postCode\": \"10025\",\n        \"state\": \"NY\",\n        \"firstLine\": \"158 Wall Street\"\n      },\n      \"legalType\":\"PRIVATE\",\n      \"abartn\": \"064000020\",\n      \"accountType\": \"CHECKING\",\n      \"accountNumber\": \"40000000000\",\n      \"email\": \"example@foobar.com\"\n    }\n  }"
+						},
+						"url": {
+							"raw": "{{host}}/v1/accounts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create account (SGD)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"new-recipient-id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountHolderName\": \"Meow Cat\",\n    \"currency\": \"SGD\",\n    \"type\": \"singapore\",\n    \"details\": {\n      \"legalType\":\"PRIVATE\",\n      \"accountNumber\": \"555555555555\",\n      \"bankCode\": \"7339\"\n    }\n  }"
+						},
+						"url": {
+							"raw": "{{host}}/v1/accounts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create quote",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"new-quote-id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sourceCurrency\": \"SGD\",\n\t\"targetCurrency\": \"USD\",\n\t\"sourceAmount\": 100,\n\t\"targetAmount\": null,\n\t\"profile\": {{personal-profile-id}},\n    \"preferredPayIn\": \"BALANCE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v2/quotes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v2",
+								"quotes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create transfer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"new-transfer-id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"targetAccount\": {{new-recipient-id}},\n    \"quoteUuid\": \"{{new-quote-id}}\",\n    \"customerTransactionId\": \"{{$guid}}\",\n    \"details\": {\n        \"reference\": \"my ref\",\n        \"transferPurpose\": \"verification.transfers.purpose.pay.bills\",\n        \"sourceOfFunds\": \"verification.source.of.funds.salary\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/transfers",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"transfers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get transfer requirements",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "zh",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"targetAccount\": \"{{new-recipient-id}}\",\n    \"quoteUuid\": \"{{new-quote-id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v1/transfer-requirements",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"transfer-requirements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fund transfer (from balance)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"BALANCE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v3/profiles/{{personal-profile-id}}/transfers/{{new-transfer-id}}/payments",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"profiles",
+								"{{personal-profile-id}}",
+								"transfers",
+								"{{new-transfer-id}}",
+								"payments"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Convert Money",
+			"item": [
+				{
+					"name": "Create quote",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"new-quote-id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sourceCurrency\": \"SGD\",\n\t\"targetCurrency\": \"GBP\",\n\t\"sourceAmount\": 100,\n\t\"targetAmount\": null,\n\t\"profile\": {{personal-profile-id}},\n    \"payOut\": \"BALANCE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v2/quotes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v2",
+								"quotes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Convert",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-idempotence-uuid",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quoteId\": \"{{new-quote-id}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1/borderless-accounts/{{borderless-account-id}}/conversions",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"borderless-accounts",
+								"{{borderless-account-id}}",
+								"conversions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
