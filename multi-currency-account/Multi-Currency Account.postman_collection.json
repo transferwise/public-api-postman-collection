@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "eb403ed8-3719-4ab6-86df-8ec7d5f3f13e",
-		"name": "Multi-Currency Account",
+		"name": "YH MCA",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -1230,7 +1230,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"profileId\": {{personal-profile-id}},\n    \"balanceId\": {{balance-id}},\n    \"currency\": \"SGD\",\n    \"amount\": 50\n}",
+							"raw": "{\n    \"profileId\": {{personal-profile-id}},\n    \"balanceId\": {{balance-id}},\n    \"currency\": \"SGD\",\n    \"amount\": 500\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1676,6 +1676,227 @@
 								"borderless-accounts",
 								"{{borderless-account-id}}",
 								"conversions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Jars",
+			"item": [
+				{
+					"name": "List Balances",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.length > 0 && jsonData[0];",
+									"",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"balance-id\", jsonData.id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v3/profiles/{{personal-profile-id}}/balances?types=STANDARD",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"profiles",
+								"{{personal-profile-id}}",
+								"balances"
+							],
+							"query": [
+								{
+									"key": "types",
+									"value": "STANDARD"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Jars",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.length > 0 && jsonData[0];",
+									"",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"jar-id\", jsonData.id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v3/profiles/{{personal-profile-id}}/balances?types=SAVINGS",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"profiles",
+								"{{personal-profile-id}}",
+								"balances"
+							],
+							"query": [
+								{
+									"key": "types",
+									"value": "SAVINGS"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Jar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"balance-id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-idempotence-uuid",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Jar 1\",\n    \"type\": \"SAVINGS\",\n    \"currency\": \"SGD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v3/profiles/{{personal-profile-id}}/balances",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"profiles",
+								"{{personal-profile-id}}",
+								"balances"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Move Between Jars",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.id) postman.setEnvironmentVariable(\"balance-id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-idempotence-uuid",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sourceBalanceId\": \"{{balance-id}}\",\n    \"targetBalanceId\": \"{{jar-id}}\",\n    \"amount\": {\n        \"value\": 10,\n        \"currency\": \"SGD\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v2/profiles/{{personal-profile-id}}/balance-movements",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v2",
+								"profiles",
+								"{{personal-profile-id}}",
+								"balance-movements"
 							]
 						}
 					},
