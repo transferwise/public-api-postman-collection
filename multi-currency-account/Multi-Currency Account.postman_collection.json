@@ -3485,7 +3485,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://api.transferwise.com/v1/profiles/{{personal-profile-id}}/transfers/{{new-transfer-id}}/deposit-details/bank-transfer",
+							"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/transfers/{{new-transfer-id}}/deposit-details/bank-transfer",
 							"protocol": "https",
 							"host": [
 								"api",
