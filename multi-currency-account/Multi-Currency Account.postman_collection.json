@@ -351,32 +351,36 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/v1/borderless-accounts/balance-currencies",
+							"raw": "{{host}}/v2/borderless-accounts-configuration/profiles/{{personal-profile-id}}/available-currencies",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"v1",
-								"borderless-accounts",
-								"balance-currencies"
+								"v2",
+								"borderless-accounts-configuration",
+								"profiles",
+								"{{personal-profile-id}}",
+								"available-currencies"
 							]
 						}
 					},
 					"response": [
 						{
-							"name": "Available Currencies",
+							"name": "List Available Currencies",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{host}}/v1/borderless-accounts/balance-currencies",
+									"raw": "{{host}}/v2/borderless-accounts-configuration/profiles/{{personal-profile-id}}/available-currencies",
 									"host": [
 										"{{host}}"
 									],
 									"path": [
-										"v1",
-										"borderless-accounts",
-										"balance-currencies"
+										"v2",
+										"borderless-accounts-configuration",
+										"profiles",
+										"{{personal-profile-id}}",
+										"available-currencies"
 									]
 								}
 							},
@@ -386,15 +390,15 @@
 							"header": [
 								{
 									"key": "Date",
-									"value": "Mon, 21 Mar 2022 14:43:15 GMT"
+									"value": "Wed, 23 Mar 2022 11:44:13 GMT"
 								},
 								{
 									"key": "Content-Type",
 									"value": "application/json;charset=UTF-8"
 								},
 								{
-									"key": "Transfer-Encoding",
-									"value": "chunked"
+									"key": "Content-Length",
+									"value": "325"
 								},
 								{
 									"key": "Connection",
@@ -405,16 +409,16 @@
 									"value": "nginx/1.14.0 (Ubuntu)"
 								},
 								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
 									"key": "x-request-id",
-									"value": "16b608d2facddd5bb5c244d96346119a"
+									"value": "66e23c2d9f859c72e047521e9f65a522"
 								},
 								{
 									"key": "x-trace-id",
-									"value": "036480a4a4c168d8"
-								},
-								{
-									"key": "cache-control",
-									"value": "max-age=7200"
+									"value": "fb42997d1e630929"
 								},
 								{
 									"key": "x-content-type-options",
@@ -425,16 +429,24 @@
 									"value": "1; mode=block"
 								},
 								{
+									"key": "cache-control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "expires",
+									"value": "0"
+								},
+								{
 									"key": "x-frame-options",
 									"value": "DENY"
 								},
 								{
-									"key": "content-encoding",
-									"value": "gzip"
-								},
-								{
 									"key": "x-envoy-upstream-service-time",
-									"value": "19"
+									"value": "49"
 								},
 								{
 									"key": "x-envoy-attempt-count",
@@ -446,7 +458,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "[\n    {\n        \"code\": \"AED\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"ARS\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"AUD\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"BDT\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"BGN\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"BWP\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"CAD\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"CHF\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"CLP\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"CNY\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"CRC\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"CZK\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"DKK\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"EGP\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"EUR\",\n        \"hasBankDetails\": true,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"GBP\",\n        \"hasBankDetails\": true,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"GEL\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"GHS\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"HKD\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"HRK\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"HUF\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"IDR\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"ILS\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"INR\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"JPY\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"KES\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"KRW\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"LKR\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"MAD\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"MXN\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"MYR\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"NGN\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"NOK\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"NPR\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"NZD\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"PEN\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"PHP\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"PKR\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"PLN\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"RON\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"RUB\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"SEK\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"SGD\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"THB\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"TRY\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"TZS\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"UAH\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"UGX\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"USD\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"UYU\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": true,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"VND\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"XOF\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"ZAR\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    },\n    {\n        \"code\": \"ZMW\",\n        \"hasBankDetails\": false,\n        \"payInAllowed\": false,\n        \"sampleBankDetails\": null\n    }\n]"
+							"body": "[\n    \"AED\",\n    \"ARS\",\n    \"AUD\",\n    \"BDT\",\n    \"BGN\",\n    \"BWP\",\n    \"CAD\",\n    \"CHF\",\n    \"CLP\",\n    \"CNY\",\n    \"CRC\",\n    \"CZK\",\n    \"DKK\",\n    \"EGP\",\n    \"EUR\",\n    \"GBP\",\n    \"GEL\",\n    \"GHS\",\n    \"HKD\",\n    \"HRK\",\n    \"HUF\",\n    \"IDR\",\n    \"ILS\",\n    \"INR\",\n    \"JPY\",\n    \"KES\",\n    \"KRW\",\n    \"LKR\",\n    \"MAD\",\n    \"MXN\",\n    \"MYR\",\n    \"NGN\",\n    \"NOK\",\n    \"NPR\",\n    \"NZD\",\n    \"PEN\",\n    \"PHP\",\n    \"PKR\",\n    \"PLN\",\n    \"RON\",\n    \"RUB\",\n    \"SEK\",\n    \"SGD\",\n    \"THB\",\n    \"TRY\",\n    \"TZS\",\n    \"UAH\",\n    \"UGX\",\n    \"USD\",\n    \"UYU\",\n    \"VND\",\n    \"XOF\",\n    \"ZAR\",\n    \"ZMW\"\n]"
 						}
 					]
 				},
