@@ -986,399 +986,6 @@
 			"name": "Balance Accounts",
 			"item": [
 				{
-					"name": "Get a Statement",
-					"item": [
-						{
-							"name": "Get Statement (JSON)",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/v3/profiles/{{personal-profile-id}}/borderless-accounts/{{borderless-account-id}}/statement.json?intervalStart=2022-03-15T00:00:00.000Z&intervalEnd=2022-03-21T00:00:00.000Z&type=COMPACT&currency=GBP",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v3",
-										"profiles",
-										"{{personal-profile-id}}",
-										"borderless-accounts",
-										"{{borderless-account-id}}",
-										"statement.json"
-									],
-									"query": [
-										{
-											"key": "intervalStart",
-											"value": "2022-03-15T00:00:00.000Z"
-										},
-										{
-											"key": "intervalEnd",
-											"value": "2022-03-21T00:00:00.000Z"
-										},
-										{
-											"key": "type",
-											"value": "COMPACT"
-										},
-										{
-											"key": "currency",
-											"value": "GBP"
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "GBP Statement JSON",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{host}}/v3/profiles/{{personal-profile-id}}/borderless-accounts/{{borderless-account-id}}/statement.json?intervalStart=2022-03-15T00:00:00.000Z&intervalEnd=2022-03-21T00:00:00.000Z&type=COMPACT&currency=GBP",
-											"host": [
-												"{{host}}"
-											],
-											"path": [
-												"v3",
-												"profiles",
-												"{{personal-profile-id}}",
-												"borderless-accounts",
-												"{{borderless-account-id}}",
-												"statement.json"
-											],
-											"query": [
-												{
-													"key": "intervalStart",
-													"value": "2022-03-15T00:00:00.000Z"
-												},
-												{
-													"key": "intervalEnd",
-													"value": "2022-03-21T00:00:00.000Z"
-												},
-												{
-													"key": "type",
-													"value": "COMPACT"
-												},
-												{
-													"key": "currency",
-													"value": "GBP"
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Date",
-											"value": "Mon, 21 Mar 2022 14:52:39 GMT"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json;charset=UTF-8"
-										},
-										{
-											"key": "Content-Length",
-											"value": "954"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										},
-										{
-											"key": "Server",
-											"value": "nginx/1.14.0 (Ubuntu)"
-										},
-										{
-											"key": "Vary",
-											"value": "Accept-Encoding"
-										},
-										{
-											"key": "x-request-id",
-											"value": "13b5af7ea226b20f6480c636516690ad"
-										},
-										{
-											"key": "x-trace-id",
-											"value": "1ccad102c4be4cd8"
-										},
-										{
-											"key": "x-2fa-approval-result",
-											"value": "APPROVED"
-										},
-										{
-											"key": "x-content-type-options",
-											"value": "nosniff"
-										},
-										{
-											"key": "x-xss-protection",
-											"value": "1; mode=block"
-										},
-										{
-											"key": "cache-control",
-											"value": "no-cache, no-store, max-age=0, must-revalidate"
-										},
-										{
-											"key": "pragma",
-											"value": "no-cache"
-										},
-										{
-											"key": "expires",
-											"value": "0"
-										},
-										{
-											"key": "x-frame-options",
-											"value": "DENY"
-										},
-										{
-											"key": "x-envoy-upstream-service-time",
-											"value": "91"
-										},
-										{
-											"key": "x-envoy-attempt-count",
-											"value": "1"
-										},
-										{
-											"key": "vary",
-											"value": "accept-encoding"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"accountHolder\": {\n        \"type\": \"PERSONAL\",\n        \"address\": {\n            \"addressFirstLine\": \"TO BE CHANGED\",\n            \"city\": \"TO BE CHANGED\",\n            \"postCode\": \"0000\",\n            \"stateCode\": null,\n            \"countryName\": \"Estonia\"\n        },\n        \"firstName\": \"Test\",\n        \"lastName\": \"Profile\"\n    },\n    \"issuer\": {\n        \"name\": \"Wise Europe SA\",\n        \"firstLine\": \"Avenue Louise 54/S52\",\n        \"city\": \"Brussels\",\n        \"postCode\": \"1050\",\n        \"stateCode\": null,\n        \"countryCode\": \"bel\",\n        \"country\": \"Belgium\"\n    },\n    \"bankDetails\": [],\n    \"transactions\": [],\n    \"endOfStatementBalance\": {\n        \"value\": 0,\n        \"currency\": \"GBP\",\n        \"zero\": true\n    },\n    \"endOfStatementUnrealisedGainLoss\": null,\n    \"balanceAssetConfiguration\": null,\n    \"query\": {\n        \"intervalStart\": \"2022-03-15T00:00:00Z\",\n        \"intervalEnd\": \"2022-03-21T00:00:00Z\",\n        \"type\": \"COMPACT\",\n        \"currency\": \"GBP\",\n        \"profileId\": 16395991,\n        \"timezone\": \"Z\"\n    },\n    \"request\": {\n        \"id\": \"feb3dcfb-b84b-4ebd-48ac-93beeb73d9be\",\n        \"creationTime\": \"2022-03-21T14:52:39.022572Z\",\n        \"profileId\": 16395991,\n        \"currency\": \"GBP\",\n        \"balanceId\": 102372,\n        \"balanceName\": null,\n        \"intervalStart\": \"2022-03-15T00:00:00Z\",\n        \"intervalEnd\": \"2022-03-21T00:00:00Z\"\n    }\n}"
-								}
-							]
-						},
-						{
-							"name": "Get Statement (PDF)",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/v3/profiles/{{personal-profile-id}}/borderless-accounts/{{borderless-account-id}}/statement.pdf?intervalStart=2022-03-15T00:00:00.000Z&intervalEnd=2022-03-21T00:00:00.000Z&type=COMPACT&currency=GBP",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v3",
-										"profiles",
-										"{{personal-profile-id}}",
-										"borderless-accounts",
-										"{{borderless-account-id}}",
-										"statement.pdf"
-									],
-									"query": [
-										{
-											"key": "intervalStart",
-											"value": "2022-03-15T00:00:00.000Z"
-										},
-										{
-											"key": "intervalEnd",
-											"value": "2022-03-21T00:00:00.000Z"
-										},
-										{
-											"key": "type",
-											"value": "COMPACT"
-										},
-										{
-											"key": "currency",
-											"value": "GBP"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get Statement (CSV)",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/v3/profiles/{{personal-profile-id}}/borderless-accounts/{{borderless-account-id}}/statement.csv?intervalStart=2022-03-15T00:00:00.000Z&intervalEnd=2022-03-21T00:00:00.000Z&type=COMPACT&currency=GBP",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v3",
-										"profiles",
-										"{{personal-profile-id}}",
-										"borderless-accounts",
-										"{{borderless-account-id}}",
-										"statement.csv"
-									],
-									"query": [
-										{
-											"key": "intervalStart",
-											"value": "2022-03-15T00:00:00.000Z"
-										},
-										{
-											"key": "intervalEnd",
-											"value": "2022-03-21T00:00:00.000Z"
-										},
-										{
-											"key": "type",
-											"value": "COMPACT"
-										},
-										{
-											"key": "currency",
-											"value": "GBP"
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "GBP Statement (CSV)",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{host}}/v3/profiles/{{personal-profile-id}}/borderless-accounts/{{borderless-account-id}}/statement.csv?intervalStart=2022-03-15T00:00:00.000Z&intervalEnd=2022-03-21T00:00:00.000Z&type=COMPACT&currency=GBP",
-											"host": [
-												"{{host}}"
-											],
-											"path": [
-												"v3",
-												"profiles",
-												"{{personal-profile-id}}",
-												"borderless-accounts",
-												"{{borderless-account-id}}",
-												"statement.csv"
-											],
-											"query": [
-												{
-													"key": "intervalStart",
-													"value": "2022-03-15T00:00:00.000Z"
-												},
-												{
-													"key": "intervalEnd",
-													"value": "2022-03-21T00:00:00.000Z"
-												},
-												{
-													"key": "type",
-													"value": "COMPACT"
-												},
-												{
-													"key": "currency",
-													"value": "GBP"
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "plain",
-									"header": [
-										{
-											"key": "Date",
-											"value": "Mon, 21 Mar 2022 14:54:37 GMT"
-										},
-										{
-											"key": "Content-Type",
-											"value": "text/csv;charset=UTF-8"
-										},
-										{
-											"key": "Content-Length",
-											"value": "270"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										},
-										{
-											"key": "Server",
-											"value": "nginx/1.14.0 (Ubuntu)"
-										},
-										{
-											"key": "x-request-id",
-											"value": "8bb1b65e20b40225cfe81c0a7dd08ffc"
-										},
-										{
-											"key": "x-trace-id",
-											"value": "d605d4a989c8a7f2"
-										},
-										{
-											"key": "x-2fa-approval-result",
-											"value": "APPROVED"
-										},
-										{
-											"key": "content-disposition",
-											"value": "attachment; filename=\"statement_102372_GBP_2022-03-15_2022-03-20.csv\""
-										},
-										{
-											"key": "x-content-type-options",
-											"value": "nosniff"
-										},
-										{
-											"key": "x-xss-protection",
-											"value": "1; mode=block"
-										},
-										{
-											"key": "cache-control",
-											"value": "no-cache, no-store, max-age=0, must-revalidate"
-										},
-										{
-											"key": "pragma",
-											"value": "no-cache"
-										},
-										{
-											"key": "expires",
-											"value": "0"
-										},
-										{
-											"key": "x-frame-options",
-											"value": "DENY"
-										},
-										{
-											"key": "x-envoy-upstream-service-time",
-											"value": "101"
-										},
-										{
-											"key": "x-envoy-attempt-count",
-											"value": "1"
-										},
-										{
-											"key": "vary",
-											"value": "Origin,Access-Control-Request-Method,Access-Control-Request-Headers"
-										}
-									],
-									"cookie": [],
-									"body": "\"TransferWise ID\",Date,Amount,Currency,Description,\"Payment Reference\",\"Running Balance\",\"Exchange From\",\"Exchange To\",\"Exchange Rate\",\"Payer Name\",\"Payee Name\",\"Payee Account Number\",Merchant,\"Card Last Four Digits\",\"Card Holder Full Name\",Attachment,Note,\"Total fees\"\n"
-								}
-							]
-						}
-					]
-				},
-				{
 					"name": "Create a balance account",
 					"event": [
 						{
@@ -1959,6 +1566,392 @@
 							],
 							"cookie": [],
 							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get a Statement",
+					"item": [
+						{
+							"name": "Get Statement (JSON)",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/balance-statements/{{balance-id}}/statement.json?intervalStart=2022-03-15T00:00:00.000Z&intervalEnd=2022-04-21T00:00:00.000Z&type=FLAT",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{personal-profile-id}}",
+										"balance-statements",
+										"{{balance-id}}",
+										"statement.json"
+									],
+									"query": [
+										{
+											"key": "intervalStart",
+											"value": "2022-03-15T00:00:00.000Z"
+										},
+										{
+											"key": "intervalEnd",
+											"value": "2022-04-21T00:00:00.000Z"
+										},
+										{
+											"key": "type",
+											"value": "FLAT"
+										},
+										{
+											"key": "currency",
+											"value": "SGD",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "GBP Statement JSON",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/v3/profiles/{{personal-profile-id}}/borderless-accounts/{{borderless-account-id}}/statement.json?intervalStart=2022-03-15T00:00:00.000Z&intervalEnd=2022-03-21T00:00:00.000Z&type=COMPACT&currency=GBP",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v3",
+												"profiles",
+												"{{personal-profile-id}}",
+												"borderless-accounts",
+												"{{borderless-account-id}}",
+												"statement.json"
+											],
+											"query": [
+												{
+													"key": "intervalStart",
+													"value": "2022-03-15T00:00:00.000Z"
+												},
+												{
+													"key": "intervalEnd",
+													"value": "2022-03-21T00:00:00.000Z"
+												},
+												{
+													"key": "type",
+													"value": "COMPACT"
+												},
+												{
+													"key": "currency",
+													"value": "GBP"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 21 Mar 2022 14:52:39 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json;charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "954"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.14.0 (Ubuntu)"
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "x-request-id",
+											"value": "13b5af7ea226b20f6480c636516690ad"
+										},
+										{
+											"key": "x-trace-id",
+											"value": "1ccad102c4be4cd8"
+										},
+										{
+											"key": "x-2fa-approval-result",
+											"value": "APPROVED"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "expires",
+											"value": "0"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "DENY"
+										},
+										{
+											"key": "x-envoy-upstream-service-time",
+											"value": "91"
+										},
+										{
+											"key": "x-envoy-attempt-count",
+											"value": "1"
+										},
+										{
+											"key": "vary",
+											"value": "accept-encoding"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountHolder\": {\n        \"type\": \"PERSONAL\",\n        \"address\": {\n            \"addressFirstLine\": \"TO BE CHANGED\",\n            \"city\": \"TO BE CHANGED\",\n            \"postCode\": \"0000\",\n            \"stateCode\": null,\n            \"countryName\": \"Estonia\"\n        },\n        \"firstName\": \"Test\",\n        \"lastName\": \"Profile\"\n    },\n    \"issuer\": {\n        \"name\": \"Wise Europe SA\",\n        \"firstLine\": \"Avenue Louise 54/S52\",\n        \"city\": \"Brussels\",\n        \"postCode\": \"1050\",\n        \"stateCode\": null,\n        \"countryCode\": \"bel\",\n        \"country\": \"Belgium\"\n    },\n    \"bankDetails\": [],\n    \"transactions\": [],\n    \"endOfStatementBalance\": {\n        \"value\": 0,\n        \"currency\": \"GBP\",\n        \"zero\": true\n    },\n    \"endOfStatementUnrealisedGainLoss\": null,\n    \"balanceAssetConfiguration\": null,\n    \"query\": {\n        \"intervalStart\": \"2022-03-15T00:00:00Z\",\n        \"intervalEnd\": \"2022-03-21T00:00:00Z\",\n        \"type\": \"COMPACT\",\n        \"currency\": \"GBP\",\n        \"profileId\": 16395991,\n        \"timezone\": \"Z\"\n    },\n    \"request\": {\n        \"id\": \"feb3dcfb-b84b-4ebd-48ac-93beeb73d9be\",\n        \"creationTime\": \"2022-03-21T14:52:39.022572Z\",\n        \"profileId\": 16395991,\n        \"currency\": \"GBP\",\n        \"balanceId\": 102372,\n        \"balanceName\": null,\n        \"intervalStart\": \"2022-03-15T00:00:00Z\",\n        \"intervalEnd\": \"2022-03-21T00:00:00Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Statement (PDF)",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/balance-statements/{{balance-id}}/statement.pdf?intervalStart=2022-03-15T00:00:00.000Z&intervalEnd=2022-04-21T00:00:00.000Z&type=FLAT",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{personal-profile-id}}",
+										"balance-statements",
+										"{{balance-id}}",
+										"statement.pdf"
+									],
+									"query": [
+										{
+											"key": "intervalStart",
+											"value": "2022-03-15T00:00:00.000Z"
+										},
+										{
+											"key": "intervalEnd",
+											"value": "2022-04-21T00:00:00.000Z"
+										},
+										{
+											"key": "type",
+											"value": "FLAT"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Statement (CSV)",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/balance-statements/{{balance-id}}/statement.csv?intervalStart=2022-03-15T00:00:00.000Z&intervalEnd=2022-04-21T00:00:00.000Z&type=FLAT",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{personal-profile-id}}",
+										"balance-statements",
+										"{{balance-id}}",
+										"statement.csv"
+									],
+									"query": [
+										{
+											"key": "intervalStart",
+											"value": "2022-03-15T00:00:00.000Z"
+										},
+										{
+											"key": "intervalEnd",
+											"value": "2022-04-21T00:00:00.000Z"
+										},
+										{
+											"key": "type",
+											"value": "FLAT"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "GBP Statement (CSV)",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/v3/profiles/{{personal-profile-id}}/borderless-accounts/{{borderless-account-id}}/statement.csv?intervalStart=2022-03-15T00:00:00.000Z&intervalEnd=2022-03-21T00:00:00.000Z&type=COMPACT&currency=GBP",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v3",
+												"profiles",
+												"{{personal-profile-id}}",
+												"borderless-accounts",
+												"{{borderless-account-id}}",
+												"statement.csv"
+											],
+											"query": [
+												{
+													"key": "intervalStart",
+													"value": "2022-03-15T00:00:00.000Z"
+												},
+												{
+													"key": "intervalEnd",
+													"value": "2022-03-21T00:00:00.000Z"
+												},
+												{
+													"key": "type",
+													"value": "COMPACT"
+												},
+												{
+													"key": "currency",
+													"value": "GBP"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 21 Mar 2022 14:54:37 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/csv;charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "270"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.14.0 (Ubuntu)"
+										},
+										{
+											"key": "x-request-id",
+											"value": "8bb1b65e20b40225cfe81c0a7dd08ffc"
+										},
+										{
+											"key": "x-trace-id",
+											"value": "d605d4a989c8a7f2"
+										},
+										{
+											"key": "x-2fa-approval-result",
+											"value": "APPROVED"
+										},
+										{
+											"key": "content-disposition",
+											"value": "attachment; filename=\"statement_102372_GBP_2022-03-15_2022-03-20.csv\""
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "expires",
+											"value": "0"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "DENY"
+										},
+										{
+											"key": "x-envoy-upstream-service-time",
+											"value": "101"
+										},
+										{
+											"key": "x-envoy-attempt-count",
+											"value": "1"
+										},
+										{
+											"key": "vary",
+											"value": "Origin,Access-Control-Request-Method,Access-Control-Request-Headers"
+										}
+									],
+									"cookie": [],
+									"body": "\"TransferWise ID\",Date,Amount,Currency,Description,\"Payment Reference\",\"Running Balance\",\"Exchange From\",\"Exchange To\",\"Exchange Rate\",\"Payer Name\",\"Payee Name\",\"Payee Account Number\",Merchant,\"Card Last Four Digits\",\"Card Holder Full Name\",Attachment,Note,\"Total fees\"\n"
+								}
+							]
 						}
 					]
 				}
