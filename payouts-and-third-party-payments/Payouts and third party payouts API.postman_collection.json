@@ -1,0 +1,3731 @@
+{
+	"info": {
+		"_postman_id": "9f3d166d-0975-46f8-8ab9-9474b044a34d",
+		"name": "Payouts and third party payouts API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20116326"
+	},
+	"item": [
+		{
+			"name": "2. Create user profile Copy",
+			"item": [
+				{
+					"name": "2. Personal Profile",
+					"item": [
+						{
+							"name": "1. Check profile exists",
+							"item": [
+								{
+									"name": "1. Get profile list",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"if (jsonData[0].id) postman.setEnvironmentVariable(\"personal-profile-id\", jsonData[0].id);",
+													"if (jsonData[1].id) postman.setEnvironmentVariable(\"business-profile-id\", jsonData[1].id);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": []
+										},
+										"url": {
+											"raw": "{{host}}/v1/profiles",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"profiles"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "1. Get profile list - no profiles",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer {{token}}"
+													}
+												],
+												"url": {
+													"raw": "{{host}}/v1/profiles",
+													"host": [
+														"{{host}}"
+													],
+													"path": [
+														"v1",
+														"profiles"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 16 Sep 2020 09:00:38 GMT"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												},
+												{
+													"key": "Server",
+													"value": "nginx/1.14.0 (Ubuntu)"
+												},
+												{
+													"key": "x-request-id",
+													"value": "8c476e41-59f7-90be-8b58-d97267d7faa3"
+												},
+												{
+													"key": "vary",
+													"value": "accept-encoding,origin,access-control-request-headers,access-control-request-method"
+												},
+												{
+													"key": "x-frame-options",
+													"value": "DENY"
+												},
+												{
+													"key": "expires",
+													"value": "0"
+												},
+												{
+													"key": "x-content-type-options",
+													"value": "nosniff"
+												},
+												{
+													"key": "x-xss-protection",
+													"value": "1; mode=block"
+												},
+												{
+													"key": "cache-control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "content-encoding",
+													"value": "gzip"
+												},
+												{
+													"key": "x-envoy-upstream-service-time",
+													"value": "78"
+												},
+												{
+													"key": "x-envoy-attempt-count",
+													"value": "1"
+												}
+											],
+											"cookie": [],
+											"body": "[]"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "1. Create personal profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.id) postman.setEnvironmentVariable(\"personal-profile-id\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"type\": \"personal\",\n    \"details\" : {\n        \"firstNameInKana\": \"Sanj\",\n        \"lastNameInKana\": \"KV\",\n        \"firstName\": \"Sanj\",\n        \"lastName\": \"KV\",\n        \"dateOfBirth\": \"1988-03-01\",\n        \"phoneNumber\": \"+6598551129\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles"
+									]
+								},
+								"description": "Create a personal profile with the KYC data verified by the bank."
+							},
+							"response": [
+								{
+									"name": "1. Create personal profile",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"type\": \"personal\",\n    \"details\" : {\n        \"firstName\": \"Joe\",\n        \"lastName\": \"Bloggs\",\n        \"dateOfBirth\": \"1990-01-10\",\n        \"phoneNumber\": \"+447711111111\"\n    }\n}"
+										},
+										"url": {
+											"raw": "{{host}}/v1/profiles",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"profiles"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 16 Sep 2020 09:01:52 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.14.0 (Ubuntu)"
+										},
+										{
+											"key": "x-request-id",
+											"value": "03f7344d-53aa-90f3-a423-d43e461f79de"
+										},
+										{
+											"key": "vary",
+											"value": "accept-encoding,origin,access-control-request-headers,access-control-request-method"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "DENY"
+										},
+										{
+											"key": "expires",
+											"value": "0"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "content-encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "x-envoy-upstream-service-time",
+											"value": "947"
+										},
+										{
+											"key": "x-envoy-attempt-count",
+											"value": "1"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 16034418,\n    \"type\": \"personal\",\n    \"details\": {\n        \"firstName\": \"Joe\",\n        \"lastName\": \"Bloggs\",\n        \"dateOfBirth\": \"1990-01-10\",\n        \"phoneNumber\": \"+447711111111\",\n        \"avatar\": null,\n        \"occupation\": null,\n        \"occupations\": null,\n        \"primaryAddress\": 37034374\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "2. Upload verification document data (if required)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \n            \"firstName\": \"Joe\",\n            \"lastName\": \"Bloggs\",\n            \"type\": \"PASSPORT\",\n            \"uniqueIdentifier\": \"000111222\",\n            \"issueDate\": \"2017-01-01\",\n            \"issuerCountry\": \"GB\",\n            \"issuerState\": \"\",\n            \"expiryDate\": \"2027-12-31\"\n        }"
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/verification-documents",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{personal-profile-id}}",
+										"verification-documents"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "2. Upload verification document data (if required)",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{ \n            \"firstName\": \"Joe\",\n            \"lastName\": \"Bloggs\",\n            \"type\": \"PASSPORT\",\n            \"uniqueIdentifier\": \"000111222\",\n            \"issueDate\": \"2017-01-01\",\n            \"issuerCountry\": \"GB\",\n            \"issuerState\": \"\",\n            \"expiryDate\": \"2027-12-31\"\n        }"
+										},
+										"url": {
+											"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/verification-documents",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"profiles",
+												"{{personal-profile-id}}",
+												"verification-documents"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 16 Sep 2020 09:13:35 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json;charset=UTF-8"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.14.0 (Ubuntu)"
+										},
+										{
+											"key": "x-request-id",
+											"value": "7d1ac735-788d-9864-a434-c59eb0d5806e"
+										},
+										{
+											"key": "vary",
+											"value": "accept-encoding,origin,access-control-request-headers,access-control-request-method"
+										},
+										{
+											"key": "x-application-context",
+											"value": "verification-service:kubernetes-staging:12345"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "expires",
+											"value": "0"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "DENY"
+										},
+										{
+											"key": "x-newrelic-app-data",
+											"value": "PxQGWVBaCwUGR1JTAQMPUV0FABFORDQHUjZKA1ZLVVFHDFYPbU5FBxZfUQgFAkxcXkkREFhSUhUXXkRvTQQIEh0DXhZdShlRXAhUCEVMQxcGWl4SDkEUAx5UTVIZAAdQVwgPB1NKUFUIThoDCwgEAAsHWgdSVABRUQVUQ0oFWV9DATw="
+										},
+										{
+											"key": "content-encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "x-envoy-upstream-service-time",
+											"value": "181"
+										},
+										{
+											"key": "x-envoy-attempt-count",
+											"value": "1"
+										},
+										{
+											"key": "set-cookie",
+											"value": "JSESSIONID=1F3B70C74B8E1F931045770319E85F55; Path=/; HttpOnly"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errorMessage\": null,\n    \"success\": true\n}"
+								}
+							]
+						},
+						{
+							"name": "3. Open update window",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/update-window",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{personal-profile-id}}",
+										"update-window"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "3. Open update window",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": []
+										},
+										"url": {
+											"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/update-window",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"profiles",
+												"{{personal-profile-id}}",
+												"update-window"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 16 Sep 2020 09:05:24 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "0"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.14.0 (Ubuntu)"
+										},
+										{
+											"key": "x-request-id",
+											"value": "01e86544-7f2b-947d-a971-d5338d242e4a"
+										},
+										{
+											"key": "vary",
+											"value": "Origin,Access-Control-Request-Method,Access-Control-Request-Headers"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "expires",
+											"value": "0"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "DENY"
+										},
+										{
+											"key": "x-envoy-upstream-service-time",
+											"value": "80"
+										},
+										{
+											"key": "x-envoy-attempt-count",
+											"value": "1"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "4. Create address",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"profile\": {{personal-profile-id}},\n    \"details\": {\n        \"country\": \"GB\",\n        \"firstLine\": \"1 A Road\",\n        \"postCode\": \"A11D33\",\n        \"city\": \"London\",\n        \"state\": null,\n        \"occupation\": null\n    }\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/addresses",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"addresses"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "4. Create address",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"profile\": {{personal-profile-id}},\n    \"details\": {\n        \"country\": \"GB\",\n        \"firstLine\": \"1 A Road\",\n        \"postCode\": \"A11D33\",\n        \"city\": \"London\",\n        \"state\": null,\n        \"occupation\": null\n    }\n}"
+										},
+										"url": {
+											"raw": "{{host}}/v1/addresses",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"addresses"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 16 Sep 2020 09:06:50 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.14.0 (Ubuntu)"
+										},
+										{
+											"key": "x-request-id",
+											"value": "ebb8e13c-257e-9250-aed1-cbc5e87be7ab"
+										},
+										{
+											"key": "vary",
+											"value": "accept-encoding,origin,access-control-request-headers,access-control-request-method"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "DENY"
+										},
+										{
+											"key": "expires",
+											"value": "0"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "content-encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "x-envoy-upstream-service-time",
+											"value": "512"
+										},
+										{
+											"key": "x-envoy-attempt-count",
+											"value": "1"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 37034374,\n    \"profile\": {{personal-profile-id}},\n    \"details\": {\n        \"country\": \"GB\",\n        \"firstLine\": \"1 A Road\",\n        \"postCode\": \"A11D33\",\n        \"city\": \"London\",\n        \"state\": null,\n        \"occupation\": null,\n        \"occupations\": null\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "5. Close update window",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/update-window",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{personal-profile-id}}",
+										"update-window"
+									]
+								},
+								"description": "The endpoint closes an open update window."
+							},
+							"response": [
+								{
+									"name": "5. Close update window",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": []
+										},
+										"url": {
+											"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/update-window",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"profiles",
+												"{{personal-profile-id}}",
+												"update-window"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 16 Sep 2020 09:12:51 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "0"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.14.0 (Ubuntu)"
+										},
+										{
+											"key": "x-request-id",
+											"value": "8bfcd328-f797-9fbc-b4cc-16b38f181f1e"
+										},
+										{
+											"key": "vary",
+											"value": "Origin,Access-Control-Request-Method,Access-Control-Request-Headers"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "expires",
+											"value": "0"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "DENY"
+										},
+										{
+											"key": "x-envoy-upstream-service-time",
+											"value": "133"
+										},
+										{
+											"key": "x-envoy-attempt-count",
+											"value": "1"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "3. Business Profile (Optional)",
+					"item": [
+						{
+							"name": "1. Create business profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.id) postman.setEnvironmentVariable(\"business-profile-id\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"type\": \"business\",\n    \"details\" : {\n        \"name\": \"ABC Logistics Ltd\",\n        \"registrationNumber\": \"12144939\",\n        \"acn\": null,\n        \"abn\": null,\n        \"arbn\": null,\n        \"companyType\": \"LIMITED\",\n        \"companyRole\": \"OWNER\",\n        \"webpage\": \"https://abc-logistics.com\",\n        \"businessCategory\":\"CONSULTING_IT_BUSINESS_SERVICES\",\n        \"businessSubCategory\":\"DESIGN\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "1. Create business profile",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"type\": \"business\",\n    \"details\" : {\n        \"name\": \"ABC Logistics Ltd\",\n        \"registrationNumber\": \"12144939\",\n        \"acn\": null,\n        \"abn\": null,\n        \"arbn\": null,\n        \"companyType\": \"LIMITED\",\n        \"companyRole\": \"OWNER\",\n        \"webpage\": \"https://abc-logistics.com\",\n        \"businessCategory\":\"CONSULTING_IT_BUSINESS_SERVICES\",\n        \"businessSubCategory\":\"DESIGN\"\n    }\n}"
+										},
+										"url": {
+											"raw": "{{host}}/v1/profiles",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"profiles"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 16 Sep 2020 09:17:41 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.14.0 (Ubuntu)"
+										},
+										{
+											"key": "x-request-id",
+											"value": "ee8a2e69-3360-9a90-89b9-580d278f292c"
+										},
+										{
+											"key": "vary",
+											"value": "accept-encoding,origin,access-control-request-headers,access-control-request-method"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "DENY"
+										},
+										{
+											"key": "expires",
+											"value": "0"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "content-encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "x-envoy-upstream-service-time",
+											"value": "1109"
+										},
+										{
+											"key": "x-envoy-attempt-count",
+											"value": "1"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": {{business-profile-id}},\n    \"type\": \"business\",\n    \"details\": {\n        \"name\": \"ABC Logistics Ltd\",\n        \"registrationNumber\": \"12144939\",\n        \"acn\": null,\n        \"abn\": null,\n        \"arbn\": null,\n        \"companyType\": \"LIMITED\",\n        \"companyRole\": \"OWNER\",\n        \"descriptionOfBusiness\": \"DESIGN\",\n        \"primaryAddress\": 37034385,\n        \"webpage\": \"https://abc-logistics.com\",\n        \"businessCategory\": \"CONSULTING_IT_BUSINESS_SERVICES\",\n        \"businessSubCategory\": \"DESIGN\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "2. Open update window",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{business-profile-id}}/update-window",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{business-profile-id}}",
+										"update-window"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "2. Open update window",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": []
+										},
+										"url": {
+											"raw": "{{host}}/v1/profiles/{{business-profile-id}}/update-window",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"profiles",
+												"{{business-profile-id}}",
+												"update-window"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 16 Sep 2020 09:19:32 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "0"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.14.0 (Ubuntu)"
+										},
+										{
+											"key": "x-request-id",
+											"value": "f1b8b50e-b81a-98c6-9f3f-cf37e892736d"
+										},
+										{
+											"key": "vary",
+											"value": "Origin,Access-Control-Request-Method,Access-Control-Request-Headers"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "expires",
+											"value": "0"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "DENY"
+										},
+										{
+											"key": "x-envoy-upstream-service-time",
+											"value": "92"
+										},
+										{
+											"key": "x-envoy-attempt-count",
+											"value": "1"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "3. Create address",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"profile\": {{business-profile-id}},\n    \"details\": {\n        \"country\": \"GB\",\n        \"firstLine\": \"1 A Road\",\n        \"postCode\": \"B11D33\",\n        \"city\": \"London\",\n        \"state\": null,\n        \"occupation\": null\n    }\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/addresses",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"addresses"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "3. Create address",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"profile\": {{business-profile-id}},\n    \"details\": {\n        \"country\": \"GB\",\n        \"firstLine\": \"1 A Road\",\n        \"postCode\": \"B11D33\",\n        \"city\": \"London\",\n        \"state\": null,\n        \"occupation\": null\n    }\n}"
+										},
+										"url": {
+											"raw": "{{host}}/v1/addresses",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"addresses"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 16 Sep 2020 09:21:00 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.14.0 (Ubuntu)"
+										},
+										{
+											"key": "x-request-id",
+											"value": "799ce4df-c9aa-978a-929f-34582a7ae841"
+										},
+										{
+											"key": "vary",
+											"value": "accept-encoding,origin,access-control-request-headers,access-control-request-method"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "DENY"
+										},
+										{
+											"key": "expires",
+											"value": "0"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "content-encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "x-envoy-upstream-service-time",
+											"value": "846"
+										},
+										{
+											"key": "x-envoy-attempt-count",
+											"value": "1"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 37034385,\n    \"profile\": 16034433,\n    \"details\": {\n        \"country\": \"GB\",\n        \"firstLine\": \"1 A Road\",\n        \"postCode\": \"B11D33\",\n        \"city\": \"London\",\n        \"state\": null,\n        \"occupation\": null,\n        \"occupations\": null\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "4. Create business directors",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n             {\n                 \"firstName\": \"John\",\n                 \"lastName\": \"Doe\",\n                 \"dateOfBirth\": \"1982-01-01\",\n                 \"countryOfResidenceIso3Code\": \"usa\"\n             },\n             {\n                 \"firstName\": \"Jane\",\n                 \"lastName\": \"Doe\",\n                 \"dateOfBirth\": \"1981-01-01\",\n                 \"countryOfResidenceIso3Code\": \"usa\"\n             }\n        ]"
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{business-profile-id}}/directors",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{business-profile-id}}",
+										"directors"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "4. Create business directors",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[\n             {\n                 \"firstName\": \"John\",\n                 \"lastName\": \"Doe\",\n                 \"dateOfBirth\": \"1982-01-01\",\n                 \"countryOfResidenceIso3Code\": \"usa\"\n             },\n             {\n                 \"firstName\": \"Jane\",\n                 \"lastName\": \"Doe\",\n                 \"dateOfBirth\": \"1981-01-01\",\n                 \"countryOfResidenceIso3Code\": \"usa\"\n             }\n        ]"
+										},
+										"url": {
+											"raw": "{{host}}/v1/profiles/{{business-profile-id}}/directors",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"profiles",
+												"{{business-profile-id}}",
+												"directors"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 16 Sep 2020 09:21:54 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.14.0 (Ubuntu)"
+										},
+										{
+											"key": "x-request-id",
+											"value": "503464ef-1689-9115-9444-b5a31e2f9765"
+										},
+										{
+											"key": "vary",
+											"value": "accept-encoding,origin,access-control-request-headers,access-control-request-method"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "DENY"
+										},
+										{
+											"key": "expires",
+											"value": "0"
+										},
+										{
+											"key": "location",
+											"value": "/v1/profiles/16034433/directors"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "content-encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "x-envoy-upstream-service-time",
+											"value": "159"
+										},
+										{
+											"key": "x-envoy-attempt-count",
+											"value": "1"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"id\": 700104,\n        \"firstName\": \"John\",\n        \"lastName\": \"Doe\",\n        \"dateOfBirth\": \"1982-01-01\",\n        \"countryOfResidenceIso3Code\": \"usa\"\n    },\n    {\n        \"id\": 700105,\n        \"firstName\": \"Jane\",\n        \"lastName\": \"Doe\",\n        \"dateOfBirth\": \"1981-01-01\",\n        \"countryOfResidenceIso3Code\": \"usa\"\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "5. Create business UBOs",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n             {\n                 \"name\": \"John Doe\",\n                 \"dateOfBirth\": \"1982-05-20\",\n                 \"countryOfResidenceIso3Code\": \"usa\",\n                 \"addressFirstLine\": \"123 Fake St\",\n                 \"postCode\": \"FK 12345\",\n                 \"ownershipPercentage\": 30\n             },\n             {\n                 \"name\": \"Jane Doe\",\n                 \"dateOfBirth\": \"1981-12-07\",\n                 \"countryOfResidenceIso3Code\": \"usa\",\n                 \"addressFirstLine\": \"125 Fake St\",\n                 \"postCode\": \"FK 12545\",\n                 \"ownershipPercentage\": 40\n             }\n        ]"
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{business-profile-id}}/ubos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{business-profile-id}}",
+										"ubos"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "5. Create business UBOs",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[\n             {\n                 \"name\": \"John Doe\",\n                 \"dateOfBirth\": \"1982-05-20\",\n                 \"countryOfResidenceIso3Code\": \"usa\",\n                 \"addressFirstLine\": \"123 Fake St\",\n                 \"postCode\": \"FK 12345\",\n                 \"ownershipPercentage\": 30\n             },\n             {\n                 \"name\": \"Jane Doe\",\n                 \"dateOfBirth\": \"1981-12-07\",\n                 \"countryOfResidenceIso3Code\": \"usa\",\n                 \"addressFirstLine\": \"125 Fake St\",\n                 \"postCode\": \"FK 12545\",\n                 \"ownershipPercentage\": 40\n             }\n        ]"
+										},
+										"url": {
+											"raw": "{{host}}/v1/profiles/{{business-profile-id}}/ubos",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"profiles",
+												"{{business-profile-id}}",
+												"ubos"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 16 Sep 2020 09:27:35 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.14.0 (Ubuntu)"
+										},
+										{
+											"key": "x-request-id",
+											"value": "10e72f64-e4ee-95de-94d5-bb3235d263df"
+										},
+										{
+											"key": "vary",
+											"value": "accept-encoding,origin,access-control-request-headers,access-control-request-method"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "DENY"
+										},
+										{
+											"key": "expires",
+											"value": "0"
+										},
+										{
+											"key": "location",
+											"value": "/v1/profiles/16034433/ubos"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "content-encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "x-envoy-upstream-service-time",
+											"value": "220"
+										},
+										{
+											"key": "x-envoy-attempt-count",
+											"value": "1"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"id\": \"e28cc6e9b343eef7f618923b4ade2619\",\n        \"name\": \"John Doe\",\n        \"dateOfBirth\": \"1982-05-20\",\n        \"countryOfResidenceIso3Code\": \"usa\",\n        \"addressFirstLine\": \"123 Fake St\",\n        \"postCode\": \"FK 12345\",\n        \"ownershipPercentage\": 30\n    },\n    {\n        \"id\": \"a9578a5a0544d06fd73756dc627518a4\",\n        \"name\": \"Jane Doe\",\n        \"dateOfBirth\": \"1981-12-07\",\n        \"countryOfResidenceIso3Code\": \"usa\",\n        \"addressFirstLine\": \"125 Fake St\",\n        \"postCode\": \"FK 12545\",\n        \"ownershipPercentage\": 40\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "6. Close update window",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{business-profile-id}}/update-window",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{business-profile-id}}",
+										"update-window"
+									]
+								},
+								"description": "The endpoint closes an open update window."
+							},
+							"response": [
+								{
+									"name": "6. Close update window",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": []
+										},
+										"url": {
+											"raw": "{{host}}/v1/profiles/{{business-profile-id}}/update-window",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"profiles",
+												"{{business-profile-id}}",
+												"update-window"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 16 Sep 2020 09:46:05 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "0"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.14.0 (Ubuntu)"
+										},
+										{
+											"key": "x-request-id",
+											"value": "1a784a2d-a159-92f8-bd78-2e045c408224"
+										},
+										{
+											"key": "vary",
+											"value": "Origin,Access-Control-Request-Method,Access-Control-Request-Headers"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "expires",
+											"value": "0"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "DENY"
+										},
+										{
+											"key": "x-envoy-upstream-service-time",
+											"value": "82"
+										},
+										{
+											"key": "x-envoy-attempt-count",
+											"value": "1"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					],
+					"description": "Only required for business accounts.",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "4. Profile extensions",
+					"item": [
+						{
+							"name": "1. Check extension requirements",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/extension-requirements",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{personal-profile-id}}",
+										"extension-requirements"
+									]
+								},
+								"description": "Check if any additional profile information is required."
+							},
+							"response": [
+								{
+									"name": "1. Check extension requirements",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/extension-requirements",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"profiles",
+												"{{personal-profile-id}}",
+												"extension-requirements"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 16 Sep 2020 12:01:00 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.14.0 (Ubuntu)"
+										},
+										{
+											"key": "x-request-id",
+											"value": "80a7ab8a-6e00-989d-994a-ea6b8e4e2f27"
+										},
+										{
+											"key": "vary",
+											"value": "accept-encoding,origin,access-control-request-headers,access-control-request-method"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "DENY"
+										},
+										{
+											"key": "expires",
+											"value": "0"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "content-encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "x-envoy-upstream-service-time",
+											"value": "96"
+										},
+										{
+											"key": "x-envoy-attempt-count",
+											"value": "1"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"type\": \"profile-extensions-requirements\",\n        \"usageInfo\": null,\n        \"fields\": [\n            {\n                \"name\": \"Tell us what you're using TransferWise for\",\n                \"group\": [\n                    {\n                        \"key\": \"accountPurpose\",\n                        \"name\": \"Account Purpose\",\n                        \"type\": \"select\",\n                        \"refreshRequirementsOnChange\": false,\n                        \"required\": true,\n                        \"displayFormat\": null,\n                        \"example\": null,\n                        \"minLength\": null,\n                        \"maxLength\": null,\n                        \"validationRegexp\": null,\n                        \"validationAsync\": null,\n                        \"valuesAllowed\": [\n                            {\n                                \"key\": \"CONTRIBUTING_TO_PERSONAL_SAVINGS\",\n                                \"name\": \"Contributing to personal savings\"\n                            },\n                            {\n                                \"key\": \"GENERAL_MONTHLY_LIVING_EXPENSES\",\n                                \"name\": \"General monthly living expenses\"\n                            },\n                            {\n                                \"key\": \"INVESTING_IN_FUNDS_STOCKS_BONDS_OPTIONS_FUTURES_OR_OTHER\",\n                                \"name\": \"Investing in funds stocks bonds options futures or other\"\n                            },\n                            {\n                                \"key\": \"PAYING_FOR_GOODS_OR_SERVICES_ABROAD\",\n                                \"name\": \"Paying for goods or services abroad\"\n                            },\n                            {\n                                \"key\": \"PAYING_RENT_MORTGAGE_BANK_LOAN_INSURANCE_CREDIT\",\n                                \"name\": \"Paying rent mortgage bank loan insurance credit\"\n                            },\n                            {\n                                \"key\": \"PAYING_RENT_UTILITIES_OR_PROPERTY_CHARGES\",\n                                \"name\": \"Paying rent utilities or property charges\"\n                            },\n                            {\n                                \"key\": \"RECEIVE_SALARY_IN_DIFFERENT_CURRENCY\",\n                                \"name\": \"Receive salary in different currency\"\n                            },\n                            {\n                                \"key\": \"RECEIVE_PENSION_IN_DIFFERENT_CURRENCY\",\n                                \"name\": \"Receive pension in different currency\"\n                            },\n                            {\n                                \"key\": \"SENDING_MONEY_REGULARLY_TO_FAMILY\",\n                                \"name\": \"Sending money regularly to family\"\n                            },\n                            {\n                                \"key\": \"SENDING_MONEY_TO_MY_OWN_ACCOUNT_TO_BENEFIT_FROM_EXHCANGE_RATE\",\n                                \"name\": \"Sending money to my own account to benefit from exchange rate\"\n                            }\n                        ]\n                    }\n                ]\n            }\n        ]\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "2. Add information to the profile",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"details\": {\n        \"accountPurpose\": \"SENDING_MONEY_REGULARLY_TO_FAMILY\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/extensions",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{personal-profile-id}}",
+										"extensions"
+									]
+								},
+								"description": "Once you have built your full profile extension details object you can add it to add information to the profile."
+							},
+							"response": [
+								{
+									"name": "2. Add information to the profile",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"details\": {\n        \"accountPurpose\": \"SENDING_MONEY_REGULARLY_TO_FAMILY\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/extensions",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"profiles",
+												"{{personal-profile-id}}",
+												"extensions"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 16 Sep 2020 12:04:33 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.14.0 (Ubuntu)"
+										},
+										{
+											"key": "x-request-id",
+											"value": "b0f34b2c-d700-9178-94cd-d86513a903c6"
+										},
+										{
+											"key": "vary",
+											"value": "accept-encoding,origin,access-control-request-headers,access-control-request-method"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "DENY"
+										},
+										{
+											"key": "expires",
+											"value": "0"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "content-encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "x-envoy-upstream-service-time",
+											"value": "170"
+										},
+										{
+											"key": "x-envoy-attempt-count",
+											"value": "1"
+										}
+									],
+									"cookie": [],
+									"body": "{}"
+								}
+							]
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "1. Creating or accessing existing users Copy",
+			"item": [
+				{
+					"name": "1a. Access Existing User",
+					"item": [
+						{
+							"name": "1. Generate token from authorization code",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.access_token) postman.setEnvironmentVariable(\"token\", jsonData.access_token);",
+											"if (jsonData.refresh_token) postman.setEnvironmentVariable(\"refresh\", jsonData.refresh_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{client-secret}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{client-id}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "grant_type",
+											"value": "authorization_code",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "{{client-id}}",
+											"type": "text"
+										},
+										{
+											"key": "redirect_uri",
+											"value": "{{client-redirect-uri}}",
+											"type": "text"
+										},
+										{
+											"key": "code",
+											"value": "<code from redirect url>",
+											"type": "text"
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host}}/oauth/token",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"oauth",
+										"token"
+									]
+								},
+								"description": "This endpoint is used to link an existing TransferWise account to a bank account. It is used as part of the redirection flow that allows the customer to sign into their TransferWise account and authorise the linking of their profile."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "1b Generate new token for returning user",
+					"item": [
+						{
+							"name": "1. Generate access token from refresh token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.access_token) postman.setEnvironmentVariable(\"token\", jsonData.access_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{client-secret}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{client-id}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "grant_type",
+											"value": "refresh_token",
+											"type": "text"
+										},
+										{
+											"key": "refresh_token",
+											"value": "{{refresh}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host}}/oauth/token",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"oauth",
+										"token"
+									]
+								},
+								"description": "This endpoint is used to generate a new access token if the previous one has expired. The refresh token is initially generated when creating a new user or when linking an existing TransferWise account."
+							},
+							"response": [
+								{
+									"name": "1. Generate access token from refresh token",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/x-www-form-urlencoded",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "grant_type",
+													"value": "refresh_token",
+													"type": "text"
+												},
+												{
+													"key": "refresh_token",
+													"value": "{{refresh}}",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{host}}/oauth/token",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"oauth",
+												"token"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 16 Sep 2020 10:19:33 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json;charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "214"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.14.0 (Ubuntu)"
+										},
+										{
+											"key": "x-request-id",
+											"value": "535d9301-fd29-9470-a43b-27c8761465bb"
+										},
+										{
+											"key": "x-application-context",
+											"value": "identity-service:oauth-clients,one-time-token,staging,kubernetes-customenvs:12345"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "DENY"
+										},
+										{
+											"key": "x-newrelic-app-data",
+											"value": "PxQGWVBaCwUGR1JTAQMPUFAHBRFORDQHUjZKA1ZLVVFHDFYPbU5kBwZqGA4HFkxbbEsVDVxUWUZMYXlgNk9BTgBMCE4IFgQKB1cLVQRZH1VRGhVXUAVcBghUU1oEBA9RAFUBEU4AAg5DB2U="
+										},
+										{
+											"key": "vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "x-envoy-upstream-service-time",
+											"value": "91"
+										},
+										{
+											"key": "x-envoy-attempt-count",
+											"value": "1"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"access_token\": \"{access_token}\",\n    \"token_type\": \"bearer\",\n    \"refresh_token\": \"{refresh_token}\",\n    \"expires_in\": 43199,\n    \"scope\": \"transfers\",\n    \"created_at\": \"2020-09-16T10:19:33.145563Z\"\n}"
+								}
+							]
+						}
+					],
+					"description": "After previosuly completing 1a or 1b you will have a refresh token stored, use this to generate new access tokens"
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Transfer Flow",
+			"item": [
+				{
+					"name": "1. Create quote",
+					"item": [
+						{
+							"name": "1. Create Anonymous Quote",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.id) postman.setEnvironmentVariable(\"new-quote-id\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"sourceCurrency\": \"GBP\",\n\t\"targetCurrency\": \"USD\",\n\t\"sourceAmount\": 100,\n\t\"targetAmount\": null\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/quotes",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"quotes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Create Quote",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.id) postman.setEnvironmentVariable(\"new-quote-id\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"sourceCurrency\": \"GBP\",\n\t\"targetCurrency\": \"USD\",\n\t\"sourceAmount\": 100,\n\t\"targetAmount\": null,\n\t\"profile\": <owning profile id>\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/quotes",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"quotes"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "2. Choose/create recipient",
+					"item": [
+						{
+							"name": "2a. Select Existing",
+							"item": [
+								{
+									"name": "1. Load accounts",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{host}}/v2/accounts/?currency=USD",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v2",
+												"accounts",
+												""
+											],
+											"query": [
+												{
+													"key": "currency",
+													"value": "USD"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "2b. Create new recipient account",
+							"item": [
+								{
+									"name": "1. Get recipient creation dynamic form",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Accept-Language",
+												"value": "FR",
+												"disabled": true
+											},
+											{
+												"key": "Accept-Minor-Version",
+												"value": "1",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{host}}/v1/quotes/{{new-quote-id}}/account-requirements",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"quotes",
+												"{{new-quote-id}}",
+												"account-requirements"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "2. Update form if any field require refresh",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"type\": \"aba\",\n    \"details\": {\n        \"legalType\": \"PRIVATE\",\n        \"address\": {\n            \"country\": \"US\"\n        }\n    }\n}"
+										},
+										"url": {
+											"raw": "{{host}}/v1/quotes/{{new-quote-id}}/account-requirements",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"quotes",
+												"{{new-quote-id}}",
+												"account-requirements"
+											]
+										},
+										"description": "POST /account-requirements"
+									},
+									"response": []
+								},
+								{
+									"name": "3. Create account",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"if (jsonData.id) postman.setEnvironmentVariable(\"new-recipient-id\", jsonData.id);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"accountHolderName\": \"Person USD\",\n    \"currency\": \"USD\",\n    \"type\": \"ABA\",\n    \"details\": {\n      \"address\": {\n        \"city\": \"New York\",\n        \"countryCode\": \"US\",\n        \"postCode\": \"10025\",\n        \"state\": \"NY\",\n        \"firstLine\": \"158 Wall Street\"\n      },\n      \"legalType\":\"PRIVATE\",\n      \"abartn\": \"064000020\",\n      \"accountType\": \"CHECKING\",\n      \"accountNumber\": \"40000000000\",\n      \"email\": \"example@foobar.com\"\n    }\n  }"
+										},
+										"url": {
+											"raw": "{{host}}/v1/accounts",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"accounts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "4. Get account in v2 format",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{host}}/v2/accounts/{{new-recipient-id}}",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v2",
+												"accounts",
+												"{{new-recipient-id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "3. Create account - PHP Recipient",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"if (jsonData.id) postman.setEnvironmentVariable(\"new-recipient-id\", jsonData.id);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"accountHolderName\": \"Sanj kv\",\n    \"currency\": \"PHP\",\n    \"type\":\"philippines\",\n    \"details\": {\n      \"address\": {\n        \"city\": \"Manila\",\n        \"countryCode\": \"PH\",\n        \"postCode\": \"10025\",\n        \"firstLine\": \"158 Wall Street\"\n      },\n      \"legalType\":\"PRIVATE\",\n      \"bankCode\": \"ANZ\",\n      \"accountNumber\": \"01740000098\",\n      \"email\": \"example@foobar.com\"\n    }\n  }"
+										},
+										"url": {
+											"raw": "{{host}}/v1/accounts",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"accounts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "3. Create account - SGD recipient",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"if (jsonData.id) postman.setEnvironmentVariable(\"new-recipient-id\", jsonData.id);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"accountHolderName\": \"Person USD\",\n    \"currency\": \"SGD\",\n    \"type\": \"singapore\",\n    \"details\": {\n      \"address\": {\n        \"city\": \"Singapore\",\n        \"countryCode\": \"SG\",\n        \"postCode\": \"10025\",\n        \"firstLine\": \"158 Wall Street\"\n      },\n      \"legalType\":\"PRIVATE\",\n      \"bankCode\": \"7171\",\n      \"accountNumber\": \"4000000000\",\n      \"email\": \"example@foobar.com\"\n    }\n  }"
+										},
+										"url": {
+											"raw": "{{host}}/v1/accounts",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"accounts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "3. Create account - Global USD",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"if (jsonData.id) postman.setEnvironmentVariable(\"new-recipient-id\", jsonData.id);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"accountHolderName\": \"Global USD\",\n    \"currency\": \"USD\",\n    \"type\": \"swift_code\",\n    \"details\": {\n      \"address\": {\n        \"city\": \"Singapore\",\n        \"countryCode\": \"SG\",\n        \"postCode\": \"10025\",\n        \"firstLine\": \"158 Wall Street\"\n      },\n      \"country\":\"SG\",\n      \"legalType\":\"PRIVATE\",\n      \"swiftCode\":\"DBSSSGSGXXX\",\n      \"accountNumber\": \"40000000000\",\n      \"email\": \"example@foobar.com\"\n    }\n  }"
+										},
+										"url": {
+											"raw": "{{host}}/v1/accounts",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"accounts"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "2c. Create refund recipient",
+							"item": [
+								{
+									"name": "1. Create Refund Recipient",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n          \"currency\": \"GBP\",\n          \"type\": \"sort_code\",\n          \"profile\": <your profile id>,\n          \"accountHolderName\": \"Ann Johnson\",\n           \"details\": {\n              \"legalType\": \"PRIVATE\",\n              \"sortCode\": \"231470\",\n              \"accountNumber\": \"28821822\"\n           }\n         }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/v1/refund-accounts",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"refund-accounts"
+											]
+										},
+										"description": "Sometimes we may need to refund the transfer's funds - see the [transfer status here](https://transferwise.github.io/api-docs-banks/#transferwise-for-banks-api-integration-guide-track-transfer-status) for cases when this may happen.\n\nA refund recipient is a person or institution where we will refund transfer funds to. This is not a mandatory step if your bank is using a fast local payment network as we can usually infer the refund recipient from the bank transaction that funded the transfer.\n\nBut if your bank is using a slow domestic payment network and a \"prefunded\" model, we may try to refund before we receive the funds in our bank transactions. In these instances, we require banks to inform us what are the details where to refund transfers. In order to do this we have current API\n\nThis API is identical to the regular recipient account creation. The refund recipient account id returned here is needed when creating transfers in step 3 as the field sourceAccount.\n\nThe format of the request payload for refund recipient creation will be different depending on the currency your bank will send transfers from. The above example is for GBP only. We can provide the correct format for your bank upon request."
+									},
+									"response": [
+										{
+											"name": "1. Create Refund Recipient",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer {{token}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n          \"currency\": \"GBP\",\n          \"type\": \"sort_code\",\n          \"profile\": <your profile id>,\n          \"accountHolderName\": \"Ann Johnson\",\n           \"details\": {\n              \"legalType\": \"PRIVATE\",\n              \"sortCode\": \"231470\",\n              \"accountNumber\": \"28821822\"\n           }\n         }",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{host}}/v1/refund-accounts",
+													"host": [
+														"{{host}}"
+													],
+													"path": [
+														"v1",
+														"refund-accounts"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 16 Sep 2020 10:08:58 GMT"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												},
+												{
+													"key": "Server",
+													"value": "nginx/1.14.0 (Ubuntu)"
+												},
+												{
+													"key": "x-request-id",
+													"value": "999d4d48-8e26-9f96-bcf5-4ab1d847a447"
+												},
+												{
+													"key": "vary",
+													"value": "accept-encoding,origin,access-control-request-headers,access-control-request-method"
+												},
+												{
+													"key": "expires",
+													"value": "0"
+												},
+												{
+													"key": "x-newrelic-app-data",
+													"value": "PxQGWVBaCwUGR1JTAQMPUFIIBxFORDQHUjZKA1ZLVVFHDFYPbU5kBwZqGBETAVRaUzhOFAZtGAcHUllGDBIQQhgydzFsERYeA0sJTQFPA1ZWBgVWU1MPHwNUU04VCFUDAQYFAQNeVlUCUVxRXRoYVFIJSgRs"
+												},
+												{
+													"key": "x-frame-options",
+													"value": "DENY"
+												},
+												{
+													"key": "x-content-type-options",
+													"value": "nosniff"
+												},
+												{
+													"key": "x-xss-protection",
+													"value": "1; mode=block"
+												},
+												{
+													"key": "cache-control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "content-encoding",
+													"value": "gzip"
+												},
+												{
+													"key": "x-envoy-upstream-service-time",
+													"value": "101"
+												},
+												{
+													"key": "x-envoy-attempt-count",
+													"value": "1"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"id\": 14076196,\n    \"business\": null,\n    \"profile\": <your profile id>,\n    \"accountHolderName\": \"Ann Johnson\",\n    \"currency\": \"GBP\",\n    \"country\": \"GB\",\n    \"type\": \"sort_code\",\n    \"details\": {\n        \"address\": null,\n        \"email\": null,\n        \"legalType\": \"PRIVATE\",\n        \"accountNumber\": \"28821822\",\n        \"sortCode\": \"231470\",\n        \"abartn\": null,\n        \"accountType\": null,\n        \"bankgiroNumber\": null,\n        \"ifscCode\": null,\n        \"bsbCode\": null,\n        \"institutionNumber\": null,\n        \"transitNumber\": null,\n        \"phoneNumber\": null,\n        \"bankCode\": null,\n        \"russiaRegion\": null,\n        \"routingNumber\": null,\n        \"branchCode\": null,\n        \"cpf\": null,\n        \"cardNumber\": null,\n        \"idType\": null,\n        \"idNumber\": null,\n        \"idCountryIso3\": null,\n        \"idValidFrom\": null,\n        \"idValidTo\": null,\n        \"clabe\": null,\n        \"swiftCode\": null,\n        \"dateOfBirth\": null,\n        \"clearingNumber\": null,\n        \"bankName\": null,\n        \"branchName\": null,\n        \"businessNumber\": null,\n        \"province\": null,\n        \"city\": null,\n        \"rut\": null,\n        \"token\": null,\n        \"cnpj\": null,\n        \"payinReference\": null,\n        \"pspReference\": null,\n        \"orderId\": null,\n        \"idDocumentType\": null,\n        \"idDocumentNumber\": null,\n        \"targetProfile\": null,\n        \"targetUserId\": null,\n        \"taxId\": null,\n        \"job\": null,\n        \"nationality\": null,\n        \"interacAccount\": null,\n        \"bban\": null,\n        \"town\": null,\n        \"postCode\": null,\n        \"IBAN\": null,\n        \"iban\": null,\n        \"BIC\": null,\n        \"bic\": null\n    },\n    \"user\": <your user id>,\n    \"active\": true,\n    \"ownedByCustomer\": false\n}"
+										}
+									]
+								}
+							]
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "3. Create transfer",
+					"item": [
+						{
+							"name": "1. Update quote with selected recipient",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/merge-patch+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"targetAccount\": {{new-recipient-id}}\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/quotes/{{new-quote-id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"quotes",
+										"{{new-quote-id}}"
+									]
+								},
+								"description": "Set the recipient the user wishes to send to on the quote to get an updated price and delivery estimte.\n\nENSURE `Content-Type` IS `application/merge-patch+json` ELSE THIS WILL FAIL"
+							},
+							"response": []
+						},
+						{
+							"name": "2. Get transfer extra info dynamic form",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"targetAccount\": {{new-recipient-id}},\n    \"quoteUuid\": \"{{new-quote-id}}\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/transfer-requirements",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"transfer-requirements"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Update transfer extra info dynamic form (if any fields require refresh)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \n\t\"targetAccount\": {{new-recipient-id}},\n    \"quoteUuid\": \"{{new-quote-id}}\",\n    \"details\": {\n        \"reference\": \"my ref\",\n    \t\"sourceOfFunds\": \"verification.source.of.funds.other\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/transfer-requirements",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"transfer-requirements"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4. Generate GUID for idempotency",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (responseBody) postman.setEnvironmentVariable(\"idempotency-guid\", responseBody);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://www.uuidgenerator.net/api/guid",
+									"protocol": "https",
+									"host": [
+										"www",
+										"uuidgenerator",
+										"net"
+									],
+									"path": [
+										"api",
+										"guid"
+									]
+								},
+								"description": "You don't have to use an API for this - you can almost certainly do it in code. This is just for testing convenience."
+							},
+							"response": []
+						},
+						{
+							"name": "5. Create transfer",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.id) postman.setEnvironmentVariable(\"new-transfer-id\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"targetAccount\": {{new-recipient-id}},\n    \"quoteUuid\": \"{{new-quote-id}}\",\n    \"customerTransactionId\": \"<idempotency guid>\",\n    \"details\": {\n        \"reference\": \"my ref\",\n        \"transferPurpose\": \"verification.transfers.purpose.pay.bills\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/transfers",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"transfers"
+									]
+								},
+								"description": "A transfer is a payment order to recipient account based on a quote. Once created, a transfer needs to be funded within the next five working days. Otherwise, it will be automatically canceled."
+							},
+							"response": []
+						},
+						{
+							"name": "6. Create Transfer for third party payments",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.id) postman.setEnvironmentVariable(\"new-transfer-id\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"targetAccount\": {{new-recipient-id}},\n    \"quote\": \"{{new-quote-id}}\",\n    \"originalTransactionId\": \"<idempotency guid>\",\n    \"details\": {\n        \"reference\": \"Holiday\"\n    },\n    \"originator\": {\n        \"legalEntityType\": \"PRIVATE\",\n        \"reference\" : \"<unique customer id in your system>\",\n        \"name\": {\n            \"givenName\": \"John\",\n            \"middleNames\": [\n                \"Jay\"\n            ],\n            \"familyName\": \"Doe\"\n        },\n        \"dateOfBirth\": \"1977-07-01\",\n        \"address\": {\n            \"firstLine\": \"53 Shoreditch \",\n            \"city\": \"Tallinn\",\n            \"countryCode\": \"EE\",\n            \"postCode\": \"12112\"\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/third-party-transfers",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{personal-profile-id}}",
+										"third-party-transfers"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "4. Fund transfer",
+			"item": [
+				{
+					"name": "4a. Get payment reference for domestic transfer",
+					"item": [
+						{
+							"name": "1. Get payment reference (for bank payment funding)",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{host}}/v1/quotes/{{new-quote-id}}/pay-in-methods",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"quotes",
+										"{{new-quote-id}}",
+										"pay-in-methods"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Payin Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.transferwise.com/v1/profiles/{{personal-profile-id}}/transfers/{{new-transfer-id}}/deposit-details/bank-transfer",
+							"protocol": "https",
+							"host": [
+								"api",
+								"transferwise",
+								"com"
+							],
+							"path": [
+								"v1",
+								"profiles",
+								"{{personal-profile-id}}",
+								"transfers",
+								"{{new-transfer-id}}",
+								"deposit-details",
+								"bank-transfer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5. Get updated transfer status",
+			"item": [
+				{
+					"name": "1. Get transfer status",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/v1/transfers/{{new-transfer-id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"transfers",
+								"{{new-transfer-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Get updated delivery esitmation",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/v1/delivery-estimates/{{new-transfer-id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"delivery-estimates",
+								"{{new-transfer-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "6. Webhooks subscription",
+			"item": [
+				{
+					"name": "1. Client Credentials Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.access_token) postman.setEnvironmentVariable(\"client-credentials-token\", jsonData.access_token);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{client-secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{client-id}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						},
+						"description": "Get a client credentials token to use to create a user"
+					},
+					"response": []
+				},
+				{
+					"name": "2. Create transfer state change webhook subscription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client-credentials-token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Webhook Subscription #1\",\n    \"trigger_on\": \"transfers#state-change\",\n    \"delivery\": {\n       \"version\": \"2.0.0\",\n       \"url\": \"<your webhook URL>\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v3/applications/{{client-id}}/subscriptions/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"applications",
+								"{{client-id}}",
+								"subscriptions",
+								""
+							]
+						},
+						"description": "Subscribe application for transfer status change events"
+					},
+					"response": []
+				},
+				{
+					"name": "3. List application webhook subscriptions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"tests['There are two subscriptions availabale'] = (jsonData.length == 2)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v3/applications/{{client-id}}/subscriptions",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"applications",
+								"{{client-id}}",
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Get aplication webhook subscription by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v3/applications/{{client-id}}/subscriptions/{{webhook-subscription-id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"applications",
+								"{{client-id}}",
+								"subscriptions",
+								"{{webhook-subscription-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Delete application webhook subscription",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v3/applications/{{client-id}}/subscriptions/{{webhook-subscription-id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"applications",
+								"{{client-id}}",
+								"subscriptions",
+								"{{webhook-subscription-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "7. Transfer state simulation",
+			"item": [
+				{
+					"name": "1. Set as processing",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v1/simulation/transfers/{{new-transfer-id}}/processing",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"transfers",
+								"{{new-transfer-id}}",
+								"processing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Set as funds_converted",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v1/simulation/transfers/{{new-transfer-id}}/funds_converted",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"transfers",
+								"{{new-transfer-id}}",
+								"funds_converted"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Set as outgoing_payment_sent",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v1/simulation/transfers/{{new-transfer-id}}/outgoing_payment_sent",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"transfers",
+								"{{new-transfer-id}}",
+								"outgoing_payment_sent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Set as bounced_back",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v1/simulation/transfers/{{new-transfer-id}}/bounced_back",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"transfers",
+								"{{new-transfer-id}}",
+								"bounced_back"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Set as funds_refunded",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v1/simulation/transfers/{{new-transfer-id}}/funds_refunded",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"transfers",
+								"{{new-transfer-id}}",
+								"funds_refunded"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "8. Get transfer receipt",
+			"item": [
+				{
+					"name": "Get reciept PDF",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v1/transfers/{{new-transfer-id}}/receipt.pdf",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"transfers",
+								"{{new-transfer-id}}",
+								"receipt.pdf"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
