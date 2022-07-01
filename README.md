@@ -17,3 +17,7 @@ This collection, aimed for non-bank partners, contains the API flow for a third-
 ## multi-currency-account
 
 This collection, aimed for Multi-Currency Account APIs, containers the environment, useful endpoints and different flows for using the MCA balances.
+
+## payouts-and-third-party-payments
+
+This collection is aimed to take your through the endpoints for Payouts and 3rd party payment APIs. The transfer flow is covered in our public guide/api docs.
