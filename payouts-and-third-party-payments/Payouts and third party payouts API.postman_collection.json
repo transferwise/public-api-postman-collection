@@ -107,7 +107,7 @@
 										"token"
 									]
 								},
-								"description": "This endpoint is used to link an existing TransferWise account to a bank account. It is used as part of the redirection flow that allows the customer to sign into their TransferWise account and authorise the linking of their profile."
+								"description": "This endpoint is used to link an existing Wise user to the partner application. It is used as part of the redirection flow that allows the customer to sign into their Wise account and authorise the linking of their profile."
 							},
 							"response": []
 						}
@@ -189,7 +189,7 @@
 										"token"
 									]
 								},
-								"description": "This endpoint is used to generate a new access token if the previous one has expired. The refresh token is initially generated when creating a new user or when linking an existing TransferWise account."
+								"description": "This endpoint is used to generate a new access token if the previous one has expired. The refresh token is initially generated when creating a new user or when linking an existing Wise account."
 							},
 							"response": [
 								{
@@ -253,10 +253,6 @@
 										{
 											"key": "Server",
 											"value": "nginx/1.14.0 (Ubuntu)"
-										},
-										{
-											"key": "x-request-id",
-											"value": "535d9301-fd29-9470-a43b-27c8761465bb"
 										},
 										{
 											"key": "x-application-context",
@@ -363,7 +359,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"sourceCurrency\": \"GBP\",\n\t\"targetCurrency\": \"USD\",\n\t\"sourceAmount\": 100,\n\t\"targetAmount\": null,\n\t\"profile\": <owning profile id>\n}"
+									"raw": "{\n\t\"sourceCurrency\": \"GBP\",\n\t\"targetCurrency\": \"USD\",\n\t\"sourceAmount\": 100,\n\t\"targetAmount\": null,\n\t\"profile\": {{business-profile-id}}\n}"
 								},
 								"url": {
 									"raw": "{{host}}/v2/quotes",
@@ -523,7 +519,7 @@
 									"response": []
 								},
 								{
-									"name": "2. Update form if any field require refresh",
+									"name": "2. Update form if any field requires refresh",
 									"request": {
 										"method": "POST",
 										"header": [
@@ -600,7 +596,7 @@
 									"response": []
 								},
 								{
-									"name": "3. Create account - SGD recipient example",
+									"name": "3. Create account - [EXAMPLE] SGD Recipient",
 									"event": [
 										{
 											"listen": "test",
@@ -643,7 +639,7 @@
 									"response": []
 								},
 								{
-									"name": "3. Create account - Global USD example",
+									"name": "3. Create account - [EXAMPLE] Global USD Recipient",
 									"event": [
 										{
 											"listen": "test",
@@ -740,7 +736,7 @@
 												"refund-accounts"
 											]
 										},
-										"description": "Sometimes we may need to refund the transfer's funds - see the [transfer status here](https://transferwise.github.io/api-docs-banks/#transferwise-for-banks-api-integration-guide-track-transfer-status) for cases when this may happen.\n\nA refund recipient is a person or institution where we will refund transfer funds to. This is not a mandatory step if your bank is using a fast local payment network as we can usually infer the refund recipient from the bank transaction that funded the transfer.\n\nBut if your bank is using a slow domestic payment network and a \"prefunded\" model, we may try to refund before we receive the funds in our bank transactions. In these instances, we require banks to inform us what are the details where to refund transfers. In order to do this we have current API\n\nThis API is identical to the regular recipient account creation. The refund recipient account id returned here is needed when creating transfers in step 3 as the field sourceAccount.\n\nThe format of the request payload for refund recipient creation will be different depending on the currency your bank will send transfers from. The above example is for GBP only. We can provide the correct format for your bank upon request."
+										"description": "Sometimes we may need to refund the transfer's funds - see the [transfer status here](https://transferwise.github.io/api-docs-banks/#transferwise-for-banks-api-integration-guide-track-transfer-status) for cases when this may happen.\n\nA refund recipient is a person or institution where we will refund the funds to. This is not a mandatory step if your bank is using a fast local payment network as we can usually infer the refund recipient from the bank transaction that funded the transfer.\n\nBut if your bank is using a slow domestic payment network and a \"prefunded\" model, we may try to refund before we receive the funds in our bank transactions. In these instances, we require banks to inform us what are the details where to refund transfers. In order to do this we have current API\n\nThis API is identical to the regular recipient account creation. The refund recipient account id returned here is needed when creating transfers in step 3 as the field sourceAccount.\n\nThe format of the request payload for refund recipient creation will be different depending on the currency your bank will send transfers from. The above example is for GBP only. We can provide the correct format for your bank upon request."
 									},
 									"response": [
 										{
@@ -797,10 +793,6 @@
 												{
 													"key": "Server",
 													"value": "nginx/1.14.0 (Ubuntu)"
-												},
-												{
-													"key": "x-request-id",
-													"value": "999d4d48-8e26-9f96-bcf5-4ab1d847a447"
 												},
 												{
 													"key": "vary",
@@ -978,7 +970,7 @@
 							"response": []
 						},
 						{
-							"name": "4. Generate GUID for idempotency",
+							"name": "4. Generate GUID for idempotency (Not required for third party payments)",
 							"event": [
 								{
 									"listen": "test",
@@ -1082,39 +1074,19 @@
 									}
 								},
 								"url": {
-									"raw": "{{host}}/v1/profiles/{{personal-profile-id}}/third-party-transfers",
+									"raw": "{{host}}/v1/profiles/{{business-profile-id}}/third-party-transfers",
 									"host": [
 										"{{host}}"
 									],
 									"path": [
 										"v1",
 										"profiles",
-										"{{personal-profile-id}}",
+										"{{business-profile-id}}",
 										"third-party-transfers"
 									]
 								}
 							},
 							"response": []
-						}
-					],
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
 						}
 					]
 				}
@@ -1139,10 +1111,6 @@
 										"value": "Bearer {{token}}"
 									}
 								],
-								"body": {
-									"mode": "formdata",
-									"formdata": []
-								},
 								"url": {
 									"raw": "{{host}}/v1/quotes/{{new-quote-id}}/pay-in-methods",
 									"host": [
@@ -1176,7 +1144,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://api.transferwise.com/v1/profiles/{{personal-profile-id}}/transfers/{{new-transfer-id}}/deposit-details/bank-transfer",
+							"raw": "{{host}}/v1/profiles/{{business-profile-id}}/transfers/{{new-transfer-id}}/deposit-details/bank-transfer",
 							"protocol": "https",
 							"host": [
 								"api",
@@ -1186,7 +1154,7 @@
 							"path": [
 								"v1",
 								"profiles",
-								"{{personal-profile-id}}",
+								"{{business-profile-id}}",
 								"transfers",
 								"{{new-transfer-id}}",
 								"deposit-details",
@@ -1221,14 +1189,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/v3/profiles/{{personal-profile-id}}/transfers/{{new-transfer-id}}/payments",
+							"raw": "{{host}}/v3/profiles/{{business-profile-id}}/transfers/{{new-transfer-id}}/payments",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"v3",
 								"profiles",
-								"{{personal-profile-id}}",
+								"{{business-profile-id}}",
 								"transfers",
 								"{{new-transfer-id}}",
 								"payments"
@@ -1377,7 +1345,7 @@
 								"token"
 							]
 						},
-						"description": "Get a client credentials token to use to create a user"
+						"description": "Get a client credentials token to subscribe for the webhook"
 					},
 					"response": []
 				},
@@ -1420,7 +1388,7 @@
 								""
 							]
 						},
-						"description": "Subscribe application for transfer status change events"
+						"description": "Subscribe to transfer status change events for transfers created using this application"
 					},
 					"response": []
 				},
