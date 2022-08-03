@@ -1,0 +1,1696 @@
+{
+	"info": {
+		"_postman_id": "9f3d166d-0975-46f8-8ab9-9474b044a34d",
+		"name": "Payouts and third party payouts API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20116326"
+	},
+	"item": [
+		{
+			"name": "1. Creating or accessing existing users",
+			"item": [
+				{
+					"name": "1a. Access Existing User",
+					"item": [
+						{
+							"name": "1. Generate token from authorization code",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.access_token) postman.setEnvironmentVariable(\"token\", jsonData.access_token);",
+											"if (jsonData.refresh_token) postman.setEnvironmentVariable(\"refresh\", jsonData.refresh_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{client-secret}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{client-id}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "grant_type",
+											"value": "authorization_code",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "{{client-id}}",
+											"type": "text"
+										},
+										{
+											"key": "redirect_uri",
+											"value": "{{client-redirect-uri}}",
+											"type": "text"
+										},
+										{
+											"key": "code",
+											"value": "<code from redirect url>",
+											"type": "text"
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host}}/oauth/token",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"oauth",
+										"token"
+									]
+								},
+								"description": "This endpoint is used to link an existing Wise user to the partner application. It is used as part of the redirection flow that allows the customer to sign into their Wise account and authorise the linking of their profile."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "1b Generate new token for returning user",
+					"item": [
+						{
+							"name": "1. Generate access token from refresh token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.access_token) postman.setEnvironmentVariable(\"token\", jsonData.access_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{client-secret}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{client-id}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "grant_type",
+											"value": "refresh_token",
+											"type": "text"
+										},
+										{
+											"key": "refresh_token",
+											"value": "{{refresh}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host}}/oauth/token",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"oauth",
+										"token"
+									]
+								},
+								"description": "This endpoint is used to generate a new access token if the previous one has expired. The refresh token is initially generated when creating a new user or when linking an existing Wise account."
+							},
+							"response": [
+								{
+									"name": "1. Generate access token from refresh token",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/x-www-form-urlencoded",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "grant_type",
+													"value": "refresh_token",
+													"type": "text"
+												},
+												{
+													"key": "refresh_token",
+													"value": "{{refresh}}",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{host}}/oauth/token",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"oauth",
+												"token"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 16 Sep 2020 10:19:33 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json;charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "214"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.14.0 (Ubuntu)"
+										},
+										{
+											"key": "x-application-context",
+											"value": "identity-service:oauth-clients,one-time-token,staging,kubernetes-customenvs:12345"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "DENY"
+										},
+										{
+											"key": "x-newrelic-app-data",
+											"value": "PxQGWVBaCwUGR1JTAQMPUFAHBRFORDQHUjZKA1ZLVVFHDFYPbU5kBwZqGA4HFkxbbEsVDVxUWUZMYXlgNk9BTgBMCE4IFgQKB1cLVQRZH1VRGhVXUAVcBghUU1oEBA9RAFUBEU4AAg5DB2U="
+										},
+										{
+											"key": "vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "x-envoy-upstream-service-time",
+											"value": "91"
+										},
+										{
+											"key": "x-envoy-attempt-count",
+											"value": "1"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"access_token\": \"{access_token}\",\n    \"token_type\": \"bearer\",\n    \"refresh_token\": \"{refresh_token}\",\n    \"expires_in\": 43199,\n    \"scope\": \"transfers\",\n    \"created_at\": \"2020-09-16T10:19:33.145563Z\"\n}"
+								}
+							]
+						}
+					],
+					"description": "After previosuly completing 1a or 1b you will have a refresh token stored, use this to generate new access tokens"
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Transfer Flow",
+			"item": [
+				{
+					"name": "1. Create quote",
+					"item": [
+						{
+							"name": "2. Create Quote",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.id) postman.setEnvironmentVariable(\"new-quote-id\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"sourceCurrency\": \"GBP\",\n\t\"targetCurrency\": \"USD\",\n\t\"sourceAmount\": 100,\n\t\"targetAmount\": null,\n\t\"profile\": {{business-profile-id}}\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/quotes",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"quotes"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "2. Choose/create recipient",
+					"item": [
+						{
+							"name": "2a. Select Existing",
+							"item": [
+								{
+									"name": "1. Load accounts",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{host}}/v2/accounts/?currency=USD",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v2",
+												"accounts",
+												""
+											],
+											"query": [
+												{
+													"key": "currency",
+													"value": "USD"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "2. Get by ID",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{host}}/v1/accounts/{accountId}",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"accounts",
+												"{accountId}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "2b. Create new recipient account",
+							"item": [
+								{
+									"name": "1. Get recipient creation dynamic form",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Accept-Language",
+												"value": "FR",
+												"disabled": true
+											},
+											{
+												"key": "Accept-Minor-Version",
+												"value": "1",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{host}}/v1/quotes/{{new-quote-id}}/account-requirements",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"quotes",
+												"{{new-quote-id}}",
+												"account-requirements"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "2. Update form if any field requires refresh",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"type\": \"aba\",\n    \"details\": {\n        \"legalType\": \"PRIVATE\",\n        \"address\": {\n            \"country\": \"US\"\n        }\n    }\n}"
+										},
+										"url": {
+											"raw": "{{host}}/v1/quotes/{{new-quote-id}}/account-requirements",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"quotes",
+												"{{new-quote-id}}",
+												"account-requirements"
+											]
+										},
+										"description": "POST /account-requirements"
+									},
+									"response": []
+								},
+								{
+									"name": "3. Create account",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"if (jsonData.id) postman.setEnvironmentVariable(\"new-recipient-id\", jsonData.id);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"accountHolderName\": \"Person USD\",\n    \"currency\": \"USD\",\n    \"type\": \"ABA\",\n    \"details\": {\n      \"address\": {\n        \"city\": \"New York\",\n        \"countryCode\": \"US\",\n        \"postCode\": \"10025\",\n        \"state\": \"NY\",\n        \"firstLine\": \"158 Wall Street\"\n      },\n      \"legalType\":\"PRIVATE\",\n      \"abartn\": \"064000020\",\n      \"accountType\": \"CHECKING\",\n      \"accountNumber\": \"40000000000\",\n      \"email\": \"example@foobar.com\"\n    }\n  }"
+										},
+										"url": {
+											"raw": "{{host}}/v1/accounts",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"accounts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "3. Create account - [EXAMPLE] SGD Recipient",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"if (jsonData.id) postman.setEnvironmentVariable(\"new-recipient-id\", jsonData.id);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"accountHolderName\": \"Person SGD\",\n    \"currency\": \"SGD\",\n    \"type\": \"singapore\",\n    \"details\": {\n      \"address\": {\n        \"city\": \"Singapore\",\n        \"countryCode\": \"SG\",\n        \"postCode\": \"10025\",\n        \"firstLine\": \"158 Wall Street\"\n      },\n      \"legalType\":\"PRIVATE\",\n      \"bankCode\": \"7171\",\n      \"accountNumber\": \"4000000000\",\n      \"email\": \"example@foobar.com\"\n    }\n  }"
+										},
+										"url": {
+											"raw": "{{host}}/v1/accounts",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"accounts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "3. Create account - [EXAMPLE] Global USD Recipient",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"if (jsonData.id) postman.setEnvironmentVariable(\"new-recipient-id\", jsonData.id);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"accountHolderName\": \"Global USD\",\n    \"currency\": \"USD\",\n    \"type\": \"swift_code\",\n    \"details\": {\n      \"address\": {\n        \"city\": \"Singapore\",\n        \"countryCode\": \"SG\",\n        \"postCode\": \"10025\",\n        \"firstLine\": \"158 Wall Street\"\n      },\n      \"country\":\"SG\",\n      \"legalType\":\"PRIVATE\",\n      \"swiftCode\":\"DBSSSGSGXXX\",\n      \"accountNumber\": \"40000000000\",\n      \"email\": \"example@foobar.com\"\n    }\n  }"
+										},
+										"url": {
+											"raw": "{{host}}/v1/accounts",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"accounts"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "2c. Create refund recipient",
+							"item": [
+								{
+									"name": "1. Create Refund Recipient",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n          \"currency\": \"GBP\",\n          \"type\": \"sort_code\",\n          \"profile\": <your profile id>,\n          \"accountHolderName\": \"Ann Johnson\",\n           \"details\": {\n              \"legalType\": \"PRIVATE\",\n              \"sortCode\": \"231470\",\n              \"accountNumber\": \"28821822\"\n           }\n         }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/v1/refund-accounts",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"v1",
+												"refund-accounts"
+											]
+										},
+										"description": "Sometimes we may need to refund the transfer's funds - see the [transfer status here](https://transferwise.github.io/api-docs-banks/#transferwise-for-banks-api-integration-guide-track-transfer-status) for cases when this may happen.\n\nA refund recipient is a person or institution where we will refund the funds to. This is not a mandatory step if your bank is using a fast local payment network as we can usually infer the refund recipient from the bank transaction that funded the transfer.\n\nBut if your bank is using a slow domestic payment network and a \"prefunded\" model, we may try to refund before we receive the funds in our bank transactions. In these instances, we require banks to inform us what are the details where to refund transfers. In order to do this we have current API\n\nThis API is identical to the regular recipient account creation. The refund recipient account id returned here is needed when creating transfers in step 3 as the field sourceAccount.\n\nThe format of the request payload for refund recipient creation will be different depending on the currency your bank will send transfers from. The above example is for GBP only. We can provide the correct format for your bank upon request."
+									},
+									"response": [
+										{
+											"name": "1. Create Refund Recipient",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer {{token}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n          \"currency\": \"GBP\",\n          \"type\": \"sort_code\",\n          \"profile\": <your profile id>,\n          \"accountHolderName\": \"Ann Johnson\",\n           \"details\": {\n              \"legalType\": \"PRIVATE\",\n              \"sortCode\": \"231470\",\n              \"accountNumber\": \"28821822\"\n           }\n         }",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{host}}/v1/refund-accounts",
+													"host": [
+														"{{host}}"
+													],
+													"path": [
+														"v1",
+														"refund-accounts"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 16 Sep 2020 10:08:58 GMT"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												},
+												{
+													"key": "Server",
+													"value": "nginx/1.14.0 (Ubuntu)"
+												},
+												{
+													"key": "vary",
+													"value": "accept-encoding,origin,access-control-request-headers,access-control-request-method"
+												},
+												{
+													"key": "expires",
+													"value": "0"
+												},
+												{
+													"key": "x-newrelic-app-data",
+													"value": "PxQGWVBaCwUGR1JTAQMPUFIIBxFORDQHUjZKA1ZLVVFHDFYPbU5kBwZqGBETAVRaUzhOFAZtGAcHUllGDBIQQhgydzFsERYeA0sJTQFPA1ZWBgVWU1MPHwNUU04VCFUDAQYFAQNeVlUCUVxRXRoYVFIJSgRs"
+												},
+												{
+													"key": "x-frame-options",
+													"value": "DENY"
+												},
+												{
+													"key": "x-content-type-options",
+													"value": "nosniff"
+												},
+												{
+													"key": "x-xss-protection",
+													"value": "1; mode=block"
+												},
+												{
+													"key": "cache-control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "content-encoding",
+													"value": "gzip"
+												},
+												{
+													"key": "x-envoy-upstream-service-time",
+													"value": "101"
+												},
+												{
+													"key": "x-envoy-attempt-count",
+													"value": "1"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"id\": 14076196,\n    \"business\": null,\n    \"profile\": <your profile id>,\n    \"accountHolderName\": \"Ann Johnson\",\n    \"currency\": \"GBP\",\n    \"country\": \"GB\",\n    \"type\": \"sort_code\",\n    \"details\": {\n        \"address\": null,\n        \"email\": null,\n        \"legalType\": \"PRIVATE\",\n        \"accountNumber\": \"28821822\",\n        \"sortCode\": \"231470\",\n        \"abartn\": null,\n        \"accountType\": null,\n        \"bankgiroNumber\": null,\n        \"ifscCode\": null,\n        \"bsbCode\": null,\n        \"institutionNumber\": null,\n        \"transitNumber\": null,\n        \"phoneNumber\": null,\n        \"bankCode\": null,\n        \"russiaRegion\": null,\n        \"routingNumber\": null,\n        \"branchCode\": null,\n        \"cpf\": null,\n        \"cardNumber\": null,\n        \"idType\": null,\n        \"idNumber\": null,\n        \"idCountryIso3\": null,\n        \"idValidFrom\": null,\n        \"idValidTo\": null,\n        \"clabe\": null,\n        \"swiftCode\": null,\n        \"dateOfBirth\": null,\n        \"clearingNumber\": null,\n        \"bankName\": null,\n        \"branchName\": null,\n        \"businessNumber\": null,\n        \"province\": null,\n        \"city\": null,\n        \"rut\": null,\n        \"token\": null,\n        \"cnpj\": null,\n        \"payinReference\": null,\n        \"pspReference\": null,\n        \"orderId\": null,\n        \"idDocumentType\": null,\n        \"idDocumentNumber\": null,\n        \"targetProfile\": null,\n        \"targetUserId\": null,\n        \"taxId\": null,\n        \"job\": null,\n        \"nationality\": null,\n        \"interacAccount\": null,\n        \"bban\": null,\n        \"town\": null,\n        \"postCode\": null,\n        \"IBAN\": null,\n        \"iban\": null,\n        \"BIC\": null,\n        \"bic\": null\n    },\n    \"user\": <your user id>,\n    \"active\": true,\n    \"ownedByCustomer\": false\n}"
+										}
+									]
+								}
+							]
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "3. Create transfer",
+					"item": [
+						{
+							"name": "1. Update quote with selected recipient",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/merge-patch+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"targetAccount\": {{new-recipient-id}}\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/quotes/{{new-quote-id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"quotes",
+										"{{new-quote-id}}"
+									]
+								},
+								"description": "Set the recipient the user wishes to send to on the quote to get an updated price and delivery estimte.\n\nENSURE `Content-Type` IS `application/merge-patch+json` ELSE THIS WILL FAIL"
+							},
+							"response": []
+						},
+						{
+							"name": "2. Get transfer extra info dynamic form",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"targetAccount\": {{new-recipient-id}},\n    \"quoteUuid\": \"{{new-quote-id}}\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/transfer-requirements",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"transfer-requirements"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Update transfer extra info dynamic form (if any fields require refresh)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \n\t\"targetAccount\": {{new-recipient-id}},\n    \"quoteUuid\": \"{{new-quote-id}}\",\n    \"details\": {\n        \"reference\": \"my ref\",\n    \t\"sourceOfFunds\": \"verification.source.of.funds.other\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/transfer-requirements",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"transfer-requirements"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4. Generate GUID for idempotency (Not required for third party payments)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (responseBody) postman.setEnvironmentVariable(\"idempotency-guid\", responseBody);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://www.uuidgenerator.net/api/guid",
+									"protocol": "https",
+									"host": [
+										"www",
+										"uuidgenerator",
+										"net"
+									],
+									"path": [
+										"api",
+										"guid"
+									]
+								},
+								"description": "You don't have to use an API for this - you can almost certainly do it in code. This is just for testing convenience."
+							},
+							"response": []
+						},
+						{
+							"name": "5a. Create transfer",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.id) postman.setEnvironmentVariable(\"new-transfer-id\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"targetAccount\": {{new-recipient-id}},\n    \"quoteUuid\": \"{{new-quote-id}}\",\n    \"customerTransactionId\": \"<idempotency guid>\",\n    \"details\": {\n        \"reference\": \"my ref\",\n        \"transferPurpose\": \"verification.transfers.purpose.pay.bills\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/transfers",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"transfers"
+									]
+								},
+								"description": "A transfer is a payment order to recipient account based on a quote. Once created, a transfer needs to be funded within the next five working days. Otherwise, it will be automatically canceled."
+							},
+							"response": []
+						},
+						{
+							"name": "5b. Create Transfer for third party payments",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if (jsonData.id) postman.setEnvironmentVariable(\"new-transfer-id\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"targetAccount\": {{new-recipient-id}},\n    \"quote\": \"{{new-quote-id}}\",\n    \"originalTransactionId\": \"<idempotency guid>\",\n    \"details\": {\n        \"reference\": \"Holiday\"\n    },\n    \"originator\": {\n        \"legalEntityType\": \"PRIVATE\",\n        \"reference\" : \"<unique customer id in your system>\",\n        \"name\": {\n            \"givenName\": \"John\",\n            \"middleNames\": [\n                \"Jay\"\n            ],\n            \"familyName\": \"Doe\"\n        },\n        \"dateOfBirth\": \"1977-07-01\",\n        \"address\": {\n            \"firstLine\": \"53 Shoreditch \",\n            \"city\": \"Tallinn\",\n            \"countryCode\": \"EE\",\n            \"postCode\": \"12112\"\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/v1/profiles/{{business-profile-id}}/third-party-transfers",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"profiles",
+										"{{business-profile-id}}",
+										"third-party-transfers"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "3. Fund transfer",
+			"item": [
+				{
+					"name": "3a. Get payment reference for domestic transfer",
+					"item": [
+						{
+							"name": "1. Get payment reference (for bank payment funding)",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v1/quotes/{{new-quote-id}}/pay-in-methods",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"quotes",
+										"{{new-quote-id}}",
+										"pay-in-methods"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Payin Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/profiles/{{business-profile-id}}/transfers/{{new-transfer-id}}/deposit-details/bank-transfer",
+							"protocol": "https",
+							"host": [
+								"api",
+								"transferwise",
+								"com"
+							],
+							"path": [
+								"v1",
+								"profiles",
+								"{{business-profile-id}}",
+								"transfers",
+								"{{new-transfer-id}}",
+								"deposit-details",
+								"bank-transfer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fund transfer (from balance)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"BALANCE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v3/profiles/{{business-profile-id}}/transfers/{{new-transfer-id}}/payments",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"profiles",
+								"{{business-profile-id}}",
+								"transfers",
+								"{{new-transfer-id}}",
+								"payments"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. Get updated transfer status",
+			"item": [
+				{
+					"name": "1. Get transfer status",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/v1/transfers/{{new-transfer-id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"transfers",
+								"{{new-transfer-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Get updated delivery esitmation",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/v1/delivery-estimates/{{new-transfer-id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"delivery-estimates",
+								"{{new-transfer-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5. Webhooks subscription",
+			"item": [
+				{
+					"name": "1. Client Credentials Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.access_token) postman.setEnvironmentVariable(\"client-credentials-token\", jsonData.access_token);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{client-secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{client-id}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						},
+						"description": "Get a client credentials token to subscribe for the webhook"
+					},
+					"response": []
+				},
+				{
+					"name": "2. Create transfer state change webhook subscription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client-credentials-token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Webhook Subscription #1\",\n    \"trigger_on\": \"transfers#state-change\",\n    \"delivery\": {\n       \"version\": \"2.0.0\",\n       \"url\": \"<your webhook URL>\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v3/applications/{{client-id}}/subscriptions/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"applications",
+								"{{client-id}}",
+								"subscriptions",
+								""
+							]
+						},
+						"description": "Subscribe to transfer status change events for transfers created using this application"
+					},
+					"response": []
+				},
+				{
+					"name": "3. List application webhook subscriptions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"tests['There are two subscriptions availabale'] = (jsonData.length == 2)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v3/applications/{{client-id}}/subscriptions",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"applications",
+								"{{client-id}}",
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Get aplication webhook subscription by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v3/applications/{{client-id}}/subscriptions/{{webhook-subscription-id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"applications",
+								"{{client-id}}",
+								"subscriptions",
+								"{{webhook-subscription-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Delete application webhook subscription",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/v3/applications/{{client-id}}/subscriptions/{{webhook-subscription-id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"applications",
+								"{{client-id}}",
+								"subscriptions",
+								"{{webhook-subscription-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "7. Transfer state simulation",
+			"item": [
+				{
+					"name": "1. Set as processing",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v1/simulation/transfers/{{new-transfer-id}}/processing",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"transfers",
+								"{{new-transfer-id}}",
+								"processing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Set as funds_converted",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v1/simulation/transfers/{{new-transfer-id}}/funds_converted",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"transfers",
+								"{{new-transfer-id}}",
+								"funds_converted"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Set as outgoing_payment_sent",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v1/simulation/transfers/{{new-transfer-id}}/outgoing_payment_sent",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"transfers",
+								"{{new-transfer-id}}",
+								"outgoing_payment_sent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Set as bounced_back",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v1/simulation/transfers/{{new-transfer-id}}/bounced_back",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"transfers",
+								"{{new-transfer-id}}",
+								"bounced_back"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Set as funds_refunded",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v1/simulation/transfers/{{new-transfer-id}}/funds_refunded",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"transfers",
+								"{{new-transfer-id}}",
+								"funds_refunded"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "8. Get transfer receipt",
+			"item": [
+				{
+					"name": "Get reciept PDF",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v1/transfers/{{new-transfer-id}}/receipt.pdf",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"transfers",
+								"{{new-transfer-id}}",
+								"receipt.pdf"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
