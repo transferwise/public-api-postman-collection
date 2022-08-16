@@ -576,7 +576,12 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"keyVersion\":1,\"encryptedPayload\":\"eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMjU2R0NNIn0.cL-XnHk3-9yxt_r8bHk5mcr9zOt1srsJzUj-DczGTkUrQ09kF4AmyafL5vS8a0nYGClsfo2B0qHY6yivr98Un_hFiWNBcuecJNHwf-nh_6p9WukqQ-gMoJXtJUxwiAHcIR7fnLGYw1rJebQ1AQp8c2sdXRfEH4A3PaNqjlS2oBf-w3jyI0bZ_pDzz6yWE5oDWXHJDUWBMMdE0-vsJCO9s1s2ggVkdXkgJtdXtwaJjinaKxCsqHLzfECl0oU7kWyDHA6sl7C7aoWy700sKMngheNldlyGMZW6VxG4LGfXtJUXp2w0zuc66y0aB3R1diyvmxRvIwG9FK7BTbkQzU7H8Q.6QS9hxId4xcT1gsA..\"}"
+							"raw": "{\n    \"keyVersion\":1,\n    \"encryptedPayload\": {{encrypted-card-data-payload}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "{{pci-host}}/twcard-data/v1/sensitive-card-data/details",
