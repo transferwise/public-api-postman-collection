@@ -1,0 +1,382 @@
+{
+	"info": {
+		"_postman_id": "0c8efe65-7218-4ee6-80bd-b7ce5eba2c4e",
+		"name": "Wise Groups API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create balance group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const json = pm.response.json();",
+							"",
+							"pm.test(\"Has Group Id\", function () {",
+							"    pm.expect(json).to.have.property(\"id\");",
+							"    pm.environment.set(\"group-id\", json.id);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"profileId\": {{profile-id}},\n    \"name\": \"Profile Access Group 6\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/v1/profile-access-groups",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"profile-access-groups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get balance group details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v1/profile-access-groups/{{group-id}}?profileId={{profile-id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"profile-access-groups",
+						"{{group-id}}"
+					],
+					"query": [
+						{
+							"key": "profileId",
+							"value": "{{profile-id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get balance groups for profile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v1/profile-access-groups?profileId={{profile-id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"profile-access-groups"
+					],
+					"query": [
+						{
+							"key": "profileId",
+							"value": "{{profile-id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add balance currency to balance group",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-idempotence-uuid",
+						"value": "{{$guid}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"currency\": \"EUR\",\n    \"type\": \"STANDARD\",\n    \"name\": \"Travel\",\n    \"groupId\": {{group-id}},\n    \"primary\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/v4/profiles/{{profile-id}}/balances",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v4",
+						"profiles",
+						"{{profile-id}}",
+						"balances"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get balance currencies for a group",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v3/profiles/{{profile-id}}/balances?types=STANDARD&groupId={{group-id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v3",
+						"profiles",
+						"{{profile-id}}",
+						"balances"
+					],
+					"query": [
+						{
+							"key": "types",
+							"value": "STANDARD"
+						},
+						{
+							"key": "groupId",
+							"value": "{{group-id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Move money between balances",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-idempotence-uuid",
+						"value": "{{$guid}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"amount\": {\n        \"currency\": \"EUR\",\n        \"value\": 100\n    },\n    \"sourceBalanceId\": 99993,\n    \"targetBalanceId\": 99995\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/v2/profiles/{{profile-id}}/balance-movements",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v2",
+						"profiles",
+						"{{profile-id}}",
+						"balance-movements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a card linked to a group",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-idempotence-uuid",
+						"value": "{{$guid}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"program\": \"VISA_DEBIT_BUSINESS_SG_1_CARDS_API\",\n    \"cardHolderName\": \"Firstname Lastname\",\n    \"phoneNumber\": \"+6585550528\",\n    \"billingAddress\": {\n        \"firstLine\": \"First Line\",\n        \"secondLine\": \"Second Line\",\n        \"thirdLine\": \"Third Line\",\n        \"city\": \"City\",\n        \"state\": \"State\",\n        \"postCode\": 123456,\n        \"country\": \"SG\",\n        \"phoneNumber\": \"+6585550528\"\n    },\n    \"lifetimeLimit\": \"5000\",\n    \"groupId\": {{group-id}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/v3/spend/profiles/{{profile-id}}/card-orders",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v3",
+						"spend",
+						"profiles",
+						"{{profile-id}}",
+						"card-orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all card orders from a group",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v3/spend/profiles/{{profile-id}}/card-orders?groupId={{group-id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v3",
+						"spend",
+						"profiles",
+						"{{profile-id}}",
+						"card-orders"
+					],
+					"query": [
+						{
+							"key": "groupId",
+							"value": "{{group-id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all cards from a group",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v3/spend/profiles/{{profile-id}}/cards?groupId={{group-id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v3",
+						"spend",
+						"profiles",
+						"{{profile-id}}",
+						"cards"
+					],
+					"query": [
+						{
+							"key": "groupId",
+							"value": "{{group-id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
