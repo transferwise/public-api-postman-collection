@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "b44b00f1-018a-4216-930e-fdceea521cda",
+		"_postman_id": "55c482a3-ae1a-4159-92c2-362a88c8820e",
 		"name": "Wise Cards API",
 		"description": "This collection describes the required endpoints for a successful bank partner's integration of the Cards API.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "6154545"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -860,6 +859,236 @@
 								"flows",
 								"visa",
 								"{{dispute-reason}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "6. Authorisation rules",
+			"item": [
+				{
+					"name": "1. Add authorisation rule",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"type\": \"MCC\",\n        \"operation\": \"BLOCK\",\n        \"description\": \"example rule\",\n        \"values\": [\"5999\"]\n     }"
+						},
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/spend-controls/rule/authorisation",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"spend-controls",
+								"rule",
+								"authorisation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Delete authorisation rule",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"type\": \"MCC\",\n        \"operation\": \"BLOCK\",\n        \"description\": \"example rule\",\n        \"values\": [\"5999\"]\n     }"
+						},
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/spend-controls/rule/authorisation/{{rule_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"spend-controls",
+								"rule",
+								"authorisation",
+								"{{rule_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. List authorisation rules",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"type\": \"MCC\",\n        \"operation\": \"BLOCK\",\n        \"description\": \"example rule\",\n        \"values\": [\"5999\"]\n     }"
+						},
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/spend-controls/rule/authorisation",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"spend-controls",
+								"rule",
+								"authorisation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Apply authorisation rule",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ruleId\": \"{{rule_id}}\",\n    \"scope\": \"CARD\",\n    \"scopeId\": \"{{card_token}}\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/spend-controls/rule/apply",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"spend-controls",
+								"rule",
+								"apply"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Unapply authorisation rule",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ruleId\": \"{{rule_id}}\",\n    \"scope\": \"CARD\",\n    \"scopeId\": \"{{card_token}}\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/spend-controls/rule/unapply",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"spend-controls",
+								"rule",
+								"unapply"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. List applied rules",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"type\": \"MCC\",\n        \"operation\": \"BLOCK\",\n        \"description\": \"example rule\",\n        \"values\": [\"5999\"]\n     }"
+						},
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/spend-controls/rule/applied",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"spend-controls",
+								"rule",
+								"applied"
 							]
 						}
 					},
