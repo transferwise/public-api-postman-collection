@@ -1,10 +1,178 @@
 {
 	"info": {
 		"_postman_id": "0c8efe65-7218-4ee6-80bd-b7ce5eba2c4e",
-		"name": "Wise Groups API",
+		"name": "Balance Groups API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "1. Generate tokens from authorization code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json();",
+									"",
+									"pm.test(\"Are tokens provided\", function () {",
+									"    pm.expect(json).to.have.property(\"refresh_token\");",
+									"    if (json.refresh_token) {",
+									"        pm.environment.set(\"refresh_token\", json.refresh_token);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{client_secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{client_id}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{client_redirect_uri}}",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "{{client_auth_code}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						},
+						"description": "Request access token | authorization code grant type"
+					},
+					"response": []
+				},
+				{
+					"name": "2. Refresh existing access token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json();",
+									"",
+									"pm.test(\"Are tokens provided\", function () {",
+									"    pm.expect(json).to.have.property(\"access_token\");",
+									"    if (json.access_token) {",
+									"        pm.environment.set(\"token\", json.access_token);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{client_secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{client_id}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "{{refresh_token}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "Create balance group",
 			"event": [
@@ -16,7 +184,7 @@
 							"",
 							"pm.test(\"Has Group Id\", function () {",
 							"    pm.expect(json).to.have.property(\"id\");",
-							"    pm.environment.set(\"group-id\", json.id);",
+							"    pm.environment.set(\"group_id\", json.id);",
 							"});",
 							""
 						],
@@ -39,7 +207,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"profileId\": {{profile-id}},\n    \"name\": \"Profile Access Group 6\"\n}",
+					"raw": "{\n    \"profileId\": {{profile_id}},\n    \"name\": \"Profile Access Group 4\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -75,19 +243,19 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/v1/profile-access-groups/{{group-id}}?profileId={{profile-id}}",
+					"raw": "{{host}}/v1/profile-access-groups/{{group_id}}?profileId={{profile_id}}",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"v1",
 						"profile-access-groups",
-						"{{group-id}}"
+						"{{group_id}}"
 					],
 					"query": [
 						{
 							"key": "profileId",
-							"value": "{{profile-id}}"
+							"value": "{{profile_id}}"
 						}
 					]
 				}
@@ -110,7 +278,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/v1/profile-access-groups?profileId={{profile-id}}",
+					"raw": "{{host}}/v1/profile-access-groups?profileId={{profile_id}}",
 					"host": [
 						"{{host}}"
 					],
@@ -121,7 +289,7 @@
 					"query": [
 						{
 							"key": "profileId",
-							"value": "{{profile-id}}"
+							"value": "{{profile_id}}"
 						}
 					]
 				}
@@ -151,7 +319,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"currency\": \"EUR\",\n    \"type\": \"STANDARD\",\n    \"name\": \"Travel\",\n    \"groupId\": {{group-id}},\n    \"primary\": false\n}",
+					"raw": "{\n    \"currency\": \"EUR\",\n    \"type\": \"STANDARD\",\n    \"name\": \"Travel\",\n    \"groupId\": {{group_id}},\n    \"primary\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -159,14 +327,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/v4/profiles/{{profile-id}}/balances",
+					"raw": "{{host}}/v4/profiles/{{profile_id}}/balances",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"v4",
 						"profiles",
-						"{{profile-id}}",
+						"{{profile_id}}",
 						"balances"
 					]
 				}
@@ -189,14 +357,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/v3/profiles/{{profile-id}}/balances?types=STANDARD&groupId={{group-id}}",
+					"raw": "{{host}}/v3/profiles/{{profile_id}}/balances?types=STANDARD&groupId={{group_id}}",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"v3",
 						"profiles",
-						"{{profile-id}}",
+						"{{profile_id}}",
 						"balances"
 					],
 					"query": [
@@ -206,7 +374,7 @@
 						},
 						{
 							"key": "groupId",
-							"value": "{{group-id}}"
+							"value": "{{group_id}}"
 						}
 					]
 				}
@@ -236,7 +404,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"amount\": {\n        \"currency\": \"EUR\",\n        \"value\": 100\n    },\n    \"sourceBalanceId\": 99993,\n    \"targetBalanceId\": 99995\n}",
+					"raw": "{\n    \"amount\": {\n        \"currency\": \"SGD\",\n        \"value\": 100\n    },\n    \"sourceBalanceId\": 99586,\n    \"targetBalanceId\": 99495\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -244,14 +412,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/v2/profiles/{{profile-id}}/balance-movements",
+					"raw": "{{host}}/v2/profiles/{{profile_id}}/balance-movements",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"v2",
 						"profiles",
-						"{{profile-id}}",
+						"{{profile_id}}",
 						"balance-movements"
 					]
 				}
@@ -281,7 +449,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"program\": \"VISA_DEBIT_BUSINESS_SG_1_CARDS_API\",\n    \"cardHolderName\": \"Firstname Lastname\",\n    \"phoneNumber\": \"+6585550528\",\n    \"billingAddress\": {\n        \"firstLine\": \"First Line\",\n        \"secondLine\": \"Second Line\",\n        \"thirdLine\": \"Third Line\",\n        \"city\": \"City\",\n        \"state\": \"State\",\n        \"postCode\": 123456,\n        \"country\": \"SG\",\n        \"phoneNumber\": \"+6585550528\"\n    },\n    \"lifetimeLimit\": \"5000\",\n    \"groupId\": {{group-id}}\n}",
+					"raw": "{\n    \"program\": \"VISA_DEBIT_CONSUMER_SG_1_CARDS_API\",\n    \"cardHolderName\": \"Firstname Lastname\",\n    \"phoneNumber\": \"+6585550528\",\n    \"billingAddress\": {\n        \"firstLine\": \"First Line\",\n        \"secondLine\": \"Second Line\",\n        \"thirdLine\": \"Third Line\",\n        \"city\": \"City\",\n        \"state\": \"State\",\n        \"postCode\": 123456,\n        \"country\": \"SG\",\n        \"phoneNumber\": \"+6585550528\"\n    },\n    \"lifetimeLimit\": \"5000\",\n    \"groupId\": {{group_id}}\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -289,7 +457,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/v3/spend/profiles/{{profile-id}}/card-orders",
+					"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders",
 					"host": [
 						"{{host}}"
 					],
@@ -297,7 +465,7 @@
 						"v3",
 						"spend",
 						"profiles",
-						"{{profile-id}}",
+						"{{profile_id}}",
 						"card-orders"
 					]
 				}
@@ -320,7 +488,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/v3/spend/profiles/{{profile-id}}/card-orders?groupId={{group-id}}",
+					"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders?groupId={{group_id}}",
 					"host": [
 						"{{host}}"
 					],
@@ -328,13 +496,13 @@
 						"v3",
 						"spend",
 						"profiles",
-						"{{profile-id}}",
+						"{{profile_id}}",
 						"card-orders"
 					],
 					"query": [
 						{
 							"key": "groupId",
-							"value": "{{group-id}}"
+							"value": "{{group_id}}"
 						}
 					]
 				}
@@ -357,7 +525,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/v3/spend/profiles/{{profile-id}}/cards?groupId={{group-id}}",
+					"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards?groupId={{group_id}}",
 					"host": [
 						"{{host}}"
 					],
@@ -365,13 +533,13 @@
 						"v3",
 						"spend",
 						"profiles",
-						"{{profile-id}}",
+						"{{profile_id}}",
 						"cards"
 					],
 					"query": [
 						{
 							"key": "groupId",
-							"value": "{{group-id}}"
+							"value": "{{group_id}}"
 						}
 					]
 				}
