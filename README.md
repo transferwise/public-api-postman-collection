@@ -14,6 +14,9 @@ This collection, aimed at integrating banks, contains the endpoints organised as
 
 This collection, aimed for Card Issuance API, containers the environment, useful endpoints and different flows for the Card Issuance.
 
+## groups-api
+This collection, aimed for Group API, contains endpoints organised by resource that has group association. 
+
 ## connected-apps-flow
 
 This collection, aimed for non-bank partners, contains the API flow for a third-party to interact with the Wise API to build a successful "Pay with Wise" integration. If you are using our API to connect with customer Wise accounts to make international payments then please use this collection to learn how the flow works.
