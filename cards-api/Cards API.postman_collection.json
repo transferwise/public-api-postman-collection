@@ -871,7 +871,7 @@
 			"name": "6. Webhooks",
 			"item": [
 				{
-					"name": "Create subsription",
+					"name": "Create subscription",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -910,7 +910,7 @@
 					"response": []
 				},
 				{
-					"name": "Get subsriptions",
+					"name": "Get subscriptions",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -952,7 +952,7 @@
 					"response": []
 				},
 				{
-					"name": "Get subsription",
+					"name": "Get subscription",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
