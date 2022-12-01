@@ -866,6 +866,175 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "6. Webhooks",
+			"item": [
+				{
+					"name": "Create subsription",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Webhook Subscription #1\",\n    \"trigger_on\": \"cards#transaction-state-change\",\n    \"delivery\": {\n        \"version\": \"2.0.0\",\n        \"url\": \"{{webhook-url}}\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v3/applications/{{client-id}}/subscriptions",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"applications",
+								"{{client-id}}",
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get subsriptions",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v3/applications/{{client-id}}/subscriptions",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"applications",
+								"{{client-id}}",
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get subsription",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v3/applications/{{client-id}}/subscriptions/{{subscription-id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"applications",
+								"{{client-id}}",
+								"subscriptions",
+								"{{subscription-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete subscription",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v3/applications/{{client-id}}/subscriptions/{{subscription-id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"applications",
+								"{{client-id}}",
+								"subscriptions",
+								"{{subscription-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
