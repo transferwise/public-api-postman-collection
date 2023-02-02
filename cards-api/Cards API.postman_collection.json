@@ -654,6 +654,71 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "10. Get card spending permissions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/spending-permissions",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"{{card_token}}",
+								"spending-permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11. Enable or disable card spending permission",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"ATM_WITHDRAWAL\",\n    \"isEnabled\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/spending-permissions",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"{{card_token}}",
+								"spending-permissions"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
