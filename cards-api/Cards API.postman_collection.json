@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "28de5b6c-b967-4c13-93a8-7b1dea027305",
+		"_postman_id": "d011b897-8150-460a-ad96-08054284df52",
 		"name": "Wise Cards API",
 		"description": "This collection describes the required endpoints for a successful bank partner's integration of the Cards API.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -1041,6 +1041,61 @@
 								"{{card_token}}",
 								"transactions",
 								"reversal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Reversal Post Clearing",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": {\n        \"value\": 0.00,\n        \"currency\": \"EUR\"\n    },\n    \"ref\": {\n        \"transaction\": {\n            \"acquirer\": {\n                \"institutionId\": \"430001\",\n                \"name\": \"Test payment\",\n                \"city\": \"Rouen\",\n                \"merchantCategoryCode\": 5999,\n                \"country\": \"FR\",\n                \"acceptorTerminalId\": \"TERMID01\",\n                \"acceptorIdCode\": \"CARD ACCEPTOR\",\n                \"forwardingInstitutionId\": \"400050\"\n            },\n            \"card\": {\n                \"token\": \"5e4ed3ad-d71e-43f0-bf8f-cb33d57d5102\",\n                \"schemeName\": \"VISA\",\n                \"pan\": \"{{pan}}\",\n                \"pin\": \"1234\",\n                \"cvv1\": \"123\",\n                \"icvv\": \"456\",\n                \"cvv2\": \"789\",\n                \"expiration\": [\n                    2027,\n                    11\n                ],\n                \"sequenceNumber\": 1,\n                \"country\": \"GB\",\n                \"currencies\": [\n                    \"GBP\"\n                ]\n            },\n            \"pos\": {\n                \"type\": \"CHIP_AND_PIN\",\n                \"acceptsOnlinePins\": true,\n                \"maxPinLength\": 12,\n                \"supports3ds\": false,\n                \"hasChip\": true\n            },\n            \"transactionStartTime\": 1671417343.787556319,\n            \"stan\": \"761631\",\n            \"schemeTransactionId\": \"537634697338563\",\n            \"retrievalReferenceNum\": \"235302761631\"\n        },\n        \"requestMti\": \"0100\",\n        \"authorizationIdResponse\": \"193647\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.sandbox.transferwise.tech/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/reversal-post-clearing",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sandbox",
+								"transferwise",
+								"tech"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"{{card_token}}",
+								"transactions",
+								"reversal-post-clearing"
 							]
 						}
 					},
