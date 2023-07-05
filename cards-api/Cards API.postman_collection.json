@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "d011b897-8150-460a-ad96-08054284df52",
+		"_postman_id": "3393ff45-005b-4461-84d4-5e4fcc62cb92",
 		"name": "Wise Cards API",
 		"description": "This collection describes the required endpoints for a successful bank partner's integration of the Cards API.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "6154545"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -716,6 +715,32 @@
 								"cards",
 								"{{card_token}}",
 								"spending-permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "12. Profile spending limits",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}"
 							]
 						}
 					},
