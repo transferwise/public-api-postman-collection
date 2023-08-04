@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "d011b897-8150-460a-ad96-08054284df52",
+		"_postman_id": "14d2fc31-e182-4403-bb3a-22269dc07cb7",
 		"name": "Wise Cards API",
 		"description": "This collection describes the required endpoints for a successful bank partner's integration of the Cards API.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "6154545"
+		"_exporter_id": "18396656"
 	},
 	"item": [
 		{
@@ -1610,6 +1610,74 @@
 								"spend-controls",
 								"rule",
 								"applied"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "8. Spend limits",
+			"item": [
+				{
+					"name": "Get profile limits",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/v4/spend/profiles/{{profile_id}}/spend-limits",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v4",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"spend-limits"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update profile limits",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"ATM_WITHDRAWAL\",\n  \"aggregateWindow\": {\n    \"daily\": {\n      \"value\": {\n        \"amount\": 3000.00,\n        \"currency\": \"GBP\"\n      }\n    },\n    \"monthly\": {\n      \"value\": {\n        \"amount\": 3000.00,\n        \"currency\": \"GBP\"\n      }\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v4/spend/profiles/{{profile_id}}/spend-limits",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v4",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"spend-limits"
 							]
 						}
 					},
