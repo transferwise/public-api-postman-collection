@@ -1751,6 +1751,131 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "9. Push Provisioning",
+			"item": [
+				{
+					"name": "Google pay encryption",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "x-tw-twcard-card-token",
+								"value": "{{card_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"clientDeviceId\": \"ed6abb56323ba656521ac476\",\n    \"clientWalletAccountId\": \"walletid\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{pci_host}}/twcard-data/v1/push-provisioning/encrypted-payload/google-pay",
+							"host": [
+								"{{pci_host}}"
+							],
+							"path": [
+								"twcard-data",
+								"v1",
+								"push-provisioning",
+								"encrypted-payload",
+								"google-pay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Apple pay encryption",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "x-tw-twcard-card-token",
+								"value": "{{card_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"certificates\": [\"root certificate\", \"sub certificate\"],\n    \"nonce\": \"ed6abb56323ba656521ac476\",\n    \"nonceSignature\": \"walletid\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{pci_host}}/twcard-data/v1/push-provisioning/encrypted-payload/apple-pay",
+							"host": [
+								"{{pci_host}}"
+							],
+							"path": [
+								"twcard-data",
+								"v1",
+								"push-provisioning",
+								"encrypted-payload",
+								"apple-pay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get payment tokens",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"walletNames\": [\"GOOGLE_PAY\", \"APPLE_PAY\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/payment-tokens",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"{{card_token}}",
+								"payment-tokens"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
