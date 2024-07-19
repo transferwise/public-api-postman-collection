@@ -1,17 +1,17 @@
 {
 	"info": {
-		"_postman_id": "e3607092-b0c7-4d6c-bdaa-14a3e1978651",
-		"name": "Wise Cards API",
+		"_postman_id": "da6bc620-546a-4edb-8b36-bcb267aa4957",
+		"name": "Wise Cards API Public",
 		"description": "This collection describes the required endpoints for a successful bank partner's integration of the Cards API.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "18396656"
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "25242255"
 	},
 	"item": [
 		{
 			"name": "1. Authentication",
 			"item": [
 				{
-					"name": "1. Generate tokens from authorization code",
+					"name": "Generate tokens from authorization code",
 					"event": [
 						{
 							"listen": "test",
@@ -31,35 +31,20 @@
 									"pm.environment.set(\"refresh\", json.refresh_token);",
 									"postman.setNextRequest(\"Create batch group\");"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
 					"request": {
 						"auth": {
 							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "{{client-secret}}",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "{{client-id}}",
-									"type": "string"
-								},
-								{
-									"key": "saveHelperData",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "showPassword",
-									"value": false,
-									"type": "boolean"
-								}
-							]
+							"basic": {
+								"password": "{{client-secret}}",
+								"username": "{{client-id}}",
+								"saveHelperData": true,
+								"showPassword": false
+							}
 						},
 						"method": "POST",
 						"header": [],
@@ -68,7 +53,7 @@
 							"urlencoded": [
 								{
 									"key": "grant_type",
-									"value": "authorization_code",
+									"value": "client_credentials",
 									"type": "text"
 								},
 								{
@@ -88,22 +73,13 @@
 								}
 							]
 						},
-						"url": {
-							"raw": "{{host}}/oauth/token",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"oauth",
-								"token"
-							]
-						},
+						"url": "{{host}}/oauth/token",
 						"description": "Request access token | authorization code grant type"
 					},
 					"response": []
 				},
 				{
-					"name": "2. Refresh existing access token",
+					"name": "Refresh existing access token",
 					"event": [
 						{
 							"listen": "test",
@@ -128,28 +104,12 @@
 					"request": {
 						"auth": {
 							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "{{client-secret}}",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "{{client-id}}",
-									"type": "string"
-								},
-								{
-									"key": "saveHelperData",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "showPassword",
-									"value": false,
-									"type": "boolean"
-								}
-							]
+							"basic": {
+								"password": "{{client-secret}}",
+								"username": "{{client-id}}",
+								"saveHelperData": true,
+								"showPassword": false
+							}
 						},
 						"method": "POST",
 						"header": [],
@@ -168,16 +128,7 @@
 								}
 							]
 						},
-						"url": {
-							"raw": "{{host}}/oauth/token",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"oauth",
-								"token"
-							]
-						}
+						"url": "{{host}}/oauth/token"
 					},
 					"response": []
 				}
@@ -207,7 +158,36 @@
 			"name": "2. Card Issuance",
 			"item": [
 				{
-					"name": "1. Get card order availability",
+					"name": "Validate address",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstLine\": \"92 Jubilee Market Hall\",\n    \"secondLine\": \"Covent Garden\",\n    \"thirdLine\": \"null\",\n    \"city\": \"London\",\n    \"postCode\": \"WC2E 8BD\",\n    \"state\": null,\n    \"country\": \"GB\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/v3/spend/address/validate"
+					},
+					"response": []
+				},
+				{
+					"name": "Get available card programs",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -215,124 +195,138 @@
 								"key": "Authorization",
 								"value": "Bearer {{token}}",
 								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders/availability",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"card-orders",
-								"availability"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "2. Get card orders",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
+							},
 							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"card-orders"
-							]
-						}
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders/availability"
 					},
 					"response": []
 				},
 				{
-					"name": "3. Get a card order",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
+					"name": "Create a card order",
 					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
 							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
 						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders/{{card_order_id}}",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"card-orders",
-								"{{card_order_id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "4. Create a card order",
-					"request": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{token}}"
+								"value": "Bearer {{token}}",
+								"disabled": true
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"profileId\": {{profile_id}},\n    \"userId\": {{user_id}},\n    \"program\": \"VISA_DEBIT_BUSINESS_UK_1\",\n    \"cardHolderName\": \"Kristo Käärmann\",\n    \"billingAddress\": {\n        \"firstLine\": \"56 Shoreditch High Street\",\n        \"city\": \"London\",\n        \"postCode\": \"E1 6JJ\",\n        \"country\": \"GB\"\n    },\n    \"phoneNumber\": \"+441234567890\",\n    \"lifetimeLimit\": 100\n}",
+							"raw": "{\n    \"program\": \"VISA_DEBIT_CONSUMER_SG_1_CARDS_API\",\n    \"cardHolderName\": \"John Smith\",\n    \"phoneNumber\": \"+6588888888\",\n    \"address\": {\n        \"firstLine\": \"Wise PLQ 1\",\n        \"secondLine\": \"The Tea Bldg\",\n        \"thirdLine\": null,\n        \"city\": \"Singapore\",\n        \"postCode\": \"123456\",\n        \"state\": null,\n        \"country\": \"SG\"\n    },\n    \"lifetimeLimit\": 100\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"card-orders"
-							]
-						}
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders"
+					},
+					"response": []
+				},
+				{
+					"name": "Preset card PIN",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "x-tw-twcard-order-id",
+								"value": "{{card_order_id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"keyVersion\": 1,\n    \"encryptedPayload\": \"eyJhbGciOiJSU0EtT0FFUC0yNTYiLCJlbmMiOiJBMjU2R0NNIn0.HNgrVprwCA_1fzlNom43TqBvTW6ofvWnXbqgTGh9TaDUreplW0aAzIeiioqNyoZ7RToODTKDpw062Za8JjCpRNiPFaums7xC6wqUAofkFrUP3A-N3ijsKUTek_Dwav9nsjA3bJUL2pIN8lNiyc_X9fCaha4qJDLrdYb4W6v72KYcX3k1A1KNp4fcNCSHaj2MPlQdEBFORuJEKP3jckUEYXsYnk7HTMBKDRRkVIQ-NbHxJXioTRQ-AziYwkwuQLFiR2V_lukpamlGslZwhilruMW0c49JgoeBbffIJx7yVx5IzNccZrgJ7rsVpqeAc6aOmh6LRURCFHQxVQ4vSqsu6w.vmPHYEPjuzlqfz6V.klc62LBTzA_Q5Lh-AM6lIbPsKOTI.uk65WwwpUzro95luyEvlpQ\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/twcard-data/v1/sensitive-card-data/preset-pin"
+					},
+					"response": []
+				},
+				{
+					"name": "Get card order requirements",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders/{{card_order_id}}/requirements"
+					},
+					"response": []
+				},
+				{
+					"name": "Get card orders",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders"
+					},
+					"response": []
+				},
+				{
+					"name": "Get a card order",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders/{{card_order_id}}"
 					},
 					"response": []
 				}
@@ -342,187 +336,108 @@
 			"name": "3. Card Management",
 			"item": [
 				{
-					"name": "1. Get cards",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
+					"name": "Reset PIN count",
 					"request": {
-						"method": "GET",
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
 						"header": [
 							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards"
-							]
-						}
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/reset-pin-count"
 					},
 					"response": []
 				},
 				{
-					"name": "2. Get a card",
+					"name": "Get cards",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
 							}
-						],
+						},
+						"method": "GET",
+						"header": [],
 						"body": {
 							"mode": "formdata",
 							"formdata": []
 						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}"
-							]
-						}
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/cards"
 					},
 					"response": []
 				},
 				{
-					"name": "3. Set a card status",
+					"name": "Get a card",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Set a card status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
 						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{ \"status\": \"FROZEN\" }",
+							"raw": "{ \"status\": \"ACTIVE\" }",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/status",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}",
-								"status"
-							]
-						}
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/status"
 					},
 					"response": []
 				},
 				{
-					"name": "4. Get card spending limits",
+					"name": "Get card spending permissions",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/spending-limits",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}",
-								"spending-limits"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "5. Add a card spending limit",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"cardLimitType\": \"LIFETIME\",\n    \"maxLimitAmount\": 500\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/spending-limits",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}",
-								"spending-limits"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "6. Delete a lifetime limit",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": "",
@@ -532,36 +447,69 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/spending-limits/lifetime",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}",
-								"spending-limits",
-								"lifetime"
-							]
-						}
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/spending-permissions"
 					},
 					"response": []
 				},
 				{
-					"name": "7. Get card transactions",
+					"name": "Modify card spending permissions",
 					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
 							}
-						],
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"ATM_WITHDRAWAL\",\n    \"isEnabled\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/spending-permissions"
+					},
+					"response": []
+				},
+				{
+					"name": "Update phone number",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phoneNumber\": \"+6588888887\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/phone-number"
+					},
+					"response": []
+				},
+				{
+					"name": "Get card transactions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
 						"url": {
 							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions?pageSize=10&pageNumber=1",
 							"host": [
@@ -591,815 +539,116 @@
 					"response": []
 				},
 				{
-					"name": "8. Get a card transaction",
+					"name": "Get card transaction",
 					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/transactions/{{transaction-id}}",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"transactions",
-								"{{transaction-id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "9. Update card phone number",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"phoneNumber\": \"+6599999999\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
 							}
 						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/phone-number",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}",
-								"phone-number"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "10. Get card spending permissions",
-					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/spending-permissions",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}",
-								"spending-permissions"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "11. Enable or disable card spending permission",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"type\": \"ATM_WITHDRAWAL\",\n    \"isEnabled\": false\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/spending-permissions",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}",
-								"spending-permissions"
-							]
-						}
+						"header": [],
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/transactions/{{transaction_id}}"
 					},
 					"response": []
 				}
 			]
 		},
 		{
-			"name": "4. Card transaction simulation",
+			"name": "4. Sensitive Card Details",
 			"item": [
 				{
-					"name": "1. Preauthorisation",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
+					"name": "Get sensitive card details",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
 						"method": "POST",
 						"header": [
 							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
+								"key": "x-tw-twcard-card-token",
+								"value": "{{x-tw-twcard-card-token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"pos\": \"CHIP_AND_PIN\",\n    \"posTransactionStatus\": \"PREAUTH\",\n    \"amount\": {\n        \"value\": 2050.5,\n        \"currency\": \"AUD\"\n    },\n    \"acquirer\": {\n        \"institutionId\": \"430001\",\n        \"name\": \"Test get details\",\n        \"city\": \"Rouen\",\n        \"merchantCategoryCode\": 5999,\n        \"country\": \"FR\",\n        \"acceptorTerminalId\": \"TERMID01\",\n        \"acceptorIdCode\": \"CARD ACCEPTOR\",\n        \"forwardingInstitutionId\": \"400050\"\n    },\n    \"cardData\": {\n        \"pan\": \"{{pan}}\",\n        \"pin\": \"1234\",\n        \"cvv1\": \"123\",\n        \"icvv\": \"456\",\n        \"cvv2\": \"789\"\n    }\n}",
+							"raw": "{\n    \"keyVersion\": 1,\n    \"encryptedPayload\": \"eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMjU2R0NNIn0.oX_UDx9403jOUvP6dRgP_f7cQ2Oq17rZKjVQZ7yFJt6nbx33-cxy8nERCNOe-VRrijIKu39jtSWeqRVDEwlnDycOZs6tNL4HGeKTRzAyvSbF4-QbaNBGXrcAnXxOEpHSKPsZLhAZ1dx5UwobBQGzSm2t3Dbk5XuAd-dGAINIsbU11_cdN08LG2TJjcGRTc89eIYPUU8ZC-lMDmE0HQp_PnFY0axzxPTdFKIsgsDpKhXGY_e50N4xaXc4brYSCgNsw_83X35-J4eoIrOWpYPufRHW4PiRgwvrUvX-R9v-FeF7hbnTPVaEWq9v8H3MjyyW-9xLzLgncyClV0qP5h77uw.i4z0ARNqytFG1aV_..\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "https://api.sandbox.transferwise.tech/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/authorisation",
-							"protocol": "https",
-							"host": [
-								"api",
-								"sandbox",
-								"transferwise",
-								"tech"
-							],
-							"path": [
-								"v1",
-								"simulation",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}",
-								"transactions",
-								"authorisation"
-							]
-						},
-						"description": "pos values:\nMINIMAL, CHIP_AND_PIN, CONTACTLESS_CARD, MAGNETIC_STRIPE, E_COMMERCE, MOBILE_WALLET"
+						"url": "{{pci-host}}/twcard-data/v1/sensitive-card-data/details"
 					},
 					"response": []
 				},
 				{
-					"name": "2a. Authorisation",
+					"name": "Get RSA Key",
 					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"pos\": \"CHIP_AND_PIN\",\n    \"amount\": {\n        \"value\": 8.12,\n        \"currency\": \"EUR\"\n    },\n    \"acquirer\": {\n        \"institutionId\": \"430001\",\n        \"name\": \"Test payment\",\n        \"city\": \"Rouen\",\n        \"merchantCategoryCode\": 5999,\n        \"country\": \"FR\",\n        \"acceptorTerminalId\": \"TERMID01\",\n        \"acceptorIdCode\": \"CARD ACCEPTOR\",\n        \"forwardingInstitutionId\": \"400050\"\n    },\n    \"cardData\": {\n        \"pan\": \"{{pan}}\",\n        \"pin\": \"1234\",\n        \"cvv1\": \"123\",\n        \"icvv\": \"456\",\n        \"cvv2\": \"789\"\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
 							}
 						},
-						"url": {
-							"raw": "https://api.sandbox.transferwise.tech/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/authorisation",
-							"protocol": "https",
-							"host": [
-								"api",
-								"sandbox",
-								"transferwise",
-								"tech"
-							],
-							"path": [
-								"v1",
-								"simulation",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}",
-								"transactions",
-								"authorisation"
-							]
-						}
+						"method": "GET",
+						"header": [],
+						"url": "{{pci-host}}/twcard-data/v1/clientSideEncryption/fetchEncryptingKey"
 					},
 					"response": []
 				},
 				{
-					"name": "2b. Authorisation - ATM Withdrawal",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
+					"name": "Get Card PIN",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
 						"method": "POST",
 						"header": [
 							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
+								"key": "x-tw-twcard-card-token",
+								"value": "{{x-tw-twcard-card-token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"pos\": \"CHIP_AND_PIN\",\n    \"transactionType\": \"CASH_WITHDRAWAL\",\n    \"amount\": {\n        \"value\": 1002.80,\n        \"currency\": \"EUR\"\n    },\n    \"acquirer\": {\n        \"institutionId\": \"430001\",\n        \"name\": \"Test ATM withdrawal\",\n        \"city\": \"Rouen\",\n        \"merchantCategoryCode\": 5999,\n        \"country\": \"FR\",\n        \"acceptorTerminalId\": \"TERMID01\",\n        \"acceptorIdCode\": \"CARD ACCEPTOR\",\n        \"forwardingInstitutionId\": \"400050\"\n    },\n    \"cardData\": {\n        \"pan\": \"{{pan}}\",\n        \"pin\": \"1234\",\n        \"cvv1\": \"123\",\n        \"icvv\": \"456\",\n        \"cvv2\": \"789\"\n    }\n}",
+							"raw": "{\n    \"keyVersion\": 1,\n    \"encryptedPayload\": \"eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMjU2R0NNIn0.oX_UDx9403jOUvP6dRgP_f7cQ2Oq17rZKjVQZ7yFJt6nbx33-cxy8nERCNOe-VRrijIKu39jtSWeqRVDEwlnDycOZs6tNL4HGeKTRzAyvSbF4-QbaNBGXrcAnXxOEpHSKPsZLhAZ1dx5UwobBQGzSm2t3Dbk5XuAd-dGAINIsbU11_cdN08LG2TJjcGRTc89eIYPUU8ZC-lMDmE0HQp_PnFY0axzxPTdFKIsgsDpKhXGY_e50N4xaXc4brYSCgNsw_83X35-J4eoIrOWpYPufRHW4PiRgwvrUvX-R9v-FeF7hbnTPVaEWq9v8H3MjyyW-9xLzLgncyClV0qP5h77uw.i4z0ARNqytFG1aV_..\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "https://api.sandbox.transferwise.tech/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/authorisation",
-							"protocol": "https",
-							"host": [
-								"api",
-								"sandbox",
-								"transferwise",
-								"tech"
-							],
-							"path": [
-								"v1",
-								"simulation",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}",
-								"transactions",
-								"authorisation"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "3. Clearing",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"amount\": {\n        \"value\": 8.12,\n        \"currency\": \"EUR\"\n    },\n    \"ref\": {\n        \"transaction\": {\n            \"acquirer\": {\n                \"institutionId\": \"430001\",\n                \"name\": \"Test payment\",\n                \"city\": \"Rouen\",\n                \"merchantCategoryCode\": 5999,\n                \"country\": \"FR\",\n                \"acceptorTerminalId\": \"TERMID01\",\n                \"acceptorIdCode\": \"CARD ACCEPTOR\",\n                \"forwardingInstitutionId\": \"400050\"\n            },\n            \"card\": {\n                \"token\": \"5e4ed3ad-d71e-43f0-bf8f-cb33d57d5102\",\n                \"schemeName\": \"VISA\",\n                \"pan\": \"{{pan}}\",\n                \"pin\": \"1234\",\n                \"cvv1\": \"123\",\n                \"icvv\": \"456\",\n                \"cvv2\": \"789\",\n                \"expiration\": [\n                    2027,\n                    11\n                ],\n                \"sequenceNumber\": 1,\n                \"country\": \"GB\",\n                \"currencies\": [\n                    \"GBP\"\n                ]\n            },\n            \"pos\": {\n                \"type\": \"CHIP_AND_PIN\",\n                \"acceptsOnlinePins\": true,\n                \"maxPinLength\": 12,\n                \"supports3ds\": false,\n                \"hasChip\": true\n            },\n            \"transactionStartTime\": 1671417343.787556319,\n            \"stan\": \"761631\",\n            \"schemeTransactionId\": \"537634697338563\",\n            \"retrievalReferenceNum\": \"235302761631\"\n        },\n        \"requestMti\": \"0100\",\n        \"authorizationIdResponse\": \"193647\"\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://api.sandbox.transferwise.tech/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/clearing",
-							"protocol": "https",
-							"host": [
-								"api",
-								"sandbox",
-								"transferwise",
-								"tech"
-							],
-							"path": [
-								"v1",
-								"simulation",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}",
-								"transactions",
-								"clearing"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "4a. Reversal - Partial",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"amount\": {\n        \"value\": 8.12,\n        \"currency\": \"EUR\"\n    },\n    \"ref\": {\n        \"transaction\": {\n            \"acquirer\": {\n                \"institutionId\": \"430001\",\n                \"name\": \"Test payment\",\n                \"city\": \"Rouen\",\n                \"merchantCategoryCode\": 5999,\n                \"country\": \"FR\",\n                \"acceptorTerminalId\": \"TERMID01\",\n                \"acceptorIdCode\": \"CARD ACCEPTOR\",\n                \"forwardingInstitutionId\": \"400050\"\n            },\n            \"card\": {\n                \"token\": \"5e4ed3ad-d71e-43f0-bf8f-cb33d57d5102\",\n                \"schemeName\": \"VISA\",\n                \"pan\": \"{{pan}}\",\n                \"pin\": \"1234\",\n                \"cvv1\": \"123\",\n                \"icvv\": \"456\",\n                \"cvv2\": \"789\",\n                \"expiration\": [\n                    2027,\n                    11\n                ],\n                \"sequenceNumber\": 1,\n                \"country\": \"GB\",\n                \"currencies\": [\n                    \"GBP\"\n                ]\n            },\n            \"pos\": {\n                \"type\": \"CHIP_AND_PIN\",\n                \"acceptsOnlinePins\": true,\n                \"maxPinLength\": 12,\n                \"supports3ds\": false,\n                \"hasChip\": true\n            },\n            \"transactionStartTime\": 1671417343.787556319,\n            \"stan\": \"761631\",\n            \"schemeTransactionId\": \"537634697338563\",\n            \"retrievalReferenceNum\": \"235302761631\"\n        },\n        \"requestMti\": \"0100\",\n        \"authorizationIdResponse\": \"193647\"\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://api.sandbox.transferwise.tech/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/reversal",
-							"protocol": "https",
-							"host": [
-								"api",
-								"sandbox",
-								"transferwise",
-								"tech"
-							],
-							"path": [
-								"v1",
-								"simulation",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}",
-								"transactions",
-								"reversal"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "4b. Reversal - Full",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"amount\": {\n        \"value\": 0.00,\n        \"currency\": \"EUR\"\n    },\n    \"ref\": {\n        \"transaction\": {\n            \"acquirer\": {\n                \"institutionId\": \"430001\",\n                \"name\": \"Test payment\",\n                \"city\": \"Rouen\",\n                \"merchantCategoryCode\": 5999,\n                \"country\": \"FR\",\n                \"acceptorTerminalId\": \"TERMID01\",\n                \"acceptorIdCode\": \"CARD ACCEPTOR\",\n                \"forwardingInstitutionId\": \"400050\"\n            },\n            \"card\": {\n                \"token\": \"5e4ed3ad-d71e-43f0-bf8f-cb33d57d5102\",\n                \"schemeName\": \"VISA\",\n                \"pan\": \"{{pan}}\",\n                \"pin\": \"1234\",\n                \"cvv1\": \"123\",\n                \"icvv\": \"456\",\n                \"cvv2\": \"789\",\n                \"expiration\": [\n                    2027,\n                    11\n                ],\n                \"sequenceNumber\": 1,\n                \"country\": \"GB\",\n                \"currencies\": [\n                    \"GBP\"\n                ]\n            },\n            \"pos\": {\n                \"type\": \"CHIP_AND_PIN\",\n                \"acceptsOnlinePins\": true,\n                \"maxPinLength\": 12,\n                \"supports3ds\": false,\n                \"hasChip\": true\n            },\n            \"transactionStartTime\": 1671417343.787556319,\n            \"stan\": \"761631\",\n            \"schemeTransactionId\": \"537634697338563\",\n            \"retrievalReferenceNum\": \"235302761631\"\n        },\n        \"requestMti\": \"0100\",\n        \"authorizationIdResponse\": \"193647\"\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://api.sandbox.transferwise.tech/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/reversal",
-							"protocol": "https",
-							"host": [
-								"api",
-								"sandbox",
-								"transferwise",
-								"tech"
-							],
-							"path": [
-								"v1",
-								"simulation",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}",
-								"transactions",
-								"reversal"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "5. Reversal Post Clearing",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"amount\": {\n        \"value\": 0.00,\n        \"currency\": \"EUR\"\n    },\n    \"ref\": {\n        \"transaction\": {\n            \"acquirer\": {\n                \"institutionId\": \"430001\",\n                \"name\": \"Test payment\",\n                \"city\": \"Rouen\",\n                \"merchantCategoryCode\": 5999,\n                \"country\": \"FR\",\n                \"acceptorTerminalId\": \"TERMID01\",\n                \"acceptorIdCode\": \"CARD ACCEPTOR\",\n                \"forwardingInstitutionId\": \"400050\"\n            },\n            \"card\": {\n                \"token\": \"5e4ed3ad-d71e-43f0-bf8f-cb33d57d5102\",\n                \"schemeName\": \"VISA\",\n                \"pan\": \"{{pan}}\",\n                \"pin\": \"1234\",\n                \"cvv1\": \"123\",\n                \"icvv\": \"456\",\n                \"cvv2\": \"789\",\n                \"expiration\": [\n                    2027,\n                    11\n                ],\n                \"sequenceNumber\": 1,\n                \"country\": \"GB\",\n                \"currencies\": [\n                    \"GBP\"\n                ]\n            },\n            \"pos\": {\n                \"type\": \"CHIP_AND_PIN\",\n                \"acceptsOnlinePins\": true,\n                \"maxPinLength\": 12,\n                \"supports3ds\": false,\n                \"hasChip\": true\n            },\n            \"transactionStartTime\": 1671417343.787556319,\n            \"stan\": \"761631\",\n            \"schemeTransactionId\": \"537634697338563\",\n            \"retrievalReferenceNum\": \"235302761631\"\n        },\n        \"requestMti\": \"0100\",\n        \"authorizationIdResponse\": \"193647\"\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://api.sandbox.transferwise.tech/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/reversal-post-clearing",
-							"protocol": "https",
-							"host": [
-								"api",
-								"sandbox",
-								"transferwise",
-								"tech"
-							],
-							"path": [
-								"v1",
-								"simulation",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}",
-								"transactions",
-								"reversal-post-clearing"
-							]
-						}
+						"url": "{{pci-host}}/twcard-data/v1/sensitive-card-data/pin"
 					},
 					"response": []
 				}
 			]
 		},
 		{
-			"name": "5. Dispute",
+			"name": "5. Spend controls",
 			"item": [
 				{
-					"name": "1. Get dispute reasons",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/dispute-form/reasons",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"dispute-form",
-								"reasons"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "2. Get dispute dynamic forms",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"abc@def.com\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/dispute-form/flows/step/visa/{{dispute-reason}}?transactionId={{transaction-id}}",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"dispute-form",
-								"flows",
-								"step",
-								"visa",
-								"{{dispute-reason}}"
-							],
-							"query": [
-								{
-									"key": "transactionId",
-									"value": "{{transaction-id}}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "3. Create dispute",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"form\": {\n    \"agreedDetails\": {\n      \"agreed\": \"true\"\n    },\n    \"charged\": {\n      \"value\": 8,\n      \"currency\": \"EUR\"\n    },\n    \"expected\": {\n      \"value\": 5,\n      \"currency\": \"EUR\"\n    },\n    \"goods\": \"A book\",\n    \"details\": \"I've not received the book.\"\n  },\n  \"transaction\": {\n    \"transactionId\": \"{{transaction-id}}\",\n    \"amount\": \"50.5 AUD\",\n    \"mcc\": \"5999\",\n    \"status\": \"PENDING\",\n    \"merchantName\": \"Amazon\",\n    \"email\": \"abc@def.com\"\n  }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/dispute-form/flows/visa/{{dispute-reason}}",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"dispute-form",
-								"flows",
-								"visa",
-								"{{dispute-reason}}"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "6. Webhooks",
-			"item": [
-				{
-					"name": "Create subscription",
+					"name": "Create authorisation rule",
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Webhook Subscription #1\",\n    \"trigger_on\": \"cards#transaction-state-change\",\n    \"delivery\": {\n        \"version\": \"2.0.0\",\n        \"url\": \"{{webhook-url}}\"\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+							"bearer": {
+								"token": "{{application_token}}"
 							}
 						},
-						"url": {
-							"raw": "{{host}}/v3/applications/{{client-id}}/subscriptions",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"applications",
-								"{{client-id}}",
-								"subscriptions"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get subscriptions",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/v3/applications/{{client-id}}/subscriptions",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"applications",
-								"{{client-id}}",
-								"subscriptions"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get subscription",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/v3/applications/{{client-id}}/subscriptions/{{subscription-id}}",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"applications",
-								"{{client-id}}",
-								"subscriptions",
-								"{{subscription-id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete subscription",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/v3/applications/{{client-id}}/subscriptions/{{subscription-id}}",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"applications",
-								"{{client-id}}",
-								"subscriptions",
-								"{{subscription-id}}"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "7. Authorisation rules",
-			"item": [
-				{
-					"name": "1. Add authorisation rule",
-					"request": {
 						"method": "POST",
 						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "default"
-							},
 							{
 								"key": "Content-Type",
 								"value": "application/json",
@@ -1408,37 +657,118 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"type\": \"MCC\",\n        \"operation\": \"BLOCK\",\n        \"description\": \"example rule\",\n        \"values\": [\"5999\"]\n     }"
+							"raw": "{\n    \"description\": \"Allow MCC 5999\",\n    \"type\": \"MCC\",\n    \"operation\": \"ALLOW\",\n    \"values\": [\"5999\"]\n}"
 						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/spend-controls/rule/authorisation",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"spend-controls",
-								"rule",
-								"authorisation"
-							]
-						}
+						"url": "{{host}}/v3/spend/applications/{{client-id}}/spend-controls/rules"
 					},
 					"response": []
 				},
 				{
-					"name": "2. Delete authorisation rule",
+					"name": "Apply authorisation rule",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{application_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ruleId\": \"{{rule_id}}\"\n}"
+						},
+						"url": "{{host}}/v3/spend/applications/{{client-id}}/spend-controls/rules/apply"
+					},
+					"response": []
+				},
+				{
+					"name": "Unapply authorisation rule",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{application_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ruleId\": \"{{rule_id}}\"\n}"
+						},
+						"url": "{{host}}/v3/spend/applications/{{client-id}}/spend-controls/rules/unapply"
+					},
+					"response": []
+				},
+				{
+					"name": "List applied rules",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{application_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{host}}/v3/spend/applications/{{client-id}}/spend-controls/rules/applied"
+					},
+					"response": []
+				},
+				{
+					"name": "List authorisation rules",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{application_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"type\": \"MCC\",\n        \"operation\": \"BLOCK\",\n        \"description\": \"example rule\",\n        \"values\": [\"5999\"]\n     }"
+						},
+						"url": "{{host}}/v3/spend/applications/{{client-id}}/spend-controls/rules"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete authorisation rule",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{application_token}}"
+							}
+						},
 						"method": "DELETE",
 						"header": [
 							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "default"
-							},
-							{
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "default"
@@ -1446,218 +776,43 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"type\": \"MCC\",\n        \"operation\": \"BLOCK\",\n        \"description\": \"example rule\",\n        \"values\": [\"5999\"]\n     }"
+							"raw": "{\n    \"type\": \"MCC\",\n    \"operation\": \"BLOCK\",\n    \"description\": \"example rule\",\n    \"values\": [\n        \"5999\"\n    ]\n}"
 						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/spend-controls/rule/authorisation/{{rule_id}}",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"spend-controls",
-								"rule",
-								"authorisation",
-								"{{rule_id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "3. List authorisation rules",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "default"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n        \"type\": \"MCC\",\n        \"operation\": \"BLOCK\",\n        \"description\": \"example rule\",\n        \"values\": [\"5999\"]\n     }"
-						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/spend-controls/rule/authorisation",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"spend-controls",
-								"rule",
-								"authorisation"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "4. Apply authorisation rule",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "default"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "default"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"ruleId\": \"{{rule_id}}\",\n    \"scope\": \"CARD\",\n    \"scopeId\": \"{{card_token}}\"\n}"
-						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/spend-controls/rule/apply",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"spend-controls",
-								"rule",
-								"apply"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "5. Unapply authorisation rule",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "default"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "default"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"ruleId\": \"{{rule_id}}\",\n    \"scope\": \"CARD\",\n    \"scopeId\": \"{{card_token}}\"\n}"
-						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/spend-controls/rule/unapply",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"spend-controls",
-								"rule",
-								"unapply"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "6. List applied rules",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "default"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n        \"type\": \"MCC\",\n        \"operation\": \"BLOCK\",\n        \"description\": \"example rule\",\n        \"values\": [\"5999\"]\n     }"
-						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/spend-controls/rule/applied",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"spend-controls",
-								"rule",
-								"applied"
-							]
-						}
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/spend-controls/rule/authorisation/{{rule_id}}"
 					},
 					"response": []
 				}
 			]
 		},
 		{
-			"name": "8. Spend limits",
+			"name": "6. Spend limits",
 			"item": [
 				{
 					"name": "Get profile limits",
 					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
 							}
-						],
-						"url": {
-							"raw": "{{host}}/v4/spend/profiles/{{profile_id}}/spend-limits",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v4",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"spend-limits"
-							]
-						}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{host}}/v4/spend/profiles/{{profile_id}}/spend-limits"
 					},
 					"response": []
 				},
 				{
 					"name": "Update profile limits",
 					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
 							}
-						],
+						},
+						"method": "PATCH",
+						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"type\": \"ATM_WITHDRAWAL\",\n  \"aggregateWindow\": {\n    \"daily\": {\n      \"value\": {\n        \"amount\": 3000.00,\n        \"currency\": \"GBP\"\n      }\n    },\n    \"monthly\": {\n      \"value\": {\n        \"amount\": 3000.00,\n        \"currency\": \"GBP\"\n      }\n    }\n  }\n}",
@@ -1667,187 +822,231 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "{{host}}/v4/spend/profiles/{{profile_id}}/spend-limits",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v4",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"spend-limits"
-							]
-						}
+						"url": "{{host}}/v4/spend/profiles/{{profile_id}}/spend-limits"
 					},
 					"response": []
 				},
 				{
 					"name": "Get card limits",
 					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
 							}
-						],
-						"url": {
-							"raw": "{{host}}/v4/spend/profiles/{{profile_id}}/cards/{{card_token}}/spend-limits",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v4",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}",
-								"spend-limits"
-							]
-						}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{host}}/v4/spend/profiles/{{profile_id}}/cards/{{card_token}}/spend-limits"
 					},
 					"response": []
 				},
 				{
-					"name": "Update card limits",
+					"name": "Update card limit",
 					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
 							}
-						],
+						},
+						"method": "PATCH",
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"daily\": {\n    \"value\": {\n      \"amount\": 2000.00,\n      \"currency\": \"GBP\"\n    }\n  },\n  \"monthly\": {\n    \"value\": {\n      \"amount\": 3000.00,\n      \"currency\": \"GBP\"\n    }\n  },\n  \"lifetime\": {\n    \"value\": {\n      \"amount\": 5000.00,\n      \"currency\": \"GBP\"\n    }\n  }\n}",
+							"raw": "{\n \"transaction\": {\n    \"value\": {\n      \"amount\": 100.00,\n      \"currency\": \"SGD\"\n    }\n  },\n  \"daily\": {\n    \"value\": {\n      \"amount\": 2000.00,\n      \"currency\": \"SGD\"\n    }\n  },\n  \"monthly\": {\n    \"value\": {\n      \"amount\": 3000.00,\n      \"currency\": \"SGD\"\n    }\n  },\n  \"lifetime\": {\n    \"value\": {\n      \"amount\": 5000.00,\n      \"currency\": \"SGD\"\n    }\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "{{host}}/v4/spend/profiles/{{profile_id}}/cards/{{card_token}}/spend-limits",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v4",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}",
-								"spend-limits"
-							]
-						}
+						"url": "{{host}}/v4/spend/profiles/{{profile_id}}/cards/{{card_token}}/spend-limits"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete card limit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/v4/spend/profiles/{{profile_id}}/cards/{{card_token}}/spend-limits/daily"
 					},
 					"response": []
 				}
 			]
 		},
 		{
-			"name": "9. Push Provisioning",
+			"name": "7. Disputes",
 			"item": [
 				{
-					"name": "Google pay encryption",
+					"name": "Get dispute reasons",
 					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
-							},
-							{
-								"key": "x-tw-twcard-card-token",
-								"value": "{{card_token}}",
-								"type": "text"
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
 							}
-						],
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/dispute-form/reasons"
+					},
+					"response": []
+				},
+				{
+					"name": "Create dispute",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"clientDeviceId\": \"ed6abb56323ba656521ac476\",\n    \"clientWalletAccountId\": \"walletid\"\n}",
+							"raw": "{\n  \"transaction\": {\n    \"transactionId\": \"4615\",\n    \"email\": \"support@partner.com\"\n  },\n  \"form\": {\n    \"charged\": {\n      \"value\": 50,\n      \"currency\": \"SGD\"\n    },\n    \"expected\": {\n      \"value\": 5,\n      \"currency\": \"SGD\"\n    },\n    \"agreedDetails\": {\n      \"agreed\": \"true\",\n      \"agreedReason\": \"some reason\"\n    },\n    \"goods\": \"something\",\n    \"details\": \"wrong amount dispute\"\n  },\n  \"disclaimer\": {\n    \"allAnswered\": true,\n    \"filesUploaded\": true\n  }\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/dispute-form/flows/visa/WRONG_AMOUNT"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Disputes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
 						"url": {
-							"raw": "{{pci_host}}/twcard-data/v1/push-provisioning/encrypted-payload/google-pay",
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/disputes",
 							"host": [
-								"{{pci_host}}"
+								"{{host}}"
 							],
 							"path": [
-								"twcard-data",
-								"v1",
-								"push-provisioning",
-								"encrypted-payload",
-								"google-pay"
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"disputes"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "CLOSED",
+									"disabled": true
+								},
+								{
+									"key": "transactionId",
+									"value": "476873",
+									"disabled": true
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Apple pay encryption",
+					"name": "Get Dispute by ID",
 					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
-							},
-							{
-								"key": "x-tw-twcard-card-token",
-								"value": "{{card_token}}",
-								"type": "text"
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
 							}
-						],
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/disputes/{{dispute_id}}"
+					},
+					"response": []
+				},
+				{
+					"name": "6. Withdraw Dispute by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"certificates\": [\"root certificate\", \"sub certificate\"],\n    \"nonce\": \"ed6abb56323ba656521ac476\",\n    \"nonceSignature\": \"walletid\"\n}",
+							"raw": "{\n    \"status\": \"CLOSED\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "{{pci_host}}/twcard-data/v1/push-provisioning/encrypted-payload/apple-pay",
-							"host": [
-								"{{pci_host}}"
-							],
-							"path": [
-								"twcard-data",
-								"v1",
-								"push-provisioning",
-								"encrypted-payload",
-								"apple-pay"
-							]
-						}
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/disputes/{{dispute_id}}/status"
 					},
 					"response": []
-				},
+				}
+			]
+		},
+		{
+			"name": "8. Activity",
+			"item": [
+				{
+					"name": "Get activities",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{host}}/v1/profiles/{{profile_id}}/activities"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "9. Push provisioning",
+			"item": [
 				{
 					"name": "Get payment tokens",
 					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
 							}
-						],
+						},
+						"method": "POST",
+						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n \"walletNames\": [\"GOOGLE_PAY\", \"APPLE_PAY\"]\n}",
@@ -1857,21 +1056,144 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/payment-tokens",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}",
-								"payment-tokens"
-							]
+						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/payment-tokens"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "10. Card transaction simulation",
+			"item": [
+				{
+					"name": "Authorisation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"pos\": \"CHIP_AND_PIN\",\n    \"transactionType\": \"CASH_WITHDRAWAL\",\n    \"amount\": {\n        \"value\": 8.12,\n              \"currency\": \"SGD\"\n    },\n    \"acquirer\": {\n        \"institutionId\": \"430001\",\n        \"name\": \"Test ATM withdrawal\",\n        \"city\": \"Rouen\",\n        \"merchantCategoryCode\": 5999,\n        \"country\": \"FR\",\n        \"acceptorTerminalId\": \"TERMID01\",\n        \"acceptorIdCode\": \"CARD ACCEPTOR\",\n        \"forwardingInstitutionId\": \"400050\"\n    },\n    \"cardData\": {\n        \"pan\": \"{{card_pan}}\",\n        \"pin\": \"{{card_pin}}\",\n        \"cvv1\": \"{{card_cvv1}}\",\n        \"icvv\": \"{{card_icvv}}\",\n        \"cvv2\": \"{{card_cvv2}}\"\n    }\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://api.sandbox.transferwise.tech/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/authorisation"
+					},
+					"response": []
+				},
+				{
+					"name": "Authorisation - ATM Withdrawal",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
 						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"pos\": \"MINIMAL\",\n    \"transactionType\": \"CASH_WITHDRAWAL\",\n    \"amount\": {\n        \"value\": 100.00,\n        \"currency\": \"SGD\"\n    },\n    \"acquirer\": {\n        \"institutionId\": \"430001\",\n        \"name\": \"Test ATM withdrawal\",\n        \"city\": \"Rouen\",\n        \"merchantCategoryCode\": 5999,\n        \"country\": \"FR\",\n        \"acceptorTerminalId\": \"TERMID01\",\n        \"acceptorIdCode\": \"CARD ACCEPTOR\",\n        \"forwardingInstitutionId\": \"400050\"\n    },\n    \"cardData\": {\n        \"pan\": \"{{card_pan}}\",\n        \"pin\": \"{{card_pin}}\",\n        \"cvv1\": \"{{card_cvv1}}\",\n        \"icvv\": \"{{card_icvv}}\",\n        \"cvv2\": \"{{card_cvv2}}\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/authorisation"
+					},
+					"response": []
+				},
+				{
+					"name": "Clearing",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": {\n        \"value\": 8.12,\n        \"currency\": \"SGD\"\n    },\n    \"ref\": {\n        \"transaction\": {\n            \"acquirer\": {\n                \"institutionId\": \"430001\",\n                \"name\": \"Test ATM withdrawal\",\n                \"city\": \"Rouen\",\n                \"merchantCategoryCode\": 5999,\n                \"country\": \"FR\",\n                \"acceptorTerminalId\": \"TERMID01\",\n                \"acceptorIdCode\": \"CARD ACCEPTOR\",\n                \"forwardingInstitutionId\": \"400050\"\n            },\n            \"card\": {\n                \"token\": \"{{card_token}}\",\n                \"schemeName\": \"VISA\",\n                \"pan\": \"{{card_pan}}\",\n                \"pin\": \"{{card_pin}}\",\n                \"cvv1\": \"{{card_cvv1}}\",\n                \"icvv\": \"{{card_icvv}}\",\n                \"cvv2\": \"{{card_cvv2}}\",\n                \"expiration\": [\n                    2029,\n                    7\n                ],\n                \"sequenceNumber\": 1,\n                \"profileId\": {{profile_id}},\n                \"userId\": {{user_id}},\n                \"cardStatus\": \"ACTIVE\",\n                \"country\": \"SG\",\n                \"currencies\": [\n                    \"SGD\"\n                ]\n            },\n            \"pos\": {\n                \"type\": \"CHIP_AND_PIN\",\n                \"acceptsOnlinePins\": true,\n                \"maxPinLength\": 12,\n                \"supports3ds\": false,\n                \"hasChip\": true\n            },\n            \"transactionStartTime\": {{transaction_start_time}},\n            \"stan\": \"{{stan}}\",\n            \"schemeTransactionId\": \"{{scheme_transaction_id}}\",\n            \"retrievalReferenceNum\": \"{{retrieval_reference_number}}\"\n        },\n        \"requestMti\": \"{{request_mti}}\",\n        \"authorizationIdResponse\": \"{{authorization_id_response}}\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://api.sandbox.transferwise.tech/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/clearing"
+					},
+					"response": []
+				},
+				{
+					"name": "Reversal",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": {\n        \"value\": 15,\n        \"currency\": \"SGD\"\n    },\n    \"ref\": {\n        \"transaction\": {\n            \"acquirer\": {\n                \"institutionId\": \"430001\",\n                \"name\": \"Test ATM withdrawal\",\n                \"city\": \"Rouen\",\n                \"merchantCategoryCode\": 5999,\n                \"country\": \"FR\",\n                \"acceptorTerminalId\": \"TERMID01\",\n                \"acceptorIdCode\": \"CARD ACCEPTOR\",\n                \"forwardingInstitutionId\": \"400050\"\n            },\n            \"card\": {\n                \"token\": \"{{card_token}}\",\n                \"schemeName\": \"VISA\",\n                \"pan\": \"{{card_pan}}\",\n                \"pin\": \"{{card_pin}}\",\n                \"cvv1\": \"{{card_cvv1}}\",\n                \"icvv\": \"{{card_icvv}}\",\n                \"cvv2\": \"{{card_cvv2}}\",\n                \"expiration\": [\n                    2029,\n                    7\n                ],\n                \"sequenceNumber\": 1,\n                \"profileId\": {{profile_id}},\n                \"userId\": {{user_id}},\n                \"cardStatus\": \"ACTIVE\",\n                \"country\": \"SG\",\n                \"currencies\": [\n                    \"SGD\"\n                ]\n            },\n            \"pos\": {\n                \"type\": \"CHIP_AND_PIN\",\n                \"acceptsOnlinePins\": true,\n                \"maxPinLength\": 12,\n                \"supports3ds\": false,\n                \"hasChip\": true\n            },\n            \"transactionStartTime\": {{transaction_start_time}},\n            \"stan\": \"{{stan}}\",\n            \"schemeTransactionId\": \"{{scheme_transaction_id}}\",\n            \"retrievalReferenceNum\": \"{{retrieval_reference_number}}\"\n        },\n        \"requestMti\": \"{{request_mti}}\",\n        \"authorizationIdResponse\": \"{{authorization_id_response}}\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://api.sandbox.transferwise.tech/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/reversal"
 					},
 					"response": []
 				}
