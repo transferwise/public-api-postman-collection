@@ -1,9 +1,9 @@
 {
 	"info": {
 		"_postman_id": "da6bc620-546a-4edb-8b36-bcb267aa4957",
-		"name": "Wise Cards API Public",
+		"name": "Wise Cards API",
 		"description": "This collection describes the required endpoints for a successful bank partner's integration of the Cards API.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "25242255"
 	},
 	"item": [
@@ -39,12 +39,28 @@
 					"request": {
 						"auth": {
 							"type": "basic",
-							"basic": {
-								"password": "{{client-secret}}",
-								"username": "{{client-id}}",
-								"saveHelperData": true,
-								"showPassword": false
-							}
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{client-secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{client-id}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -73,7 +89,16 @@
 								}
 							]
 						},
-						"url": "{{host}}/oauth/token",
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						},
 						"description": "Request access token | authorization code grant type"
 					},
 					"response": []
@@ -104,12 +129,28 @@
 					"request": {
 						"auth": {
 							"type": "basic",
-							"basic": {
-								"password": "{{client-secret}}",
-								"username": "{{client-id}}",
-								"saveHelperData": true,
-								"showPassword": false
-							}
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{client-secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{client-id}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -128,7 +169,16 @@
 								}
 							]
 						},
-						"url": "{{host}}/oauth/token"
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
 					},
 					"response": []
 				}
@@ -182,7 +232,18 @@
 								}
 							}
 						},
-						"url": "{{host}}/v3/spend/address/validate"
+						"url": {
+							"raw": "{{host}}/v3/spend/address/validate",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"address",
+								"validate"
+							]
+						}
 					},
 					"response": []
 				},
@@ -202,27 +263,56 @@
 								"type": "text"
 							}
 						],
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders/availability"
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders/availability",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"card-orders",
+								"availability"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Create a card order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json();",
+									"",
+									"pm.test(\"Is card order created\", function () {",
+									"    pm.expect(json).to.have.property(\"id\");",
+									"});",
+									"",
+									"pm.environment.set(\"card_order_id\", json.id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"disabled": true
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"program\": \"VISA_DEBIT_CONSUMER_SG_1_CARDS_API\",\n    \"cardHolderName\": \"John Smith\",\n    \"phoneNumber\": \"+6588888888\",\n    \"address\": {\n        \"firstLine\": \"Wise PLQ 1\",\n        \"secondLine\": \"The Tea Bldg\",\n        \"thirdLine\": null,\n        \"city\": \"Singapore\",\n        \"postCode\": \"123456\",\n        \"state\": null,\n        \"country\": \"SG\"\n    },\n    \"lifetimeLimit\": 100\n}",
@@ -232,7 +322,19 @@
 								}
 							}
 						},
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders"
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"card-orders"
+							]
+						}
 					},
 					"response": []
 				},
@@ -260,7 +362,18 @@
 								}
 							}
 						},
-						"url": "{{host}}/twcard-data/v1/sensitive-card-data/preset-pin"
+						"url": {
+							"raw": "{{host}}/twcard-data/v1/sensitive-card-data/preset-pin",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"twcard-data",
+								"v1",
+								"sensitive-card-data",
+								"preset-pin"
+							]
+						}
 					},
 					"response": []
 				},
@@ -272,9 +385,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -282,7 +399,21 @@
 							"mode": "formdata",
 							"formdata": []
 						},
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders/{{card_order_id}}/requirements"
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders/{{card_order_id}}/requirements",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"card-orders",
+								"{{card_order_id}}",
+								"requirements"
+							]
+						}
 					},
 					"response": []
 				},
@@ -294,9 +425,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -304,7 +439,19 @@
 							"mode": "formdata",
 							"formdata": []
 						},
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders"
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"card-orders"
+							]
+						}
 					},
 					"response": []
 				},
@@ -316,9 +463,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -326,7 +477,20 @@
 							"mode": "formdata",
 							"formdata": []
 						},
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders/{{card_order_id}}"
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/card-orders/{{card_order_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"card-orders",
+								"{{card_order_id}}"
+							]
+						}
 					},
 					"response": []
 				}
@@ -340,9 +504,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -352,7 +520,21 @@
 								"type": "text"
 							}
 						],
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/reset-pin-count"
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/reset-pin-count",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"{{card_token}}",
+								"reset-pin-count"
+							]
+						}
 					},
 					"response": []
 				},
@@ -364,9 +546,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -374,7 +560,19 @@
 							"mode": "formdata",
 							"formdata": []
 						},
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/cards"
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards"
+							]
+						}
 					},
 					"response": []
 				},
@@ -386,9 +584,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -396,7 +598,20 @@
 							"mode": "formdata",
 							"formdata": []
 						},
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}"
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"{{card_token}}"
+							]
+						}
 					},
 					"response": []
 				},
@@ -405,9 +620,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [],
@@ -420,7 +639,21 @@
 								}
 							}
 						},
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/status"
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/status",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"{{card_token}}",
+								"status"
+							]
+						}
 					},
 					"response": []
 				},
@@ -432,9 +665,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -447,7 +684,21 @@
 								}
 							}
 						},
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/spending-permissions"
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/spending-permissions",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"{{card_token}}",
+								"spending-permissions"
+							]
+						}
 					},
 					"response": []
 				},
@@ -456,9 +707,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PATCH",
 						"header": [],
@@ -471,7 +726,21 @@
 								}
 							}
 						},
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/spending-permissions"
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/spending-permissions",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"{{card_token}}",
+								"spending-permissions"
+							]
+						}
 					},
 					"response": []
 				},
@@ -480,9 +749,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [],
@@ -495,7 +768,21 @@
 								}
 							}
 						},
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/phone-number"
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/phone-number",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"{{card_token}}",
+								"phone-number"
+							]
+						}
 					},
 					"response": []
 				},
@@ -504,9 +791,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -543,13 +834,31 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/transactions/{{transaction_id}}"
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/transactions/{{transaction_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"transactions",
+								"{{transaction_id}}"
+							]
+						}
 					},
 					"response": []
 				}
@@ -563,9 +872,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -584,7 +897,18 @@
 								}
 							}
 						},
-						"url": "{{pci-host}}/twcard-data/v1/sensitive-card-data/details"
+						"url": {
+							"raw": "{{pci-host}}/twcard-data/v1/sensitive-card-data/details",
+							"host": [
+								"{{pci-host}}"
+							],
+							"path": [
+								"twcard-data",
+								"v1",
+								"sensitive-card-data",
+								"details"
+							]
+						}
 					},
 					"response": []
 				},
@@ -593,13 +917,28 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{pci-host}}/twcard-data/v1/clientSideEncryption/fetchEncryptingKey"
+						"url": {
+							"raw": "{{pci-host}}/twcard-data/v1/clientSideEncryption/fetchEncryptingKey",
+							"host": [
+								"{{pci-host}}"
+							],
+							"path": [
+								"twcard-data",
+								"v1",
+								"clientSideEncryption",
+								"fetchEncryptingKey"
+							]
+						}
 					},
 					"response": []
 				},
@@ -608,9 +947,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -629,7 +972,18 @@
 								}
 							}
 						},
-						"url": "{{pci-host}}/twcard-data/v1/sensitive-card-data/pin"
+						"url": {
+							"raw": "{{pci-host}}/twcard-data/v1/sensitive-card-data/pin",
+							"host": [
+								"{{pci-host}}"
+							],
+							"path": [
+								"twcard-data",
+								"v1",
+								"sensitive-card-data",
+								"pin"
+							]
+						}
 					},
 					"response": []
 				}
@@ -640,12 +994,28 @@
 			"item": [
 				{
 					"name": "Create authorisation rule",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{application_token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{application_token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -659,7 +1029,20 @@
 							"mode": "raw",
 							"raw": "{\n    \"description\": \"Allow MCC 5999\",\n    \"type\": \"MCC\",\n    \"operation\": \"ALLOW\",\n    \"values\": [\"5999\"]\n}"
 						},
-						"url": "{{host}}/v3/spend/applications/{{client-id}}/spend-controls/rules"
+						"url": {
+							"raw": "{{host}}/v3/spend/applications/{{client-id}}/spend-controls/rules",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"applications",
+								"{{client-id}}",
+								"spend-controls",
+								"rules"
+							]
+						}
 					},
 					"response": []
 				},
@@ -668,9 +1051,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{application_token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{application_token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -684,7 +1071,21 @@
 							"mode": "raw",
 							"raw": "{\n    \"ruleId\": \"{{rule_id}}\"\n}"
 						},
-						"url": "{{host}}/v3/spend/applications/{{client-id}}/spend-controls/rules/apply"
+						"url": {
+							"raw": "{{host}}/v3/spend/applications/{{client-id}}/spend-controls/rules/apply",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"applications",
+								"{{client-id}}",
+								"spend-controls",
+								"rules",
+								"apply"
+							]
+						}
 					},
 					"response": []
 				},
@@ -693,9 +1094,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{application_token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{application_token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -709,7 +1114,21 @@
 							"mode": "raw",
 							"raw": "{\n    \"ruleId\": \"{{rule_id}}\"\n}"
 						},
-						"url": "{{host}}/v3/spend/applications/{{client-id}}/spend-controls/rules/unapply"
+						"url": {
+							"raw": "{{host}}/v3/spend/applications/{{client-id}}/spend-controls/rules/unapply",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"applications",
+								"{{client-id}}",
+								"spend-controls",
+								"rules",
+								"unapply"
+							]
+						}
 					},
 					"response": []
 				},
@@ -721,9 +1140,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{application_token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{application_token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -731,7 +1154,21 @@
 							"mode": "raw",
 							"raw": ""
 						},
-						"url": "{{host}}/v3/spend/applications/{{client-id}}/spend-controls/rules/applied"
+						"url": {
+							"raw": "{{host}}/v3/spend/applications/{{client-id}}/spend-controls/rules/applied",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"applications",
+								"{{client-id}}",
+								"spend-controls",
+								"rules",
+								"applied"
+							]
+						}
 					},
 					"response": []
 				},
@@ -743,9 +1180,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{application_token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{application_token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -753,7 +1194,20 @@
 							"mode": "raw",
 							"raw": "{\n        \"type\": \"MCC\",\n        \"operation\": \"BLOCK\",\n        \"description\": \"example rule\",\n        \"values\": [\"5999\"]\n     }"
 						},
-						"url": "{{host}}/v3/spend/applications/{{client-id}}/spend-controls/rules"
+						"url": {
+							"raw": "{{host}}/v3/spend/applications/{{client-id}}/spend-controls/rules",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"applications",
+								"{{client-id}}",
+								"spend-controls",
+								"rules"
+							]
+						}
 					},
 					"response": []
 				},
@@ -762,9 +1216,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{application_token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{application_token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [
@@ -776,9 +1234,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"type\": \"MCC\",\n    \"operation\": \"BLOCK\",\n    \"description\": \"example rule\",\n    \"values\": [\n        \"5999\"\n    ]\n}"
+							"raw": ""
 						},
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/spend-controls/rule/authorisation/{{rule_id}}"
+						"url": {
+							"raw": "{{host}}/v3/spend/applications/{{client-id}}/spend-controls/rules/{{rule_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"applications",
+								"{{client-id}}",
+								"spend-controls",
+								"rules",
+								"{{rule_id}}"
+							]
+						}
 					},
 					"response": []
 				}
@@ -792,13 +1264,29 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{application_token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{host}}/v4/spend/profiles/{{profile_id}}/spend-limits"
+						"url": {
+							"raw": "{{host}}/v4/spend/profiles/{{profile_id}}/spend-limits",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v4",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"spend-limits"
+							]
+						}
 					},
 					"response": []
 				},
@@ -807,9 +1295,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PATCH",
 						"header": [],
@@ -822,7 +1314,19 @@
 								}
 							}
 						},
-						"url": "{{host}}/v4/spend/profiles/{{profile_id}}/spend-limits"
+						"url": {
+							"raw": "{{host}}/v4/spend/profiles/{{profile_id}}/spend-limits",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v4",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"spend-limits"
+							]
+						}
 					},
 					"response": []
 				},
@@ -831,13 +1335,31 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{host}}/v4/spend/profiles/{{profile_id}}/cards/{{card_token}}/spend-limits"
+						"url": {
+							"raw": "{{host}}/v4/spend/profiles/{{profile_id}}/cards/{{card_token}}/spend-limits",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v4",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"{{card_token}}",
+								"spend-limits"
+							]
+						}
 					},
 					"response": []
 				},
@@ -846,9 +1368,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PATCH",
 						"header": [],
@@ -861,7 +1387,21 @@
 								}
 							}
 						},
-						"url": "{{host}}/v4/spend/profiles/{{profile_id}}/cards/{{card_token}}/spend-limits"
+						"url": {
+							"raw": "{{host}}/v4/spend/profiles/{{profile_id}}/cards/{{card_token}}/spend-limits",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v4",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"{{card_token}}",
+								"spend-limits"
+							]
+						}
 					},
 					"response": []
 				},
@@ -870,9 +1410,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [],
@@ -885,7 +1429,22 @@
 								}
 							}
 						},
-						"url": "{{host}}/v4/spend/profiles/{{profile_id}}/cards/{{card_token}}/spend-limits/daily"
+						"url": {
+							"raw": "{{host}}/v4/spend/profiles/{{profile_id}}/cards/{{card_token}}/spend-limits/daily",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v4",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"{{card_token}}",
+								"spend-limits",
+								"daily"
+							]
+						}
 					},
 					"response": []
 				}
@@ -899,13 +1458,30 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/dispute-form/reasons"
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/dispute-form/reasons",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"dispute-form",
+								"reasons"
+							]
+						}
 					},
 					"response": []
 				},
@@ -914,9 +1490,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -929,7 +1509,22 @@
 								}
 							}
 						},
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/dispute-form/flows/visa/WRONG_AMOUNT"
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/dispute-form/flows/visa/WRONG_AMOUNT",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"dispute-form",
+								"flows",
+								"visa",
+								"WRONG_AMOUNT"
+							]
+						}
 					},
 					"response": []
 				},
@@ -938,9 +1533,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -977,13 +1576,30 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/disputes/{{dispute_id}}"
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/disputes/{{dispute_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"disputes",
+								"{{dispute_id}}"
+							]
+						}
 					},
 					"response": []
 				},
@@ -992,9 +1608,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [],
@@ -1007,7 +1627,21 @@
 								}
 							}
 						},
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/disputes/{{dispute_id}}/status"
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/disputes/{{dispute_id}}/status",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"disputes",
+								"{{dispute_id}}",
+								"status"
+							]
+						}
 					},
 					"response": []
 				}
@@ -1021,13 +1655,28 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{host}}/v1/profiles/{{profile_id}}/activities"
+						"url": {
+							"raw": "{{host}}/v1/profiles/{{profile_id}}/activities",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"profiles",
+								"{{profile_id}}",
+								"activities"
+							]
+						}
 					},
 					"response": []
 				}
@@ -1041,9 +1690,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -1056,7 +1709,21 @@
 								}
 							}
 						},
-						"url": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/payment-tokens"
+						"url": {
+							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/payment-tokens",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"{{card_token}}",
+								"payment-tokens"
+							]
+						}
 					},
 					"response": []
 				}
@@ -1067,12 +1734,42 @@
 			"item": [
 				{
 					"name": "Authorisation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json();",
+									"",
+									"pm.test(\"Is transaction successful\", function () {",
+									"    pm.expect(json).to.have.property(\"reference\");",
+									"    pm.expect(json.reference).to.have.property(\"transaction\");",
+									"    pm.expect(json).to.have.property(\"error\");",
+									"    pm.expect(json.error).to.equal(null);",
+									"});",
+									"",
+									"pm.environment.set(\"transaction_start_time\", json.reference.transaction.transactionStartTime);",
+									"pm.environment.set(\"stan\", json.reference.transaction.stan);",
+									"pm.environment.set(\"scheme_transaction_id\", json.reference.transaction.schemeTransactionId);",
+									"pm.environment.set(\"retrieval_reference_number\", json.reference.transaction.retrievalReferenceNum);",
+									"pm.environment.set(\"request_mti\", json.reference.requestMti);",
+									"pm.environment.set(\"authorization_id_response\", json.reference.authorizationIdResponse);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -1085,7 +1782,27 @@
 								}
 							}
 						},
-						"url": "https://api.sandbox.transferwise.tech/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/authorisation"
+						"url": {
+							"raw": "https://api.sandbox.transferwise.tech/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/authorisation",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sandbox",
+								"transferwise",
+								"tech"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"{{card_token}}",
+								"transactions",
+								"authorisation"
+							]
+						}
 					},
 					"response": []
 				},
@@ -1101,14 +1818,42 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json();",
+									"",
+									"pm.test(\"Is transaction successful\", function () {",
+									"    pm.expect(json).to.have.property(\"reference\");",
+									"    pm.expect(json.reference).to.have.property(\"transaction\");",
+									"    pm.expect(json).to.have.property(\"error\");",
+									"    pm.expect(json.error).to.equal(null);",
+									"});",
+									"",
+									"pm.environment.set(\"transaction_start_time\", json.reference.transaction.transactionStartTime);",
+									"pm.environment.set(\"stan\", json.reference.transaction.stan);",
+									"pm.environment.set(\"scheme_transaction_id\", json.reference.transaction.schemeTransactionId);",
+									"pm.environment.set(\"retrieval_reference_number\", json.reference.transaction.retrievalReferenceNum);",
+									"pm.environment.set(\"request_mti\", json.reference.requestMti);",
+									"pm.environment.set(\"authorization_id_response\", json.reference.authorizationIdResponse);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
 						}
 					],
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -1121,7 +1866,23 @@
 								}
 							}
 						},
-						"url": "{{host}}/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/authorisation"
+						"url": {
+							"raw": "{{host}}/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/authorisation",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"{{card_token}}",
+								"transactions",
+								"authorisation"
+							]
+						}
 					},
 					"response": []
 				},
@@ -1142,9 +1903,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -1157,7 +1922,27 @@
 								}
 							}
 						},
-						"url": "https://api.sandbox.transferwise.tech/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/clearing"
+						"url": {
+							"raw": "https://api.sandbox.transferwise.tech/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/clearing",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sandbox",
+								"transferwise",
+								"tech"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"{{card_token}}",
+								"transactions",
+								"clearing"
+							]
+						}
 					},
 					"response": []
 				},
@@ -1178,9 +1963,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -1193,7 +1982,27 @@
 								}
 							}
 						},
-						"url": "https://api.sandbox.transferwise.tech/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/reversal"
+						"url": {
+							"raw": "https://api.sandbox.transferwise.tech/v1/simulation/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions/reversal",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sandbox",
+								"transferwise",
+								"tech"
+							],
+							"path": [
+								"v1",
+								"simulation",
+								"spend",
+								"profiles",
+								"{{profile_id}}",
+								"cards",
+								"{{card_token}}",
+								"transactions",
+								"reversal"
+							]
+						}
 					},
 					"response": []
 				}
