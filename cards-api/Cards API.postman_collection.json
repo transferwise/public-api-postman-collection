@@ -884,7 +884,7 @@
 						"header": [
 							{
 								"key": "x-tw-twcard-card-token",
-								"value": "{{x-tw-twcard-card-token}}",
+								"value": "{{card-token}}",
 								"type": "text"
 							}
 						],
@@ -959,7 +959,7 @@
 						"header": [
 							{
 								"key": "x-tw-twcard-card-token",
-								"value": "{{x-tw-twcard-card-token}}",
+								"value": "{{card-token}}",
 								"type": "text"
 							}
 						],
