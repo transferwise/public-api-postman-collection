@@ -28,7 +28,7 @@
 									"});",
 									"",
 									"pm.environment.set(\"token\", json.access_token);",
-									"pm.environment.set(\"refresh\", json.refresh_token);",
+									"pm.environment.set(\"refresh_token\", json.refresh_token);",
 									"postman.setNextRequest(\"Create batch group\");"
 								],
 								"type": "text/javascript",
@@ -122,7 +122,8 @@
 									"pm.environment.set(\"token\", json.access_token);",
 									"postman.setNextRequest(\"Create batch group\");"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -164,7 +165,7 @@
 								},
 								{
 									"key": "refresh_token",
-									"value": "{{refresh}}",
+									"value": "{{refresh_token}}",
 									"type": "text"
 								}
 							]
@@ -785,50 +786,12 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Get card transactions",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/v3/spend/profiles/{{profile_id}}/cards/{{card_token}}/transactions?pageSize=10&pageNumber=1",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"spend",
-								"profiles",
-								"{{profile_id}}",
-								"cards",
-								"{{card_token}}",
-								"transactions"
-							],
-							"query": [
-								{
-									"key": "pageSize",
-									"value": "10"
-								},
-								{
-									"key": "pageNumber",
-									"value": "1"
-								}
-							]
-						}
-					},
-					"response": []
-				},
+				}
+			]
+		},
+		{
+			"name": "4. Card Transactions",
+			"item": [
 				{
 					"name": "Get card transaction",
 					"request": {
@@ -865,7 +828,7 @@
 			]
 		},
 		{
-			"name": "4. Sensitive Card Details",
+			"name": "5. Sensitive Card Details",
 			"item": [
 				{
 					"name": "Get sensitive card details",
@@ -990,7 +953,7 @@
 			]
 		},
 		{
-			"name": "5. Spend controls",
+			"name": "6. Spend Controls",
 			"item": [
 				{
 					"name": "Create authorisation rule",
@@ -1257,7 +1220,7 @@
 			]
 		},
 		{
-			"name": "6. Spend limits",
+			"name": "7. Spend Limits",
 			"item": [
 				{
 					"name": "Get profile limits",
@@ -1451,7 +1414,7 @@
 			]
 		},
 		{
-			"name": "7. Disputes",
+			"name": "8. Disputes",
 			"item": [
 				{
 					"name": "Get dispute reasons",
@@ -1648,7 +1611,7 @@
 			]
 		},
 		{
-			"name": "8. Activity",
+			"name": "9. Activity",
 			"item": [
 				{
 					"name": "Get activities",
@@ -1683,7 +1646,7 @@
 			]
 		},
 		{
-			"name": "9. Push provisioning",
+			"name": "10. Push Provisioning",
 			"item": [
 				{
 					"name": "Get payment tokens",
@@ -1730,7 +1693,7 @@
 			]
 		},
 		{
-			"name": "10. Card transaction simulation",
+			"name": "11. Card Transaction Simulation",
 			"item": [
 				{
 					"name": "Authorisation",
